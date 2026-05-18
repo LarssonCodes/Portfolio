@@ -172,7 +172,45 @@ nav {
 }
 
 .hero-content {
-  max-width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+  width: 100%;
+}
+
+.hero-text-col {
+  flex: 1;
+  max-width: 600px;
+}
+
+.hero-image-col {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-profile-img {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+  .hero-image-col {
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+  }
+  .hero-profile-img {
+    max-width: 300px;
+  }
 }
 
 .hero-eyebrow {
@@ -327,6 +365,22 @@ nav {
 .contact-section {
   padding: var(--spacing-xl) 0;
   text-align: center;
+  background-color: #2980FF; /* Vibrant Blue */
+  color: #FFFFFF;
+}
+
+.contact-section .contact-title,
+.contact-section .contact-desc,
+.contact-section .contact-link {
+  color: #FFFFFF;
+}
+
+.contact-section .contact-link {
+  border-bottom-color: rgba(255, 255, 255, 0.4);
+}
+
+.contact-section .contact-link:hover {
+  border-bottom-color: #FFFFFF;
 }
 
 .contact-content {
