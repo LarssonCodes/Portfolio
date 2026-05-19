@@ -80,6 +80,8 @@ a { color: inherit; text-decoration: none; }
   .intro-bg-video {
     object-fit: contain;
     object-position: center;
+    width: 80%;
+    left: 10%;
   }
 }
 .intro-name {
