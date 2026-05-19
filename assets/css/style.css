@@ -78,7 +78,8 @@ a { color: inherit; text-decoration: none; }
 }
 @media (max-width: 768px) {
   .intro-bg-video {
-    object-position: 22% 50%;
+    object-fit: contain;
+    object-position: center;
   }
 }
 .intro-name {
