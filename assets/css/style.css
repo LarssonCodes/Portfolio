@@ -65,19 +65,13 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(3.5rem, 12vw, 10rem);
   letter-spacing: -0.04em;
   
-  /* Sharp Whoosh Line Reflection */
-  background: linear-gradient(
-    105deg,
-    #111111 0%,
-    #111111 44%,
-    #666666 47%,
-    #dddddd 50%,
-    #666666 53%,
-    #111111 56%,
-    #111111 100%
-  );
-  background-size: 400% 100%;
-  animation: whoosh 6s ease-in-out infinite;
+  /* Double Sleek Reflective Sweep (Top: thin/sharp, Bottom: thicker/glowing) */
+  background: 
+    linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 46%, #ffffff 49%, #ffffff 51%, rgba(255,255,255,0.2) 54%, transparent 60%),
+    linear-gradient(115deg, #111111 35%, #333333 42%, rgba(255,255,255,0.4) 46%, #ffffff 48%, #ffffff 52%, rgba(255,255,255,0.4) 54%, #333333 58%, #111111 65%);
+  background-size: 300% 100%, 300% 100%;
+  background-repeat: no-repeat, no-repeat;
+  animation: whoosh-double 6s ease-in-out infinite;
   
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -91,12 +85,27 @@ a { color: inherit; text-decoration: none; }
   -webkit-text-fill-color: var(--blue);
   color: var(--blue); 
 }
-@keyframes whoosh {
-  0%    { background-position: 130% 0%; } /* line off-screen right */
-  5%    { background-position: 130% 0%; } /* brief hold */
-  50%   { background-position: -30% 0%; } /* sweep all the way left */
-  95%   { background-position: -30% 0%; } /* long pause before next */
-  100%  { background-position: 130% 0%; } /* snap back for next loop */
+@keyframes whoosh-double {
+  /* 0% to 10%: Start off-screen (Top thin on right, Bottom thick on left) */
+  0%, 10% { 
+    background-position: 200% 0, -100% 0; 
+  }
+  /* 10% to 45%: Sweep across in opposite directions */
+  45% { 
+    background-position: -100% 0, 200% 0; 
+  }
+  /* 45% to 60%: Brief pause at end position */
+  60% {
+    background-position: -100% 0, 200% 0;
+  }
+  /* 60% to 75%: Reset positions back to start while off-screen */
+  75% {
+    background-position: 200% 0, -100% 0;
+  }
+  /* 75% to 100%: Long pause before next sweep */
+  100% {
+    background-position: 200% 0, -100% 0;
+  }
 }
 .intro-cursor {
   display: inline-block; width: 3px; height: .8em;
