@@ -606,8 +606,8 @@ nav { display:flex; gap:2.5rem; }
 
   .hero-image-col { justify-content:flex-start; }
   .hero-profile-img { 
-    width: 55%; 
-    max-width: 280px; 
+    width: 80%; 
+    max-width: 380px; 
     height: auto; 
   }
   .pitch-container { grid-template-columns: 1fr; padding: 2rem; }
