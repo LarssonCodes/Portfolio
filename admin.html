@@ -1,245 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN_DASHBOARD | LARSSON.STUDIO</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Admin Dashboard — Larsson</title>
+    <meta name="description" content="Larsson's portfolio admin dashboard for monitoring telemetry, project downloads, user feedback, and client proposals.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Syne:wght@400..800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
+        /* ── ADMIN OVERRIDES ─────────────────────────── */
+        body {
+            background: var(--bg);
+            color: var(--ink);
+        }
+
         .admin-page {
-            max-width: 1000px;
-            margin: 60px auto;
-            padding: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 8rem 2rem 6rem;
+            width: 100%;
+        }
+
+        .admin-title-block {
+            margin-bottom: 3rem;
+        }
+
+        .admin-title-block h1 {
+            font-family: var(--font-ui);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-title-block p {
+            color: var(--ink-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Nav Fix */
+        .admin-nav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 1.5rem 0;
+            background: rgba(248, 249, 250, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+        .admin-nav .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-nav .nav-links a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: var(--ink-muted);
+            transition: color 0.2s ease;
+        }
+        .admin-nav .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        /* Windows & Panels (Editorial Redesign) */
+        .window {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 3.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .window-header {
+            padding: 1.25rem 2rem;
+            background: var(--ink) !important; /* Force black header */
+            color: #fff !important;
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .window-title {
+            color: #fff !important;
+        }
+
+        .window-content {
+            padding: 2.5rem;
+        }
+
+        /* Telemetry Cards */
+        .telemetry-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .metric-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-family: var(--font-ui);
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--ink-muted);
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            color: var(--blue);
+        }
+
+        /* Diagnostics Banner */
+        #admin-diagnostics {
+            border-radius: 12px;
+            background: #111;
+            color: #10B981; /* Nice emerald green */
+            font-family: monospace;
+            padding: 1rem 1.5rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 2.5rem;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+            border: none;
+        }
+
+        /* Live log stream */
+        .telemetry-log-window {
+            border-radius: 12px;
+            margin-bottom: 0;
+            border: 1px solid var(--border);
+            box-shadow: none;
+        }
+
+        .log-container {
+            background: #111;
+            color: #aaa;
+            font-family: monospace;
+            font-size: 0.8rem;
+            padding: 1.5rem;
+            height: 180px;
+            overflow-y: auto;
+            border-radius: 0 0 12px 12px;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .log-entry {
+            margin-bottom: 0.4rem;
+            border-bottom: 1px solid #222;
+            padding-bottom: 0.4rem;
+        }
+
+        /* Admin Table */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 1.2rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-table th {
+            background: var(--bg);
+            font-weight: 700;
+            color: var(--ink);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+        }
+
+        .admin-table tbody tr:hover {
+            background: rgba(0,0,0,0.01);
+        }
+
+        /* Actions & Pills */
+        .admin-btn {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.6rem 1.2rem;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--ink);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .admin-btn:hover {
+            border-color: var(--ink);
+            background: var(--ink);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .btn-decline {
+            border-color: #EF4444;
+            color: #EF4444;
+            background: #fff;
+        }
+
+        .btn-decline:hover {
+            border-color: #EF4444;
+            background: #EF4444;
+            color: #fff;
+        }
+
+        /* Proposals / Pitches section */
+        #proposals-list {
+            margin-top: 2rem;
         }
 
         .proposal-card {
-            margin-bottom: 30px;
-            transition: transform 0.2s;
-        }
-
-        .proposal-card.accepted {
-            border-color: var(--bg-green);
-        }
-
-        .proposal-card.declined {
-            border-color: var(--bg-magenta);
-            opacity: 0.7;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01);
         }
 
         .proposal-meta {
+            padding: 1.2rem 2rem;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
-            border-bottom: 2px solid var(--border-black);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            font-family: var(--font-body);
-            font-weight: 700;
             font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--ink-muted);
+            gap: 1rem;
         }
 
-        .proposal-details h3 {
-            margin-bottom: 10px;
-            font-size: 1.4rem;
+        .proposal-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .proposal-details {
+            padding: 2rem;
         }
 
         .proposal-details p {
             font-size: 1rem;
-            line-height: 1.5;
-            background: #eee;
-            padding: 15px;
-            border: 2px solid var(--border-black);
+            line-height: 1.7;
+            color: var(--ink);
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
         }
 
         .admin-actions {
+            padding: 0 2rem 2rem;
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 1rem;
         }
 
-        .admin-btn {
-            padding: 12px 25px;
-            border: 3px solid var(--border-black);
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 4px 4px 0px var(--border-black);
-            text-transform: uppercase;
+        /* Feedback Feed */
+        .feedback-entry {
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg);
+            margin-bottom: 1rem;
         }
 
-        .btn-accept {
-            background: var(--bg-green);
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 100px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--ink-muted);
         }
 
-        .btn-decline {
-            background: var(--bg-magenta);
-            color: white;
-        }
-
-        .admin-btn:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px var(--border-black);
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            background: var(--border-black);
-            color: white;
-            font-size: 0.7rem;
-            margin-top: 10px;
+        /* Responsive */
+        @media (max-width: 800px) {
+            .telemetry-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-table th, .admin-table td {
+                padding: 1rem;
+            }
+            .proposal-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
-
 <body>
-    <div class="cursor"></div>
-    <div class="cursor-trail"></div>
 
-    <header class="navbar">
-        <div class="logo">ADMIN.MODE</div>
-        <nav>
-            <a href="index.html" class="nav-link">LIVE_SITE</a>
-        </nav>
-    </header>
+  <!-- GRAIN + ORBS BACKGROUND -->
+  <div class="bg-layer">
+    <div class="grain"></div>
+    <div class="orb orb-blue"></div>
+    <div class="orb orb-yellow"></div>
+    <div class="orb orb-rose"></div>
+  </div>
 
-    <main class="admin-page">
-        <div id="admin-diagnostics" style="
-            padding: 12px 20px;
-            margin-bottom: 20px;
-            background: #111;
-            color: #0f0;
-            font-family: monospace;
-            font-size: 0.8rem;
-            border: 2px solid #333;
-        ">
-            ADMIN_ENGINE: LOADING...
-        </div>
+  <!-- NAV -->
+  <header class="admin-nav" id="admin-navbar">
+    <div class="container nav-container">
+      <div class="logo">
+        <a href="index.html"><span class="logo-dot"></span>Larsson.</a>
+      </div>
+      <div class="nav-links" id="admin-auth-nav">
+        <a href="index.html">← Live Site</a>
+      </div>
+    </div>
+  </header>
 
-        <div class="window telemetry-window" style="margin-bottom: 30px;">
-            <div class="window-header">
-                <span class="window-title">SYSTEM_TELEMETRY.LOG</span>
-            </div>
-            <div class="window-content">
-                <div class="telemetry-grid">
-                    <div class="metric-card">
-                        <span class="metric-value" id="total-visits">0</span>
-                        <span class="metric-label">TOTAL_VISITS</span>
-                    </div>
-                    <div class="metric-card">
-                        <span class="metric-value" id="active-sessions">1</span>
-                        <span class="metric-label">ACTIVE_SESSIONS</span>
-                    </div>
-                    <div class="metric-card">
-                        <span class="metric-value status-active" id="system-health">100%</span>
-                        <span class="metric-label">SYSTEM_HEALTH</span>
-                    </div>
-                </div>
+  <main class="admin-page container">
+      
+      <div class="admin-title-block">
+          <span class="section-label">System Control</span>
+          <h1>Admin. Dashboard</h1>
+          <p>Real-time telemetry, app logs, user activity and client proposals.</p>
+      </div>
 
-                <div class="window telemetry-log-window">
-                    <div class="window-header">
-                        <span class="window-title">LIVE_TRAFFIC_FEED</span>
-                    </div>
-                    <div class="log-container" id="log-container">
-                        <div class="log-glow"></div>
-                        <!-- Log entries will be injected here -->
-                    </div>
-                </div>
-            </div>
-        </div>
+      <!-- Diagnostics log banner -->
+      <div id="admin-diagnostics">
+          ADMIN_ENGINE: CONNECTING TO FIREBASE...
+      </div>
 
-        <div class="window" style="margin-bottom: 30px;">
-            <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="window-title">DOWNLOAD_TRACKING_SYSTEM.EXE</span>
-                <button onclick="window.clearAllDownloads()" class="admin-btn btn-decline"
-                    style="padding: 5px 15px; font-size: 0.7rem; margin-right: 10px;">CLEAR_ALL_RECORDS</button>
-            </div>
-            <div class="window-content">
-                <div class="table-responsive">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>PROJECT</th>
-                                <th>USER_NAME</th>
-                                <th>GMAIL</th>
-                                <th>STATUS</th>
-                                <th>TIMESTAMP</th>
-                                <th>ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="downloads-body">
-                            <!-- Injected by JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+      <!-- Telemetry and Logging -->
+      <div class="window telemetry-window">
+          <div class="window-header">
+              <span class="window-title">System Metrics</span>
+          </div>
+          <div class="window-content">
+              <div class="telemetry-grid">
+                  <div class="metric-card">
+                      <span class="metric-value" id="total-visits">0</span>
+                      <span class="metric-label">Total Visits</span>
+                  </div>
+                  <div class="metric-card">
+                      <span class="metric-value" id="active-sessions">1</span>
+                      <span class="metric-label">Active Sessions</span>
+                  </div>
+                  <div class="metric-card">
+                      <span class="metric-value status-active" id="system-health">100%</span>
+                      <span class="metric-label">System Health</span>
+                  </div>
+              </div>
 
-        <div class="window" style="margin-bottom: 30px;">
-            <div class="window-header">
-                <span class="window-title">USER_FEEDBACK_FEED.LOG</span>
-            </div>
-            <div id="feedback-list" class="window-content" style="max-height:400px; overflow-y:auto;">
-                <!-- Injected by JS -->
-            </div>
-        </div>
+              <!-- Terminal view -->
+              <div class="window telemetry-log-window">
+                  <div class="window-header">
+                      <span class="window-title">Live Traffic Feed</span>
+                  </div>
+                  <div class="log-container" id="log-container">
+                      <div class="log-entry">[SYS_INIT]: Connecting to datastore...</div>
+                      <div class="log-entry">[SYS_LOG]: Session started. Tracking active.</div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-        <div id="proposals-list">
-            <!-- Cards will be injected here -->
-        </div>
+      <!-- Download Records -->
+      <div class="window">
+          <div class="window-header">
+              <span class="window-title">Download Tracker</span>
+              <button onclick="window.clearAllDownloads()" class="admin-btn btn-decline">Clear All Records</button>
+          </div>
+          <div class="window-content" style="padding:0;">
+              <div style="overflow-x: auto;">
+                  <table class="admin-table">
+                      <thead>
+                          <tr>
+                              <th>Project</th>
+                              <th>User Name</th>
+                              <th>Email</th>
+                              <th>Status</th>
+                              <th>Timestamp</th>
+                              <th>Actions</th>
+                          </tr>
+                      </thead>
+                      <tbody id="downloads-body">
+                          <tr><td colspan="6" style="text-align: center; color: var(--ink-muted);">Connecting to database...</td></tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
 
-        <style>
-            .admin-table {
-                width: 100%;
-                border-collapse: collapse;
-                font-family: var(--font-body);
-                font-size: 0.85rem;
-            }
+      <!-- Feedback Feed -->
+      <div class="window">
+          <div class="window-header">
+              <span class="window-title">User Feedback</span>
+          </div>
+          <div id="feedback-list" class="window-content" style="max-height:450px; overflow-y:auto;">
+              <div style="text-align: center; color: var(--ink-muted);">Connecting to database...</div>
+          </div>
+      </div>
 
-            .admin-table th,
-            .admin-table td {
-                padding: 12px;
-                text-align: left;
-                border-bottom: 1px solid #eee;
-            }
+      <!-- Client Proposals List -->
+      <h2 class="section-title" style="margin-top:4rem; margin-bottom:1rem;">App Idea Pitches.</h2>
+      <p style="color: var(--ink-muted); margin-bottom: 2rem;">Submitted concepts and collaboration proposals from the homepage pitch system.</p>
+      <div id="proposals-list">
+          <div style="text-align: center; padding: 3rem; background: #fff; border: 1px solid var(--border); border-radius: 16px; color: var(--ink-muted);">
+              Connecting to database...
+          </div>
+      </div>
 
-            .admin-table th {
-                background: #f8f8f8;
-                font-weight: 800;
-                text-transform: uppercase;
-            }
+  </main>
 
-            .table-responsive {
-                overflow-x: auto;
-            }
-
-            .feedback-entry {
-                padding: 15px;
-                border-bottom: 2px solid var(--border-black);
-                margin-bottom: 15px;
-                background: #f9f9f9;
-                box-shadow: 3px 3px 0 var(--border-black);
-            }
-
-            .feedback-meta {
-                font-size: 0.75rem;
-                font-weight: 800;
-                color: #666;
-                margin-bottom: 5px;
-            }
-
-            .feedback-text {
-                font-size: 0.95rem;
-                line-height: 1.4;
-            }
-        </style>
-    </main>
-
-    <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
+  <script>
+      // Simple loop to simulate local logs in traffic feed
+      document.addEventListener('DOMContentLoaded', () => {
+          const logBox = document.getElementById('log-container');
+          const logs = [
+              '[SYS_LOG]: Syncing collection "downloads"',
+              '[SYS_LOG]: Syncing collection "feedback"',
+              '[SYS_LOG]: Syncing collection "proposals"',
+              '[API_REQ]: Fetching metadata metrics',
+              '[SYS_LOG]: DB connection established successfully',
+              '[SYS_OK]: Telemetry engine ready'
+          ];
+          
+          if (logBox) {
+              logs.forEach((log, index) => {
+                  setTimeout(() => {
+                      const entry = document.createElement('div');
+                      entry.className = 'log-entry';
+                      entry.textContent = `${new Date().toLocaleTimeString()} ${log}`;
+                      logBox.appendChild(entry);
+                      logBox.scrollTop = logBox.scrollHeight;
+                  }, (index + 1) * 350);
+              });
+          }
+      });
+  </script>
 </body>
-
 </html>

@@ -3,206 +3,248 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Larsson — Data Science & App Developer</title>
+  <title>Larsson — Data Science &amp; App Developer</title>
   <meta name="description" content="Portfolio of Larsson — MSc Data Science student, Mobile App Developer. Building AI systems, mobile apps, and data-driven solutions.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <header class="navbar" id="navbar">
-    <div class="container nav-container">
-      <div class="logo">
-        <a href="#home">Larsson.</a>
-      </div>
-      <nav id="nav">
-        <a href="#projects" class="nav-link">Work</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#contact" class="nav-link">Contact</a>
-      </nav>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span><span></span>
-      </button>
-    </div>
-  </header>
+  <!-- GRAIN + ORBS BACKGROUND -->
+  <div class="bg-layer">
+    <div class="grain"></div>
+    <div class="orb orb-blue"></div>
+    <div class="orb orb-yellow"></div>
+    <div class="orb orb-rose"></div>
+  </div>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero" id="home">
-      <div class="container hero-container">
-        <div class="hero-content fade-up">
-          <div class="hero-text-col">
-            <p class="hero-eyebrow">Data Science & App Developer</p>
-            <h1 class="hero-title">Hi, I'm Larsson. <br>I build smart apps & data systems.</h1>
-            <p class="hero-desc">I'm an MSc Data Science student who loves turning complex data into clean, impactful applications. Always learning, always shipping.</p>
-            <a href="#projects" class="btn btn-primary">Selected Work</a>
+  <!-- CINEMATIC INTRO -->
+  <div id="intro" aria-hidden="true">
+    <p class="intro-name" id="intro-name">Larsson<span class="dot">.</span><span class="intro-cursor"></span></p>
+  </div>
+  <div class="scroll-hint" id="scroll-hint" aria-hidden="true">
+    <span>scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="main-content">
+
+    <!-- NAVBAR -->
+    <header class="navbar" id="navbar">
+      <div class="container nav-container">
+        <div class="logo">
+          <a href="#home"><span class="logo-dot"></span>Larsson.</a>
+        </div>
+        <nav id="nav">
+          <a href="#work"      class="nav-link"><span class="nav-arrow">↗</span>Work</a>
+          <a href="#expertise" class="nav-link"><span class="nav-arrow">↗</span>Expertise</a>
+          <a href="#about"     class="nav-link"><span class="nav-arrow">↗</span>About</a>
+          <a href="#contact"   class="nav-link"><span class="nav-arrow">↗</span>Contact</a>
+        </nav>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- ═══ HERO ═══════════════════════════════ -->
+      <section class="hero" id="home">
+        <div class="container hero-container">
+
+          <!-- Decorative shapes -->
+          <div class="geo-shapes">
+            <svg class="geo-sparkle" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            <svg class="geo-pen" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.5" style="transform:rotate(45deg)"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+            <div class="geo-dots" style="position:absolute;top:4rem;right:1rem;">
+              <div style="width:10px;height:10px;background:#EF4444;border-radius:2px;"></div>
+              <div style="width:10px;height:10px;background:#2563EB;border-radius:50%;"></div>
+              <div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:9px solid #FBBF24;"></div>
+            </div>
           </div>
-          <div class="hero-image-col">
-            <img src="assets/images/profile.jpg" alt="Larsson Profile" class="hero-profile-img">
+
+        <div class="hero-editorial-layout">
+          <!-- Left Text -->
+          <div class="hero-text-left reveal rd1">
+            <h1 class="hero-editorial-title">Hi! I'm</h1>
+          </div>
+
+          <!-- Central Image Wrapper -->
+          <div class="hero-center-col reveal rd2">
+            <div class="hero-profile-wrapper">
+              <div class="profile-glow"></div>
+              <img src="assets/images/ppele.png" alt="Larsson Profile" class="hero-profile-img floating">
+            </div>
+          </div>
+
+          <!-- Right Text -->
+          <div class="hero-text-right reveal rd3">
+            <p class="hero-desc" style="text-transform: none; font-size: 1.1rem; line-height: 1.6; font-weight: 500; font-family: var(--font-ui); text-align: right; max-width: 300px; margin-left: auto;">
+              Larsson, currently pursuing an MSc in Data Science.<br><br>This is where I showcase my projects, experiments, and everything I'm building along the way.
+            </p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="projects-section">
-      <div class="container">
-        <h2 class="section-title fade-up">Selected Work</h2>
-        
-        <div class="projects-grid">
-          
-          <!-- ILA Community -->
-          <div class="project-card fade-up">
-            <div class="project-img-wrapper">
-              <img src="assets/images/icon.png" alt="ILA Community" class="project-img">
-              <div class="project-overlay">
-                <a href="project.html?id=ila" class="btn btn-outline">View Details</a>
-              </div>
+      <!-- ═══ APP IDEA PITCH ════════════════════════ -->
+      <section id="pitch" class="pitch-section">
+        <div class="container">
+          <div class="pitch-container reveal rd1">
+            <div class="pitch-text">
+              <h2>Got an App Idea?</h2>
+              <p>Let's turn your concept into reality. Pitch me your idea below and I'll get back to you within 24 hours.</p>
             </div>
-            <div class="project-info">
-              <div class="project-header">
-                <h3 class="project-title">ILA Community</h3>
-                <span class="project-year">2026</span>
+            <form id="pitch-form" class="pitch-form">
+              <div class="form-group">
+                <input type="text" id="pitch-name" class="form-input" placeholder="Your Name" required>
               </div>
-              <p class="project-desc">Event management platform with real-time sync and secure payments for the Mizo community.</p>
-              <div class="project-tags">
-                <span>React Native</span>
-                <span>Firebase</span>
-                <span>Razorpay</span>
+              <div class="form-group">
+                <input type="email" id="pitch-email" class="form-input" placeholder="Your Email" required>
               </div>
-            </div>
+              <div class="form-group">
+                <textarea id="pitch-idea" class="form-input form-textarea" placeholder="Tell me about your app idea..." rows="4" required></textarea>
+              </div>
+              <button type="submit" class="btn-primary form-submit">Send Pitch ↗</button>
+              <div id="pitch-status" style="margin-top:1rem; display:none; font-weight:600; color:var(--blue); font-size:0.9rem;"></div>
+            </form>
           </div>
-
-          <!-- NOVA -->
-          <div class="project-card fade-up">
-            <div class="project-img-wrapper">
-              <img src="assets/images/anatomy_pulse.png" alt="NOVA" class="project-img">
-              <div class="project-overlay">
-                <a href="project.html?id=anatomypro" class="btn btn-outline">View Details</a>
-              </div>
-            </div>
-            <div class="project-info">
-              <div class="project-header">
-                <h3 class="project-title">NOVA</h3>
-                <span class="project-year">2025</span>
-              </div>
-              <p class="project-desc">Habit tracking app mapped to an interactive 2D anatomy model for visual progress.</p>
-              <div class="project-tags">
-                <span>React Native</span>
-                <span>TypeScript</span>
-                <span>Skia</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Spam Remover -->
-          <div class="project-card fade-up">
-            <div class="project-img-wrapper">
-              <img src="assets/images/spam_remover.jpg" alt="Spam Remover" class="project-img">
-              <div class="project-overlay">
-                <a href="https://gmailspamremover.streamlit.app" target="_blank" class="btn btn-outline">Live Demo</a>
-              </div>
-            </div>
-            <div class="project-info">
-              <div class="project-header">
-                <h3 class="project-title">Spam Filter</h3>
-                <span class="project-year">2025</span>
-              </div>
-              <p class="project-desc">ML-powered Gmail hygiene tool using Naive Bayes to classify and sort complex spam.</p>
-              <div class="project-tags">
-                <span>Python</span>
-                <span>Scikit-Learn</span>
-                <span>Gmail API</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- INBAWK -->
-          <div class="project-card fade-up">
-            <div class="project-img-wrapper">
-              <img src="assets/images/inbawk_board.png" alt="INBAWK Cards" class="project-img">
-              <div class="project-overlay">
-                <a href="project.html?id=inbawk" class="btn btn-outline">View Details</a>
-              </div>
-            </div>
-            <div class="project-info">
-              <div class="project-header">
-                <h3 class="project-title">INBAWK Cards</h3>
-                <span class="project-year">2024</span>
-              </div>
-              <p class="project-desc">Real-time multiplayer card game for mobile with a premium casino aesthetic.</p>
-              <div class="project-tags">
-                <span>React Native</span>
-                <span>Expo</span>
-                <span>Firebase</span>
-              </div>
-            </div>
-          </div>
-
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ABOUT & STACK -->
-    <section id="about" class="about-section">
-      <div class="container">
-        <div class="about-grid">
-          <div class="about-text fade-up">
-            <h2 class="section-title">About</h2>
-            <p>I'm a data science student who genuinely enjoys building things — even when it gets messy. I'm currently focused on exploring AI, machine learning, and mobile development.</p>
-            <p>These projects are my way of practicing and growing. Nothing here is perfect, but everything here is honest and built with a focus on solving real problems.</p>
-            
-            <a href="https://github.com/LarssonCodes" target="_blank" class="btn btn-outline mt-4">Visit GitHub</a>
+      <!-- ═══ WORK GRID ════════════════════════════ -->
+      <section id="work" class="work-section">
+        <div class="container">
+          <div class="work-header">
+            <div class="work-header-row">
+              <div>
+                <h2 class="section-title reveal">Work.</h2>
+                <p class="section-label reveal rd1" style="margin-top: 1rem; color: var(--ink-muted);">"Build things. Learn. Ship. Repeat."</p>
+              </div>
+              <a href="https://github.com/LarssonCodes" target="_blank" class="btn-outline-pill reveal rd1">View GitHub ↗</a>
+            </div>
           </div>
-          
-          <div class="about-stack fade-up" style="transition-delay: 0.1s;">
-            <div class="stack-block">
-              <h3>Analysis & ML</h3>
-              <p>Python, Pandas, NumPy, Scikit-Learn, Matplotlib, Streamlit</p>
+
+          <div class="work-stack">
+
+            <!-- ILA Community -->
+            <div class="work-stack-card wcard-ila reveal rd1">
+              <div class="work-stack-info">
+                <h3>ILA Community</h3>
+                <p>Event management platform with real-time sync and secure payments for the Mizo community.</p>
+                <div class="work-stack-tags"><span>React Native</span><span>Firebase</span><span>Razorpay</span><span>2026</span></div>
+              </div>
+              <a href="project?id=ila" class="work-stack-img wcard-video-container">
+                <video src="assets/images/ila.mp4" class="bg-video" autoplay loop muted playsinline></video>
+                <video src="assets/images/ila.mp4" class="main-video" autoplay loop muted playsinline></video>
+              </a>
             </div>
-            <div class="stack-block">
-              <h3>Mobile & Web</h3>
-              <p>React Native, TypeScript, Firebase, HTML, CSS, JavaScript</p>
+
+            <!-- NOVA -->
+            <div class="work-stack-card wcard-nova reveal rd2">
+              <div class="work-stack-info">
+                <h3>NOVA</h3>
+                <p>Habit tracking app mapped to an interactive anatomy model for visual progress tracking.</p>
+                <div class="work-stack-tags"><span>React Native</span><span>Skia</span><span>2025</span></div>
+              </div>
+              <a href="project?id=anatomypro" class="work-stack-img wcard-video-container">
+                <video src="assets/images/nova.mp4" class="bg-video" autoplay loop muted playsinline></video>
+                <video src="assets/images/nova.mp4" class="main-video" autoplay loop muted playsinline></video>
+              </a>
             </div>
-            <div class="stack-block">
-              <h3>Workflow</h3>
-              <p>Git, VS Code, Android Studio, Google Colab</p>
+
+            <!-- Spam Filter -->
+            <div class="work-stack-card wcard-spam reveal rd1">
+              <div class="work-stack-info">
+                <h3>Spam Filter</h3>
+                <p>ML-powered Gmail hygiene tool with Naive Bayes classification and complex sorting.</p>
+                <div class="work-stack-tags"><span>Python</span><span>Scikit-Learn</span><span>Gmail API</span></div>
+              </div>
+              <a href="project?id=spam-remover" class="work-stack-img">
+                <img src="assets/images/spam_remover.jpg" alt="Spam Remover">
+              </a>
+            </div>
+
+            <!-- INBAWK -->
+            <div class="work-stack-card wcard-inbawk reveal rd2">
+              <div class="work-stack-info">
+                <h3>INBAWK Cards</h3>
+                <p>Real-time multiplayer card game with a premium casino aesthetic.</p>
+                <div class="work-stack-tags"><span>React Native</span><span>Expo</span><span>Firebase</span><span>2024</span></div>
+              </div>
+              <a href="project?id=inbawk" class="work-stack-img wcard-video-container">
+                <video src="assets/images/inbawk.mp4" class="bg-video" autoplay loop muted playsinline></video>
+                <video src="assets/images/inbawk.mp4" class="main-video" autoplay loop muted playsinline></video>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ ABOUT ═════════════════════════════════ -->
+      <section id="about" class="about-section">
+        <div class="container">
+          <div class="about-grid">
+            <div class="about-text">
+              <p class="section-label reveal">About</p>
+              <h2 class="about-title reveal rd1">Builder<br>by <em>habit</em>,<br>student by choice.</h2>
+              <p class="reveal rd2">I'm a data science student who genuinely enjoys building things — even when it gets messy. I'm currently focused on exploring AI, machine learning, and mobile development.</p>
+              <p class="reveal rd3">These projects are my way of practicing and growing. Nothing here is perfect, but everything here is honest and built with a focus on solving real problems.</p>
+              <a href="https://github.com/LarssonCodes" target="_blank" class="btn-primary reveal rd4">Visit GitHub ↗</a>
+            </div>
+            <div class="stack-grid">
+              <div class="stack-block reveal rd1">
+                <h3>Analysis &amp; ML</h3>
+                <p>Python, Pandas, NumPy, Scikit-Learn, Matplotlib, Streamlit</p>
+              </div>
+              <div class="stack-block reveal rd2">
+                <h3>Mobile &amp; Web</h3>
+                <p>React Native, TypeScript, Firebase, HTML, CSS, JavaScript</p>
+              </div>
+              <div class="stack-block reveal rd3">
+                <h3>Workflow</h3>
+                <p>Git, VS Code, Android Studio, Google Colab</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="contact-section">
-      <div class="container">
-        <div class="contact-content fade-up">
-          <h2 class="contact-title">Let's build something.</h2>
-          <p class="contact-desc">Open to freelance projects, collaborations, and new opportunities. Reach out and let's discuss your idea.</p>
-          
-          <div class="contact-links">
+      <!-- ═══ CONTACT ════════════════════════════════ -->
+      <section id="contact" class="contact-section">
+        <div class="container contact-inner">
+          <p class="section-label reveal">Contact</p>
+          <h2 class="contact-title reveal rd1">Let's <span>build</span><br>something.</h2>
+
+          <p style="color:rgba(255,255,255,.6);font-size:1.125rem;line-height:1.75;max-width:540px;margin-top:1rem;" class="reveal rd2">
+            Open to freelance projects, collaborations, and new opportunities. Reach out and let's discuss your idea.
+          </p>
+
+          <div class="contact-links reveal rd3">
             <a href="mailto:lrtlarsson@gmail.com" class="contact-link">lrtlarsson@gmail.com</a>
             <a href="https://www.linkedin.com/in/larsson-lalremtluanga-b53796379/" target="_blank" class="contact-link">LinkedIn</a>
             <a href="https://github.com/LarssonCodes" target="_blank" class="contact-link">GitHub</a>
           </div>
-        </div>
-      </div>
-    </section>
-  </main>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <p>© 2026 Larsson. All rights reserved.</p>
-        <p>Built with minimal code.</p>
-      </div>
-    </div>
-  </footer>
+          <div class="footer-bottom reveal rd4">
+            <p>© 2026 Larsson. All rights reserved.</p>
+            <div class="social-links">
+              <a href="https://github.com/LarssonCodes" target="_blank">GitHub</a>
+              <a href="https://www.linkedin.com/in/larsson-lalremtluanga-b53796379/" target="_blank">LinkedIn</a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div><!-- /#main-content -->
 
   <script src="assets/js/app.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

@@ -7,3 +7,10 @@ dist/
 client_secret_*.json
 credentials.json
 token*.json
+
+# Backups
+*_original.*
+main_original.js
+style_original.css
+repo_deploy/
+profile.jpg

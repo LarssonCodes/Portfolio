@@ -4,7 +4,7 @@
 
 import { db, auth, googleProvider } from './firebase-config.js';
 import { collection, addDoc, getDocs, serverTimestamp, deleteDoc, doc, query, writeBatch, where, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 // ─── Constants & State ───────────────────────
 const VISIT_COUNT_KEY = 'portfolio_visit_count';
@@ -502,32 +502,29 @@ window.initAdminDashboard = async function () {
             proposalSnap.forEach(d => pDocs.push({ id: d.id, ...d.data() }));
             pDocs.sort((a, b) => (b.timestamp?.toDate() || 0) - (a.timestamp?.toDate() || 0));
 
-            proposalsList.innerHTML = `
-                <div class="window-header" style="margin-top: 30px; background: #e91e63;">
-                    <span class="window-title">CLIENT_PROPOSALS.LOG</span>
-                </div>
-            ` + (pDocs.map(p => `
+            proposalsList.innerHTML = pDocs.map(p => `
                 <div class="proposal-card window" style="margin-top:20px;">
-                    <div class="window-header" style="background:#111; font-size: 0.7rem;">
-                        <span>PROPOSAL_ID: ${p.id}</span>
+                    <div class="window-header">
+                        <span>PITCH_ID: ${p.id}</span>
                         <span>${p.timestamp ? p.timestamp.toDate().toLocaleString() : 'N/A'}</span>
                     </div>
                     <div class="window-content">
                         <div class="proposal-meta">
                             <span>CLIENT: ${p.clientName}</span>
-                            <span>📞 ${p.clientPhone || 'N/A'}</span>
-                            <span>DOMAIN: ${p.projectType}</span>
-                            <span>BUDGET: ${p.budget}</span>
+                            ${p.clientEmail ? `<span>✉️ ${p.clientEmail}</span>` : ''}
+                            ${p.clientPhone ? `<span>📞 ${p.clientPhone}</span>` : ''}
+                            ${p.projectType ? `<span>DOMAIN: ${p.projectType}</span>` : ''}
+                            ${p.budget ? `<span>BUDGET: ${p.budget}</span>` : ''}
                         </div>
                         <div class="proposal-details">
                             <p>${p.requirements}</p>
                         </div>
-                        <div class="admin-actions">
-                            <button onclick="window.deleteProposal('${p.id}')" class="admin-btn btn-decline" style="font-size: 0.7rem;">DELETE_PROPOSAL</button>
+                        <div class="admin-actions" style="padding: 0;">
+                            <button onclick="window.deleteProposal('${p.id}')" class="admin-btn btn-decline" style="font-size: 0.7rem;">DELETE</button>
                         </div>
                     </div>
                 </div>
-            `).join('') || '<div class="window-content">NO_PROPOSALS_RECEIVED</div>');
+            `).join('') || '<div style="text-align: center; padding: 3rem; background: #fff; border: 1px solid var(--border); border-radius: 16px; color: var(--ink-muted);">NO_PROPOSALS_RECEIVED</div>';
         }
 
         log('COMPLETE');
@@ -535,6 +532,47 @@ window.initAdminDashboard = async function () {
         log('ERROR: ' + e.message);
     }
 };
+
+function initAdminAuth() {
+    const authNav = document.getElementById('admin-auth-nav');
+    if (!authNav) return;
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            authNav.innerHTML = `
+                <span style="font-size:0.875rem; color:var(--ink-muted); margin-right:1rem;">Logged in as: ${user.email}</span>
+                <button id="admin-signout-btn" class="admin-btn" style="padding: 0.4rem 1rem; font-size: 0.75rem;">Sign Out</button>
+                <a href="index.html" style="margin-left:1.5rem;">← Live Site</a>
+            `;
+            const signoutBtn = document.getElementById('admin-signout-btn');
+            if (signoutBtn) {
+                signoutBtn.addEventListener('click', () => {
+                    signOut(auth).then(() => {
+                        window.location.reload();
+                    });
+                });
+            }
+            window.initAdminDashboard();
+        } else {
+            authNav.innerHTML = `
+                <button id="admin-signin-btn" class="admin-btn" style="padding: 0.4rem 1rem; font-size: 0.75rem; border-color: var(--blue); color: var(--blue);">Authorize Admin</button>
+                <a href="index.html" style="margin-left:1.5rem;">← Live Site</a>
+            `;
+            const signinBtn = document.getElementById('admin-signin-btn');
+            if (signinBtn) {
+                signinBtn.addEventListener('click', async () => {
+                    try {
+                        await signInWithPopup(auth, googleProvider);
+                        window.location.reload();
+                    } catch (e) {
+                        alert("Sign in failed: " + e.message);
+                    }
+                });
+            }
+            window.initAdminDashboard();
+        }
+    });
+}
 
 // ─── Start ───────────────────────────────────
 
@@ -545,7 +583,7 @@ initInteractions();
 trackVisit();
 initReveal();
 
-if (document.getElementById('proposals-list')) window.initAdminDashboard();
+if (document.getElementById('proposals-list')) initAdminAuth();
 if (document.getElementById('project-title')) window.initProjectDetail();
 
 const buildForm = document.getElementById('build-form');
@@ -576,6 +614,39 @@ if (buildForm) {
             if (status) {
                 status.style.display = 'block';
                 status.textContent = 'ERROR_UPLOADING. PLEASE_TRY_GMAIL.';
+            }
+        } finally {
+            btn.disabled = false;
+        }
+    });
+}
+
+const pitchForm = document.getElementById('pitch-form');
+if (pitchForm) {
+    pitchForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = pitchForm.querySelector('button');
+        const status = document.getElementById('pitch-status');
+        btn.disabled = true;
+
+        const proposalData = {
+            clientName: document.getElementById('pitch-name').value,
+            clientEmail: document.getElementById('pitch-email').value,
+            requirements: document.getElementById('pitch-idea').value,
+            timestamp: serverTimestamp()
+        };
+
+        try {
+            await addDoc(collection(db, "proposals"), proposalData);
+            if (status) {
+                status.style.display = 'block';
+                status.textContent = 'App idea successfully sent! I will review it and get back to you.';
+            }
+            pitchForm.reset();
+        } catch (error) {
+            if (status) {
+                status.style.display = 'block';
+                status.textContent = 'Error sending idea. Please contact me directly via email.';
             }
         } finally {
             btn.disabled = false;

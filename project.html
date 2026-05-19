@@ -1,531 +1,595 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJECT_DETAIL | LARSSON.STUDIO</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Project — Larsson</title>
+    <meta name="description" content="Project detail page — Larsson's portfolio showcasing data science, mobile app development, and ML projects.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Syne:wght@400..800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        * {
-            box-sizing: border-box;
-        }
+    /* ── PROJECT DETAIL PAGE ─────────────────────── */
+    body { background: var(--bg); }
 
-        html,
-        body {
-            overflow-x: hidden;
-            max-width: 100vw;
-        }
+    .project-page {
+      padding: 0 0 6rem;
+      max-width: 960px;
+      margin: 0 auto;
+      width: 100%;
+    }
 
-        .detail-page {
-            padding: 40px 20px 100px;
-            max-width: 960px;
-            margin: 0 auto;
-            width: 100%;
-        }
+    /* Back nav */
+    .project-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink-muted);
+      text-decoration: none;
+      padding: 1.5rem 0;
+      transition: color 0.3s ease;
+    }
+    .project-back:hover { color: var(--blue); }
+    .project-back svg { transition: transform 0.3s ease; }
+    .project-back:hover svg { transform: translateX(-4px); }
 
-        /* ── Back nav ── */
-        .back-nav {
-            margin-bottom: 32px;
-        }
+    /* Hero Preview */
+    .project-hero-img {
+      width: 100%;
+      height: clamp(260px, 45vw, 520px);
+      object-fit: cover;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+    .project-hero-video {
+      width: 100%;
+      height: clamp(260px, 45vw, 520px);
+      object-fit: cover;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      margin-bottom: 3rem;
+      background: #000;
+    }
 
-        /* ── Preview window ── */
-        .preview-window {
-            margin-bottom: 36px;
-            box-shadow: 8px 8px 0 black;
-        }
+    /* Title Block */
+    .project-title-block { margin-bottom: 2.5rem; }
+    .project-title-block h1 {
+      font-family: var(--font-ui);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .project-tagline-text {
+      font-size: 1.15rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      max-width: 700px;
+    }
 
-        .preview-window .window-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* Action Buttons */
+    .project-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .proj-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 1.8rem;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .proj-btn-primary {
+      background: var(--ink);
+      color: #fff;
+    }
+    .proj-btn-primary:hover {
+      background: var(--blue);
+      transform: translateY(-2px);
+    }
+    .proj-btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    .proj-btn-secondary:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      transform: translateY(-2px);
+    }
+    .proj-btn-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
 
-        .preview-img {
-            width: 100%;
-            height: clamp(220px, 40vw, 480px);
-            object-fit: cover;
-            display: block;
-            border-top: 3px solid black;
-        }
+    /* Quick Info Grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 4rem;
+      background: #fff;
+    }
+    .info-item {
+      padding: 1.5rem;
+      border-right: 1px solid var(--border);
+    }
+    .info-item:last-child { border-right: none; }
+    .info-item-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+    .info-item-value {
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
 
-        /* ── Title block ── */
-        .project-title-block {
-            margin-bottom: 28px;
-        }
+    /* Section Divider */
+    .proj-section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
 
-        .project-title-block h1 {
-            font-size: clamp(2rem, 6vw, 3.8rem);
-            line-height: 1;
-            letter-spacing: -2px;
-            margin-bottom: 10px;
-        }
+    /* Overview */
+    .overview-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--ink);
+      margin-bottom: 4rem;
+    }
 
-        .project-tagline {
-            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-            color: #555;
-            font-weight: 500;
-            line-height: 1.5;
-        }
+    /* Features */
+    .features-section { margin-bottom: 4rem; }
+    .features-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      font-size: 1rem;
+      color: var(--ink);
+      line-height: 1.6;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .features-list li:last-child { border-bottom: none; }
+    .features-list li::before {
+      content: '→';
+      font-weight: 700;
+      color: var(--blue);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
 
-        /* ── Action buttons ── */
-        .project-actions {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-            margin-bottom: 36px;
-        }
+    /* Tech Tags */
+    .tech-section { margin-bottom: 4rem; }
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .tech-tag {
+      display: inline-block;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink);
+      background: #fff;
+      transition: all 0.3s ease;
+    }
+    .tech-tag:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      transform: translateY(-2px);
+    }
 
-        .action-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 24px;
-            font-family: var(--font-heading);
-            font-weight: 800;
-            font-size: clamp(0.75rem, 2vw, 0.9rem);
-            letter-spacing: 1px;
-            text-decoration: none;
-            border: 3px solid black;
-            transition: all 0.15s ease;
-            cursor: pointer;
-        }
+    /* Technical Architecture */
+    .arch-section { margin-bottom: 4rem; }
+    .arch-block {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--blue);
+      padding: 1.5rem 2rem;
+      border-radius: 0 12px 12px 0;
+    }
 
-        .action-btn-primary {
-            background: var(--bg-yellow);
-            color: black;
-            box-shadow: 5px 5px 0 black;
-        }
+    /* Gallery */
+    .gallery-section { margin-bottom: 4rem; }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .gallery img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: block;
+    }
+    .gallery img:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    }
 
-        .action-btn-primary:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 8px 8px 0 black;
-            background: #f5d800;
-        }
+    /* Feedback */
+    .feedback-section { margin-bottom: 2rem; }
+    .feedback-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .feedback-card textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      background: var(--bg);
+      resize: vertical;
+      min-height: 100px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feedback-card textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+    }
+    .feedback-card button {
+      margin-top: 1rem;
+    }
 
-        .action-btn-secondary {
-            background: #111;
-            color: var(--bg-yellow);
-            box-shadow: 5px 5px 0 #555;
-        }
+    /* Download Modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+    .modal-card {
+      background: #fff;
+      border-radius: 20px;
+      max-width: 460px;
+      width: 100%;
+      padding: 2.5rem;
+      animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-card h3 {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .modal-card p {
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .modal-card input {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      background: var(--bg);
+    }
+    .modal-card input:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--ink-muted);
+    }
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0.9rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .google-btn:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 12px rgba(37,99,235,0.1);
+    }
+    .google-btn img { width: 20px; height: 20px; }
+    #auth-status {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--blue);
+      text-align: center;
+    }
 
-        .action-btn-secondary:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 8px 8px 0 #555;
-        }
+    @keyframes modalIn {
+      from { transform: scale(0.95) translateY(10px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
 
-        /* ── Quick info panel ── */
-        .info-panel {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 0;
-            border: 3px solid black;
-            box-shadow: 5px 5px 0 black;
-            margin-bottom: 48px;
-            overflow: hidden;
-        }
+    /* ── Page-specific nav fix ── */
+    .project-nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      padding: 1rem 0;
+      background: rgba(248,249,250,.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .project-nav .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .project-nav .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+    .project-nav .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--ink-muted);
+      transition: color 0.2s ease;
+    }
+    .project-nav .nav-links a:hover {
+      color: var(--ink);
+    }
 
-        .info-cell {
-            padding: 16px 20px;
-            border-right: 2px solid black;
-        }
+    /* Page load animation */
+    .project-page .reveal-proj {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeSlideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal-proj:nth-child(1) { animation-delay: 0.05s; }
+    .reveal-proj:nth-child(2) { animation-delay: 0.1s; }
+    .reveal-proj:nth-child(3) { animation-delay: 0.15s; }
+    .reveal-proj:nth-child(4) { animation-delay: 0.2s; }
+    .reveal-proj:nth-child(5) { animation-delay: 0.25s; }
+    .reveal-proj:nth-child(6) { animation-delay: 0.3s; }
+    .reveal-proj:nth-child(7) { animation-delay: 0.35s; }
+    .reveal-proj:nth-child(8) { animation-delay: 0.4s; }
+    .reveal-proj:nth-child(9) { animation-delay: 0.45s; }
+    .reveal-proj:nth-child(10) { animation-delay: 0.5s; }
 
-        .info-cell:last-child {
-            border-right: none;
-        }
-
-        .info-cell-label {
-            font-size: 0.65rem;
-            font-weight: 800;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            color: #888;
-            margin-bottom: 6px;
-        }
-
-        .info-cell-value {
-            font-family: var(--font-heading);
-            font-size: clamp(0.85rem, 2vw, 1rem);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
-
-        /* ── Section divider ── */
-        .section-loader {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 44px 0 20px;
-            font-family: var(--font-body);
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            color: #888;
-        }
-
-        .section-loader::before {
-            content: '▶';
-            color: var(--bg-magenta);
-            font-size: 0.6rem;
-        }
-
-        .section-loader::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #ddd;
-        }
-
-        /* ── Overview ── */
-        .overview-text {
-            font-size: clamp(0.95rem, 2.5vw, 1.15rem);
-            line-height: 1.8;
-            color: #333;
-        }
-
-        /* ── Features ── */
-        .features-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .features-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            color: #333;
-            line-height: 1.5;
-            padding: 12px 16px;
-            background: #f8f8f8;
-            border: 2px solid #ddd;
-        }
-
-        .features-list li::before {
-            content: '→';
-            font-family: var(--font-heading);
-            font-weight: 800;
-            color: var(--bg-magenta);
-            flex-shrink: 0;
-        }
-
-        /* ── Tech tags ── */
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .tech-tag {
-            display: inline-block;
-            padding: 6px 14px;
-            border: 2px solid black;
-            font-family: var(--font-heading);
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            background: white;
-            box-shadow: 2px 2px 0 black;
-            transition: all 0.15s ease;
-            cursor: default;
-        }
-
-        .tech-tag:hover {
-            background: var(--bg-yellow);
-            transform: translate(-1px, -1px);
-            box-shadow: 3px 3px 0 black;
-        }
-
-        /* ── Technical block ── */
-        .technical-block {
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            line-height: 1.8;
-            color: #333;
-            background: #f5f5f5;
-            border: 2px solid black;
-            border-left: 5px solid var(--bg-magenta);
-            padding: 20px 24px;
-            box-shadow: 3px 3px 0 black;
-        }
-
-        /* ── Gallery ── */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 16px;
-            margin-top: 8px;
-        }
-
-        .gallery img {
-            width: 100%;
-            height: auto;
-            border: 3px solid black;
-            box-shadow: 4px 4px 0 black;
-            transition: all 0.2s;
-            display: block;
-        }
-
-        .gallery img:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 7px 7px 0 black;
-        }
-
-        /* ── Mobile ── */
-        @media (max-width: 600px) {
-            .project-actions {
-                flex-direction: column;
-            }
-
-            .action-btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .info-panel {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .info-cell {
-                border-bottom: 2px solid black;
-            }
-        }
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .project-page { padding: 0 1.25rem 4rem; }
+      .info-grid { grid-template-columns: 1fr 1fr; }
+      .info-item { border-bottom: 1px solid var(--border); }
+      .project-actions { flex-direction: column; }
+      .proj-btn { width: 100%; justify-content: center; }
+      .project-nav .nav-links { display: none; }
+    }
     </style>
 </head>
-
 <body>
-    <div class="cursor"></div>
-    <div class="cursor-trail"></div>
-    <header class="navbar">
-        <div class="logo">LARSSON<span class="logo-dot">.</span>DS</div>
-        <nav>
-            <a href="index.html" class="nav-link">← HOME</a>
-        </nav>
-    </header>
 
-    <main class="detail-page">
+  <!-- GRAIN + ORBS BACKGROUND -->
+  <div class="bg-layer">
+    <div class="grain"></div>
+    <div class="orb orb-blue"></div>
+    <div class="orb orb-yellow"></div>
+    <div class="orb orb-rose"></div>
+  </div>
 
-        <!-- 1. PREVIEW WINDOW — visual first -->
-        <div class="window preview-window">
-            <div class="window-header">
-                <span id="window-title" class="window-title">LOAD_SYS.EXE</span>
-                <div class="window-controls">
-                    <span class="wc-red"></span>
-                    <span class="wc-yellow"></span>
-                    <span class="wc-green"></span>
-                </div>
-            </div>
-            <img id="project-hero-img" src="" alt="Project Preview" class="preview-img">
-        </div>
-
-        <!-- 2. TITLE + TAGLINE -->
-        <div class="project-title-block">
-            <div class="section-label" style="margin-bottom:14px;">PROJECT_DETAIL</div>
-            <h1 id="project-title">PROJECT_TITLE</h1>
-            <p class="project-tagline" id="project-tagline">Loading project data…</p>
-        </div>
-
-        <!-- 3. ACTION BUTTONS -->
-        <div class="project-actions">
-            <button id="btn-download-trigger" class="action-btn action-btn-primary">
-                <i data-lucide="download" style="width:16px;height:16px;"></i> DOWNLOAD_APK
-            </button>
-            <a id="btn-github" href="https://github.com/LarssonCodes" target="_blank"
-                class="action-btn action-btn-secondary">
-                <i data-lucide="github" style="width:16px;height:16px;"></i> VIEW_SOURCE
-            </a>
-        </div>
-
-        <!-- 4. QUICK INFO PANEL -->
-        <div class="info-panel">
-            <div class="info-cell">
-                <div class="info-cell-label">PLATFORM</div>
-                <div class="info-cell-value" id="info-platform">—</div>
-            </div>
-            <div class="info-cell">
-                <div class="info-cell-label">TYPE</div>
-                <div class="info-cell-value" id="info-type">—</div>
-            </div>
-            <div class="info-cell">
-                <div class="info-cell-label">STATUS</div>
-                <div class="info-cell-value" id="info-status">SHIPPED</div>
-            </div>
-            <div class="info-cell">
-                <div class="info-cell-label">STACK</div>
-                <div class="info-cell-value" id="info-stack">—</div>
-            </div>
-        </div>
-
-        <!-- 5. OVERVIEW -->
-        <div class="section-loader">OVERVIEW</div>
-        <p class="overview-text" id="project-desc-text">Fetching project details from the mainframe…</p>
-
-        <!-- 6. FEATURES -->
-        <div class="section-loader">KEY_FEATURES</div>
-        <ul class="features-list" id="project-features"></ul>
-
-        <!-- 7. TECH STACK TAGS -->
-        <div class="section-loader">TECH_STACK</div>
-        <div class="tech-tags" id="project-tags"></div>
-
-        <!-- 8. TECHNICAL NOTES -->
-        <div class="section-loader">TECHNICAL_ARCHITECTURE</div>
-        <p class="technical-block" id="technical-details"></p>
-
-        <!-- 9. GALLERY -->
-        <div id="gallery-wrapper" style="display:none;">
-            <div class="section-loader">SCREENSHOTS</div>
-            <div class="gallery" id="project-gallery"></div>
-        </div>
-
-        <!-- 10. FEEDBACK SECTION -->
-        <div class="section-loader">FEEDBACK</div>
-        <div class="window feedback-window reveal">
-            <div class="window-header">
-                <span class="window-title">USER_FEEDBACK.TXT</span>
-            </div>
-            <div class="window-content">
-                <form id="feedback-form">
-                    <div class="input-group">
-                        <textarea id="feedback-text" rows="4"
-                            placeholder="HOW WAS THE EXPERIENCE? ANY BUGS OR SUGGESTIONS?" required></textarea>
-                    </div>
-                    <button type="submit" class="action-btn action-btn-primary"
-                        style="width:100%;">SUBMIT_FEEDBACK.EXE</button>
-                </form>
-                <div id="feedback-status" style="margin-top:10px; display:none;"></div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- DOWNLOAD MODAL -->
-    <div id="download-modal" class="modal-overlay">
-        <div class="window modal-window">
-            <div class="window-header">
-                <span class="window-title">DOWNLOAD_AUTHORIZATION.EXE</span>
-                <button class="modal-close" id="close-modal">&times;</button>
-            </div>
-            <div class="window-content" style="text-align:center; padding: 40px 30px;">
-                <p style="margin-bottom:20px; font-size:1rem; line-height:1.5; color: #333; font-weight: 500;">
-                    PLEASE VERIFY YOUR IDENTITY WITH GOOGLE TO ACCESS THE BUILD.
-                    THIS ENSURES WE LOG LEGITIMATE GMAIL ADDRESSES FOR OUR RECORDS.
-                </p>
-
-                <div class="input-group" style="margin-bottom: 25px; text-align: left;">
-                    <label
-                        style="font-family: var(--font-heading); font-weight: 800; font-size: 0.75rem; letter-spacing: 1px; color: #555;">USER_IDENTIFIER
-                        (NAME)</label>
-                    <input type="text" id="user-name-input" placeholder="ENTER YOUR FULL NAME" required
-                        style="width: 100%; padding: 12px; border: 2px solid black; font-family: var(--font-body); font-weight: 600; box-shadow: 4px 4px 0px black; margin-top: 5px; outline: none;">
-                </div>
-
-                <div style="display: flex; justify-content: center;">
-                    <button id="google-signin-btn" class="submit-btn" style="
-                        display: flex; 
-                        align-items: center; 
-                        justify-content: center; 
-                        gap: 12px; 
-                        font-size: 0.9rem; 
-                        padding: 12px 20px; 
-                        background: white; 
-                        color: black; 
-                        border: 3px solid black;
-                        box-shadow: 5px 5px 0px black;
-                        cursor: pointer;
-                        transition: all 0.1s;
-                        width: auto;
-                        min-width: 280px;
-                        max-width: 100%;
-                        box-sizing: border-box;
-                    ">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
-                            style="width:20px; height:20px; flex-shrink: 0;">
-                        <span
-                            style="font-weight: 800; letter-spacing: 0.5px; white-space: nowrap;">VERIFY_WITH_GOOGLE.EXE</span>
-                    </button>
-                </div>
-
-                <p id="auth-status"
-                    style="margin-top:20px; font-size:0.8rem; font-weight: 800; color:var(--bg-magenta); display:none; text-transform: uppercase;">
-                    SYNCING_AUTHORIZATION...
-                </p>
-            </div>
-        </div>
+  <!-- NAV -->
+  <header class="project-nav" id="project-navbar">
+    <div class="container nav-container">
+      <div class="logo">
+        <a href="index.html"><span class="logo-dot"></span>Larsson.</a>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#work">Work</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
     </div>
+  </header>
 
-    <style>
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-            backdrop-filter: blur(4px);
-        }
+  <main id="main-content" style="margin-top: 5rem;">
+    <div class="project-page container">
 
-        .modal-window {
-            max-width: 500px;
-            width: 100%;
-            animation: modalIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+      <!-- Back Link -->
+      <a href="index.html#work" class="project-back reveal-proj">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to Work
+      </a>
 
-        @keyframes modalIn {
-            from {
-                transform: scale(0.9);
-                opacity: 0;
-            }
+      <!-- Hero Image / Video -->
+      <div id="hero-media-container" class="reveal-proj"></div>
 
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+      <!-- Title -->
+      <div class="project-title-block reveal-proj">
+        <h1 id="project-title">Loading...</h1>
+        <p class="project-tagline-text" id="project-tagline">Loading project data...</p>
+      </div>
 
-        .modal-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-        }
+      <!-- Action Buttons -->
+      <div class="project-actions reveal-proj">
+        <button id="btn-download-trigger" class="proj-btn proj-btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download APK
+        </button>
+        <a id="btn-github" href="#" target="_blank" class="proj-btn proj-btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          View Source
+        </a>
+      </div>
 
-        .modal-close:hover {
-            color: var(--bg-magenta);
-        }
+      <!-- Quick Info -->
+      <div class="info-grid reveal-proj">
+        <div class="info-item">
+          <div class="info-item-label">Platform</div>
+          <div class="info-item-value" id="info-platform">—</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-label">Type</div>
+          <div class="info-item-value" id="info-type">—</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-label">Status</div>
+          <div class="info-item-value" id="info-status">Shipped</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-label">Stack</div>
+          <div class="info-item-value" id="info-stack">—</div>
+        </div>
+      </div>
 
-        .feedback-window {
-            margin-top: 20px;
-            box-shadow: 5px 5px 0 black;
-        }
-    </style>
+      <!-- Overview -->
+      <div class="reveal-proj">
+        <div class="proj-section-label">Overview</div>
+        <p class="overview-text" id="project-desc-text">Loading...</p>
+      </div>
 
-    </main>
+      <!-- Features -->
+      <div class="features-section reveal-proj">
+        <div class="proj-section-label">Key Features</div>
+        <ul class="features-list" id="project-features"></ul>
+      </div>
 
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-    <script type="module" src="assets/js/main.js"></script>
-    <script>
-        lucide.createIcons();
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof initProjectDetail === 'function') initProjectDetail();
-        });
-    </script>
+      <!-- Tech Stack -->
+      <div class="tech-section reveal-proj">
+        <div class="proj-section-label">Tech Stack</div>
+        <div class="tech-tags" id="project-tags"></div>
+      </div>
+
+      <!-- Technical Architecture -->
+      <div class="arch-section reveal-proj">
+        <div class="proj-section-label">Technical Architecture</div>
+        <p class="arch-block" id="technical-details"></p>
+      </div>
+
+      <!-- Gallery -->
+      <div id="gallery-wrapper" style="display:none;" class="reveal-proj">
+        <div class="gallery-section">
+          <div class="proj-section-label">Screenshots</div>
+          <div class="gallery" id="project-gallery"></div>
+        </div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="feedback-section reveal-proj">
+        <div class="proj-section-label">Feedback</div>
+        <div class="feedback-card">
+          <form id="feedback-form">
+            <textarea id="feedback-text" placeholder="How was the experience? Any bugs or suggestions?" required></textarea>
+            <button type="submit" class="proj-btn proj-btn-primary" style="width:100%;">Submit Feedback</button>
+          </form>
+          <div id="feedback-status" style="margin-top:1rem; display:none; font-weight:600; color:var(--blue); font-size:0.9rem;"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- DOWNLOAD MODAL -->
+  <div id="download-modal" class="modal-overlay">
+    <div class="modal-card" style="position:relative;">
+      <button class="modal-close-btn" id="close-modal">&times;</button>
+      <h3>Verify to Download</h3>
+      <p>Please verify your identity with Google to access the build. This ensures we log legitimate users.</p>
+      <input type="text" id="user-name-input" placeholder="Your full name" required>
+      <button id="google-signin-btn" class="google-btn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+        Verify with Google
+      </button>
+      <p id="auth-status" style="display:none;"></p>
+    </div>
+  </div>
+
+  <script type="module" src="assets/js/main.js"></script>
+  <script>
+    // Video map for projects with video previews
+    const videoMap = {
+      'ila': 'assets/images/ila.mp4',
+      'anatomypro': 'assets/images/nova.mp4',
+      'inbawk': 'assets/images/inbawk.mp4'
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const projectId = urlParams.get('id');
+      const container = document.getElementById('hero-media-container');
+
+      if (container && videoMap[projectId]) {
+        container.innerHTML = `<video src="${videoMap[projectId]}" class="project-hero-video" autoplay loop muted playsinline></video>`;
+      } else if (container) {
+        container.innerHTML = `<img id="project-hero-img" src="" alt="Project Preview" class="project-hero-img">`;
+      }
+
+      if (typeof initProjectDetail === 'function') initProjectDetail();
+    });
+  </script>
 </body>
-
 </html>
