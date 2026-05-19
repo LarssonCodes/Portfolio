@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (videoEnded) {
           intro.style.background = 'transparent';
         } else {
-          intro.style.background = `rgba(248, 249, 250, 1)`;
+          intro.style.background = `rgba(255, 255, 255, 1)`;
         }
 
         // Hide scroll hint as we scroll
