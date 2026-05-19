@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let ticking        = false;
   let lastScrollY    = 0;
 
+
   /* ── PHASE 1: Typing cursor disappears after 1.5s
        then show scroll hint ─────────────────────── */
   setTimeout(() => {

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Outfit:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap');
 
 :root {
   --bg:          #F8F9FA;
@@ -59,14 +59,45 @@ a { color: inherit; text-decoration: none; }
   background: var(--bg); pointer-events: none;
 }
 .intro-name {
-  font-family: var(--font-serif);
-  font-weight: 300;
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-weight: 400;
   font-size: clamp(3.5rem, 12vw, 10rem);
   letter-spacing: -0.04em;
-  color: var(--ink); line-height: 1;
-  will-change: transform, opacity;
+  
+  /* Sharp Whoosh Line Reflection */
+  background: linear-gradient(
+    105deg,
+    #111111 0%,
+    #111111 44%,
+    #666666 47%,
+    #dddddd 50%,
+    #666666 53%,
+    #111111 56%,
+    #111111 100%
+  );
+  background-size: 400% 100%;
+  animation: whoosh 6s ease-in-out infinite;
+  
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  
+  line-height: 1;
+  will-change: transform, opacity, background-position;
 }
-.intro-name .dot { color: var(--blue); }
+.intro-name .dot { 
+  -webkit-text-fill-color: var(--blue);
+  color: var(--blue); 
+}
+@keyframes whoosh {
+  0%    { background-position: 130% 0%; } /* line off-screen right */
+  5%    { background-position: 130% 0%; } /* brief hold */
+  50%   { background-position: -30% 0%; } /* sweep all the way left */
+  95%   { background-position: -30% 0%; } /* long pause before next */
+  100%  { background-position: 130% 0%; } /* snap back for next loop */
+}
 .intro-cursor {
   display: inline-block; width: 3px; height: .8em;
   background: var(--blue); margin-left: 4px; vertical-align: middle;
@@ -142,7 +173,7 @@ nav { display:flex; gap:2.5rem; }
 }
 .hero-editorial-layout {
   display: grid;
-  grid-template-columns: 1fr minmax(300px, 500px) 1fr;
+  grid-template-columns: 1fr minmax(380px, 680px) 1fr;
   align-items: center;
   gap: 2rem;
   width: 100%;
@@ -211,6 +242,43 @@ nav { display:flex; gap:2.5rem; }
   position: relative;
   z-index: 2;
   filter: grayscale(100%) contrast(1.2); /* Matching the moody B&W mockup vibe */
+}
+
+/* Orbital Graphic */
+.profile-orbits {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  aspect-ratio: 1;
+  pointer-events: none;
+}
+.profile-orbits-back { z-index: 1; }
+.profile-orbits-front { z-index: 1; }
+.orbit-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.orbit-ring.ring-1 {
+  transform: rotate(-15deg);
+  animation: orbit-spin-1 45s linear infinite;
+}
+.orbit-ring.ring-2 {
+  transform: rotate(25deg);
+  animation: orbit-spin-2 55s linear infinite;
+}
+@keyframes orbit-spin-1 {
+  0% { transform: rotate(-15deg); }
+  100% { transform: rotate(345deg); }
+}
+@keyframes orbit-spin-2 {
+  0% { transform: rotate(25deg); }
+  100% { transform: rotate(-335deg); }
 }
 
 
@@ -341,17 +409,27 @@ nav { display:flex; gap:2.5rem; }
 .work-stack-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem;
   margin-bottom: 3rem;
 }
 .work-stack-tags span {
   font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.4rem 1rem;
+  font-family: var(--font-ui);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0.6rem 1.4rem;
   border-radius: 100px;
-  background: var(--bg);
+  background: #ffffff;
   border: 1px solid var(--border);
   color: var(--ink);
+  transition: all 0.2s ease;
+  cursor: default;
+}
+.work-stack-tags span:hover {
+  background: var(--ink);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .work-stack-img {
