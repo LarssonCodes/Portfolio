@@ -572,9 +572,9 @@
   <script>
     // Video map for projects with video previews
     const videoMap = {
-      'ila': 'assets/images/ila.mp4',
-      'anatomypro': 'assets/images/nova.mp4',
-      'inbawk': 'assets/images/inbawk.mp4'
+      'ila': 'assets/images/ila.gif',
+      'anatomypro': 'assets/images/nova.gif',
+      'inbawk': 'assets/images/inbawk.gif'
     };
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -583,7 +583,7 @@
       const container = document.getElementById('hero-media-container');
 
       if (container && videoMap[projectId]) {
-        container.innerHTML = `<video src="${videoMap[projectId]}" class="project-hero-video" autoplay loop muted playsinline></video>`;
+        container.innerHTML = `<img src="${videoMap[projectId]}" class="project-hero-img" alt="Project Preview">`;
       } else if (container) {
         container.innerHTML = `<img id="project-hero-img" src="" alt="Project Preview" class="project-hero-img">`;
       }

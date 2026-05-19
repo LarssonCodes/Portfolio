@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let introExited    = false; // has the intro fully left?
   let ticking        = false;
   let lastScrollY    = 0;
+  let scrollingUp    = false; // direction of scrolling
+  let videoEnded     = false; // track if intro video finished playing
 
 
   /* ── PHASE 1: Typing cursor disappears after 1.5s
@@ -56,28 +58,74 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } else {
       // Re-entering intro from scrolling up
-      if (introExited) {
+      if (introExited && scrollingUp) {
         introExited = false;
+        videoEnded = false; // Reset video end state on re-entry
         intro.style.transition = 'none'; // Instantly prepare to animate
         intro.style.pointerEvents = 'all';
         navbar.classList.remove('revealed');
+        
+        // Restart video
+        const videoEl = intro.querySelector('.intro-bg-video');
+        if (videoEl) {
+          videoEl.style.transition = 'none';
+          videoEl.style.opacity = '1';
+          videoEl.currentTime = 0;
+          videoEl.play().catch(err => console.log("Play interrupted:", err));
+        }
       }
       
-      // Calculate smooth values
-      const scale = 1 - progress * 0.35;
-      const translateY = -progress * 80;
-      const layerOpacity = 1 - progress * 1.15; // Fades out completely near progress=0.85
+      if (!introExited) {
+        // Calculate smooth values
+        const scale = 1 - progress * 0.35;
+        const translateY = -progress * 80;
+        const layerOpacity = 1 - progress * 1.15; // Fades out completely near progress=0.85
 
-      intro.style.opacity = Math.max(layerOpacity, 0).toString();
-      introName.style.transform = `translateY(${translateY}px) scale(${scale})`;
-      introName.style.opacity   = '1'; // Keep name solid, fade the whole layer
+        intro.style.opacity = Math.max(layerOpacity, 0).toString();
+        introName.style.transform = `translateY(${translateY}px) scale(${scale})`;
+        introName.style.opacity   = '1'; // Keep name solid, fade the whole layer
 
-      // Keep background solid gray so it covers the site until the layer fades
-      intro.style.background = `rgba(248, 249, 250, 1)`;
+        // If video ended automatically, keep background transparent.
+        // Otherwise, keep background solid gray to cover the site during preloader.
+        if (videoEnded) {
+          intro.style.background = 'transparent';
+        } else {
+          intro.style.background = `rgba(248, 249, 250, 1)`;
+        }
 
-      // Hide scroll hint as we scroll
-      scrollHint.style.opacity = Math.max(1 - progress * 4, 0);
+        // Hide scroll hint as we scroll
+        scrollHint.style.opacity = Math.max(1 - progress * 4, 0);
+      }
     }
+  }
+
+  /* ── AUTO EXIT ON VIDEO END ───────────────────── */
+  const introVideo = document.querySelector('.intro-bg-video');
+  if (introVideo) {
+    introVideo.addEventListener('ended', () => {
+      if (!introExited) {
+        videoEnded = true;
+        
+        // Smoothly fade out the video and background color ONLY
+        introVideo.style.transition = 'opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
+        introVideo.style.opacity    = '0';
+        
+        intro.style.transition = 'background-color 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
+        intro.style.backgroundColor = 'transparent';
+        
+        // Set pointer events to none so user can click main content
+        intro.style.pointerEvents = 'none';
+        
+        // Reveal navbar
+        navbar.classList.add('revealed');
+        
+        // Hide scroll hint
+        if (scrollHint) {
+          scrollHint.style.transition = 'opacity 0.8s ease';
+          scrollHint.style.opacity = '0';
+        }
+      }
+    });
   }
 
   /* ── SCROLL REVEAL (Intersection Observer) ────── */
@@ -130,7 +178,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── MAIN SCROLL HANDLER ──────────────────────── */
   window.addEventListener('scroll', () => {
-    lastScrollY = window.scrollY;
+    const currentScrollY = window.scrollY;
+    scrollingUp = currentScrollY < lastScrollY;
+    lastScrollY = currentScrollY;
+    
+    // Clear transitions during scrolling to prevent lag
+    intro.style.transition = 'none';
+    const videoEl = intro.querySelector('.intro-bg-video');
+    if (videoEl) videoEl.style.transition = 'none';
+
     if (!ticking) {
       requestAnimationFrame(() => {
         handleIntroScroll();
