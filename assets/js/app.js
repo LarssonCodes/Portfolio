@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamburger  = document.getElementById('hamburger');
   const nav        = document.getElementById('nav');
   const profileImg = document.querySelector('.hero-profile-img');
+  const mobileVideo = document.getElementById('intro-video-mobile');
+  const mobileGif   = document.getElementById('intro-gif-mobile');
 
   /* ── STATE ────────────────────────────────────── */
   let introActive    = true;  // are we in the fullscreen intro?
@@ -36,97 +38,100 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 1500);
 
   /* ── INTRO EXIT LOGIC ─────────────────────────── */
-  // The intro stays fixed on top. As user scrolls,
-  // we animate the name upward + fade intro overlay out.
-
   function handleIntroScroll() {
     const scrollY = window.scrollY;
     const vh      = window.innerHeight;
-    // Progress 0→1 over first 60% of viewport height
     const progress = Math.min(scrollY / (vh * 0.6), 1);
 
     if (progress >= 0.85) {
-      // Intro fully exited
       if (!introExited) {
         introExited = true;
         intro.style.transition = 'opacity 0.5s ease, pointer-events 0s 0.5s';
         intro.style.opacity    = '0';
         intro.style.pointerEvents = 'none';
-
-        // Reveal navbar
         navbar.classList.add('revealed');
       }
     } else {
       // Re-entering intro from scrolling up
       if (introExited && scrollingUp) {
         introExited = false;
-        videoEnded = false; // Reset video end state on re-entry
-        intro.style.transition = 'none'; // Instantly prepare to animate
+        videoEnded = false;
+        intro.style.transition = 'none';
         intro.style.pointerEvents = 'all';
         navbar.classList.remove('revealed');
-        
-        // Restart video
-        const videoEl = intro.querySelector('.intro-bg-video');
-        if (videoEl) {
-          videoEl.style.transition = 'none';
-          videoEl.style.opacity = '1';
-          videoEl.currentTime = 0;
-          videoEl.play().catch(err => console.log("Play interrupted:", err));
+
+        // Restart active video
+        const isMobile = window.innerWidth < 769;
+        if (isMobile) {
+          if (mobileVideo) {
+            mobileVideo.style.display = '';
+            mobileVideo.style.transition = 'none';
+            mobileVideo.style.opacity = '1';
+            mobileVideo.currentTime = 0;
+            mobileVideo.play().catch(err => console.log('Play interrupted:', err));
+          }
+          if (mobileGif) {
+            mobileGif.style.display = 'none';
+          }
+        } else {
+          const desktopVideo = document.querySelector('.video-desktop');
+          if (desktopVideo) {
+            desktopVideo.style.transition = 'none';
+            desktopVideo.style.opacity = '1';
+            desktopVideo.currentTime = 0;
+            desktopVideo.play().catch(err => console.log('Play interrupted:', err));
+          }
         }
       }
-      
+
       if (!introExited) {
-        // Calculate smooth values
         const scale = 1 - progress * 0.35;
         const translateY = -progress * 80;
-        const layerOpacity = 1 - progress * 1.15; // Fades out completely near progress=0.85
+        const layerOpacity = 1 - progress * 1.15;
 
         intro.style.opacity = Math.max(layerOpacity, 0).toString();
         introName.style.transform = `translateY(${translateY}px) scale(${scale})`;
-        introName.style.opacity   = '1'; // Keep name solid, fade the whole layer
+        introName.style.opacity   = '1';
 
-        // If video ended automatically, keep background transparent.
-        // Otherwise, keep background solid gray to cover the site during preloader.
         if (videoEnded) {
           intro.style.background = 'transparent';
         } else {
           intro.style.background = `rgba(255, 255, 255, 1)`;
         }
 
-        // Hide scroll hint as we scroll
         scrollHint.style.opacity = Math.max(1 - progress * 4, 0);
       }
     }
   }
 
-  /* ── AUTO EXIT ON VIDEO END ───────────────────── */
-  const introVideo = document.querySelector('.intro-bg-video');
-  if (introVideo) {
+  /* ── VIDEO: auto-exit on end, mobile loops ────── */
+  const introVideos = document.querySelectorAll('video.intro-bg-video');
+
+  introVideos.forEach(introVideo => {
     introVideo.addEventListener('ended', () => {
       if (!introExited) {
-        videoEnded = true;
-        
-        // Smoothly fade out the video and background color ONLY
-        introVideo.style.transition = 'opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
-        introVideo.style.opacity    = '0';
-        
-        intro.style.transition = 'background-color 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
-        intro.style.backgroundColor = 'transparent';
-        
-        // Set pointer events to none so user can click main content
-        intro.style.pointerEvents = 'none';
-        
-        // Reveal navbar
-        navbar.classList.add('revealed');
-        
-        // Hide scroll hint
-        if (scrollHint) {
-          scrollHint.style.transition = 'opacity 0.8s ease';
-          scrollHint.style.opacity = '0';
+        const isMobile = introVideo.id === 'intro-video-mobile';
+        if (isMobile && mobileGif) {
+          // Swap: hide video, show looping GIF
+          introVideo.style.display = 'none';
+          mobileGif.style.display  = 'block';
+        } else if (!isMobile) {
+          // Desktop: fade out and reveal site
+          videoEnded = true;
+          introVideo.style.transition = 'opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
+          introVideo.style.opacity    = '0';
+          intro.style.transition = 'background-color 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
+          intro.style.backgroundColor = 'transparent';
+          intro.style.pointerEvents = 'none';
+          navbar.classList.add('revealed');
+          if (scrollHint) {
+            scrollHint.style.transition = 'opacity 0.8s ease';
+            scrollHint.style.opacity = '0';
+          }
         }
       }
     });
-  }
+  });
 
   /* ── SCROLL REVEAL (Intersection Observer) ────── */
   const revealObserver = new IntersectionObserver((entries) => {
@@ -148,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateParallax() {
     const scrollY = window.scrollY;
 
-    // Profile image subtle parallax
     if (profileImg) {
       const col = profileImg.closest('.hero-center-col') || profileImg.closest('.hero-image-col');
       if (col) {
@@ -158,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Custom parallax layers
     document.querySelectorAll('[data-parallax]').forEach(el => {
       const speed  = parseFloat(el.dataset.parallax) || 0.2;
       const rect   = el.getBoundingClientRect();
@@ -181,11 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentScrollY = window.scrollY;
     scrollingUp = currentScrollY < lastScrollY;
     lastScrollY = currentScrollY;
-    
-    // Clear transitions during scrolling to prevent lag
+
     intro.style.transition = 'none';
-    const videoEl = intro.querySelector('.intro-bg-video');
-    if (videoEl) videoEl.style.transition = 'none';
 
     if (!ticking) {
       requestAnimationFrame(() => {
@@ -241,7 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── INITIAL CALL ─────────────────────────────── */
   updateParallax();
-  // If user somehow reloads mid-page, handle correctly
   if (window.scrollY > 10) {
     handleIntroScroll();
     navbar.classList.add('revealed');
