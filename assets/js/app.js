@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav        = document.getElementById('nav');
   const profileImg = document.querySelector('.hero-profile-img');
   const mobileVideo = document.getElementById('intro-video-mobile');
-  const mobileGif   = document.getElementById('intro-gif-mobile');
 
   /* ── STATE ────────────────────────────────────── */
   let introActive    = true;  // are we in the fullscreen intro?
@@ -70,9 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             mobileVideo.currentTime = 0;
             mobileVideo.play().catch(err => console.log('Play interrupted:', err));
           }
-          if (mobileGif) {
-            mobileGif.style.display = 'none';
-          }
         } else {
           const desktopVideo = document.querySelector('.video-desktop');
           if (desktopVideo) {
@@ -111,11 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     introVideo.addEventListener('ended', () => {
       if (!introExited) {
         const isMobile = introVideo.id === 'intro-video-mobile';
-        if (isMobile && mobileGif) {
-          // Swap: hide video, show looping GIF
-          introVideo.style.display = 'none';
-          mobileGif.style.display  = 'block';
-        } else if (!isMobile) {
+        if (!isMobile) {
           // Desktop: fade out and reveal site
           videoEnded = true;
           introVideo.style.transition = 'opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
