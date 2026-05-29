@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ── CURSOR MAGNETIC EFFECT on project cards ─── */
-  document.querySelectorAll('.project-card').forEach(card => {
+  document.querySelectorAll('.work-stack-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect   = card.getBoundingClientRect();
       const x      = (e.clientX - rect.left - rect.width  / 2) / rect.width;
