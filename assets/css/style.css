@@ -435,41 +435,22 @@ nav { display:flex; gap:2.5rem; }
   will-change: transform;
   transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease), border-color 0.6s var(--ease), background 0.6s var(--ease);
 }
-
-/* Custom radial glows inside cards to make them feel highly dynamic and alive */
-.work-stack-card.wcard-ila {
-  background: radial-gradient(circle at 10% 20%, rgba(37,99,235,0.06) 0%, #0B0F19 65%);
-}
-.work-stack-card.wcard-nova {
-  background: radial-gradient(circle at 10% 20%, rgba(139,92,246,0.06) 0%, #0B0F19 65%);
-}
-.work-stack-card.wcard-spam {
-  background: radial-gradient(circle at 10% 20%, rgba(245,158,11,0.06) 0%, #0B0F19 65%);
-}
-.work-stack-card.wcard-inbawk {
-  background: radial-gradient(circle at 10% 20%, rgba(16,185,129,0.06) 0%, #0B0F19 65%);
-}
-
 /* Brand Hover Glow Shadows and Border Color Highlights */
 .work-stack-card.wcard-ila:hover {
   box-shadow: 0 30px 60px rgba(37, 99, 235, 0.12), 0 0 0 1px rgba(37, 99, 235, 0.25);
   border-color: rgba(37, 99, 235, 0.35);
-  background: radial-gradient(circle at 10% 20%, rgba(37,99,235,0.1) 0%, #0B0F19 65%);
 }
 .work-stack-card.wcard-nova:hover {
   box-shadow: 0 30px 60px rgba(139, 92, 246, 0.12), 0 0 0 1px rgba(139, 92, 246, 0.25);
   border-color: rgba(139, 92, 246, 0.35);
-  background: radial-gradient(circle at 10% 20%, rgba(139,92,246,0.1) 0%, #0B0F19 65%);
 }
 .work-stack-card.wcard-spam:hover {
   box-shadow: 0 30px 60px rgba(245, 158, 11, 0.12), 0 0 0 1px rgba(245, 158, 11, 0.25);
   border-color: rgba(245, 158, 11, 0.35);
-  background: radial-gradient(circle at 10% 20%, rgba(245,158,11,0.1) 0%, #0B0F19 65%);
 }
 .work-stack-card.wcard-inbawk:hover {
   box-shadow: 0 30px 60px rgba(16, 185, 129, 0.12), 0 0 0 1px rgba(16, 185, 129, 0.25);
   border-color: rgba(16, 185, 129, 0.35);
-  background: radial-gradient(circle at 10% 20%, rgba(16,185,129,0.1) 0%, #0B0F19 65%);
 }
 
 /* Case Study Link */
@@ -613,11 +594,11 @@ nav { display:flex; gap:2.5rem; }
   overflow: hidden;
 }
 
-/* Base backgrounds (sleek dark gradients with dynamic brand color glow on right) */
-.wcard-ila .work-stack-img { background: linear-gradient(135deg, #060913 0%, #1e3a8a 150%); }
-.wcard-nova .work-stack-img { background: linear-gradient(135deg, #060913 0%, #4c1d95 150%); }
-.wcard-spam .work-stack-img { background: linear-gradient(135deg, #0a0803 0%, #78350f 150%); }
-.wcard-inbawk .work-stack-img { background: linear-gradient(135deg, #050505 0%, #064e3b 150%); }
+/* Base backgrounds */
+.wcard-ila .work-stack-img { background: #000; }
+.wcard-nova .work-stack-img { background: #000; }
+.wcard-spam .work-stack-img { background: #FEF3C7; }
+.wcard-inbawk .work-stack-img { background: #1C1917; }
 
 /* Video Specifics (Shared) */
 .wcard-video-container .bg-video {
