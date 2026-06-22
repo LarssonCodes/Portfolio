@@ -118,48 +118,6 @@ const projectsData = {
 
 // ─── UI Utilities ────────────────────────────
 
-// 1. Custom Cursor
-const cursor = document.querySelector('.cursor');
-const cursorTrail = document.querySelector('.cursor-trail');
-let mouseX = 0, mouseY = 0;
-let trailX = 0, trailY = 0;
-
-function initCursor() {
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        if (cursor) {
-            cursor.style.left = mouseX + 'px';
-            cursor.style.top = mouseY + 'px';
-        }
-    });
-
-    function animateTrail() {
-        trailX += (mouseX - trailX) * 0.15;
-        trailY += (mouseY - trailY) * 0.15;
-        if (cursorTrail) {
-            cursorTrail.style.left = trailX + 'px';
-            cursorTrail.style.top = trailY + 'px';
-        }
-        requestAnimationFrame(animateTrail);
-    }
-    animateTrail();
-
-    document.querySelectorAll('a, button, .tech-item, .project-card').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            if (cursor) {
-                cursor.style.width = '22px'; cursor.style.height = '22px';
-                cursor.style.background = 'var(--bg-yellow)';
-            }
-        });
-        el.addEventListener('mouseleave', () => {
-            if (cursor) {
-                cursor.style.width = '14px'; cursor.style.height = '14px';
-                cursor.style.background = 'var(--bg-magenta)';
-            }
-        });
-    });
-}
 
 // 2. Scroll Reveal
 const revealObserver = new IntersectionObserver((entries) => {
@@ -578,7 +536,7 @@ function initAdminAuth() {
 
 console.log('LARSSON.STUDIO: BOOTING...');
 
-initCursor();
+
 initInteractions();
 trackVisit();
 initReveal();
@@ -653,3 +611,139 @@ if (pitchForm) {
         }
     });
 }
+
+// 3. Interactive Background Orbs Canvas
+function initBackgroundOrbs() {
+    const canvas = document.getElementById('orb-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const orbs = [
+        {
+            color: 'rgba(59, 130, 246, 0.14)', // Blue
+            x: width * 0.85,
+            y: height * 0.1,
+            radius: Math.min(width, height) * 0.25,
+            angle: 0,
+            speed: 0.003,
+            range: 50,
+            ease: 0.02
+        },
+        {
+            color: 'rgba(251, 191, 36, 0.09)', // Yellow
+            x: width * 0.15,
+            y: height * 0.75,
+            radius: Math.min(width, height) * 0.32,
+            angle: Math.PI / 3,
+            speed: 0.002,
+            range: 70,
+            ease: 0.02
+        },
+        {
+            color: 'rgba(251, 113, 133, 0.07)', // Rose
+            x: width * 0.65,
+            y: height * 0.5,
+            radius: Math.min(width, height) * 0.2,
+            angle: Math.PI * 2 / 3,
+            speed: 0.004,
+            range: 40,
+            ease: 0.02
+        }
+    ];
+
+    function drawOrbsStatic() {
+        ctx.clearRect(0, 0, width, height);
+        const minDim = Math.min(width, height);
+        orbs[0].radius = minDim * 0.25;
+        orbs[1].radius = minDim * 0.32;
+        orbs[2].radius = minDim * 0.2;
+
+        orbs.forEach((orb) => {
+            ctx.beginPath();
+            ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
+            ctx.fillStyle = orb.color;
+            ctx.fill();
+        });
+    }
+
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        
+        orbs[0].x = width * 0.85; orbs[0].y = height * 0.1;
+        orbs[1].x = width * 0.15; orbs[1].y = height * 0.75;
+        orbs[2].x = width * 0.65; orbs[2].y = height * 0.5;
+
+        if (window.innerWidth < 901) {
+            drawOrbsStatic();
+        }
+    });
+
+    if (window.innerWidth < 901) {
+        drawOrbsStatic();
+        return; // Don't run animation loop on mobile
+    }
+
+    // Set target positions for animation on desktop
+    orbs.forEach(orb => {
+        orb.targetX = orb.x;
+        orb.targetY = orb.y;
+    });
+
+    let mouseX = width / 2;
+    let mouseY = height / 2;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        const minDim = Math.min(width, height);
+        orbs[0].radius = minDim * 0.25;
+        orbs[1].radius = minDim * 0.32;
+        orbs[2].radius = minDim * 0.2;
+
+        orbs.forEach((orb, i) => {
+            orb.angle += orb.speed;
+            const driftX = Math.cos(orb.angle) * orb.range;
+            const driftY = Math.sin(orb.angle) * orb.range;
+
+            let baseX = 0;
+            let baseY = 0;
+            if (i === 0) { baseX = width * 0.85; baseY = height * 0.1; }
+            else if (i === 1) { baseX = width * 0.15; baseY = height * 0.75; }
+            else { baseX = width * 0.65; baseY = height * 0.5; }
+
+            const dx = mouseX - orb.x;
+            const dy = mouseY - orb.y;
+            const dist = Math.hypot(dx, dy);
+
+            const attractStrength = Math.max(0, 1 - dist / 500) * 80;
+            const targetX = baseX + driftX + (dx / (dist || 1)) * attractStrength;
+            const targetY = baseY + driftY + (dy / (dist || 1)) * attractStrength;
+
+            orb.x += (targetX - orb.x) * orb.ease;
+            orb.y += (targetY - orb.y) * orb.ease;
+
+            ctx.beginPath();
+            ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
+            ctx.fillStyle = orb.color;
+            ctx.fill();
+        });
+
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+initBackgroundOrbs();
+
+
+
+

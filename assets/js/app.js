@@ -227,11 +227,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Y coordinate percentage of the swipe line (moves from 100% down to 0% as transition progress goes 0 to 1)
     const Y_pct = (1 - transitionProgress) * 100;
 
+    const isMobile = window.innerWidth < 901;
+
     slides.forEach((slide, idx) => {
       const slideProgress = progress - idx;
+      const video = slide.querySelector('video');
 
       if (idx === currentSlideIdx) {
         slide.classList.add('active');
+        
+        // Play video when slide becomes active
+        if (video && video.paused) {
+          video.play().catch(() => {});
+        }
         
         if (transitionProgress > 0 && currentSlideIdx < slides.length - 1) {
           // Outgoing slide is visible ABOVE the swipe line (from 0% to Y_pct)
@@ -243,12 +251,22 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (idx === currentSlideIdx + 1 && transitionProgress > 0) {
         slide.classList.add('active');
         
+        // Play video when slide is incoming
+        if (video && video.paused) {
+          video.play().catch(() => {});
+        }
+        
         // Incoming slide is visible BELOW the swipe line (from Y_pct to 100%)
         slide.style.clipPath = `inset(${Y_pct}% 0px 0px 0px)`;
       } else {
         // Completely hidden
         slide.classList.remove('active');
         slide.style.clipPath = 'none';
+        
+        // Pause video of inactive slide to conserve mobile GPU resources
+        if (video && !video.paused) {
+          video.pause();
+        }
       }
 
       // Translate columns vertically to simulate natural vertical scrolling
@@ -264,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
         colLeft.style.opacity = titleOpacity.toString();
       }
       if (colRight) {
-        if (window.innerWidth < 901) {
+        if (isMobile) {
           // On mobile, fade out/in statically to prevent vertical overlapping with visual box
           const descOpacity = Math.max(0, 1 - Math.abs(slideProgress) / 0.4);
           colRight.style.transform = 'none';
@@ -286,6 +304,14 @@ document.addEventListener('DOMContentLoaded', () => {
         item.classList.remove('active');
       }
     });
+
+    // On mobile, skip the heavy real-time SVG displacement calculations entirely
+    if (isMobile) {
+      if (swipeLine) {
+        swipeLine.style.opacity = '0';
+      }
+      return;
+    }
 
     // Calculate displacement scale & swipe line opacity
     let scaleVal = 0;

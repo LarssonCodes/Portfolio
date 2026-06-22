@@ -5,10 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project — Larsson</title>
     <meta name="description" content="Project detail page — Larsson's portfolio showcasing data science, mobile app development, and ML projects.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/LarssonCodes/Portfolio">
+    <meta property="og:title" content="Project — Larsson">
+    <meta property="og:description" content="Project detail page — Larsson's portfolio showcasing data science, mobile app development, and ML projects.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/LarssonCodes/Portfolio/main/profile.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Project — Larsson">
+    <meta property="twitter:description" content="Project detail page — Larsson's portfolio showcasing data science, mobile app development, and ML projects.">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/LarssonCodes/Portfolio/main/profile.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=57">
+    <link rel="stylesheet" href="assets/css/style.css?v=60">
     <style>
     /* ── PROJECT DETAIL PAGE ─────────────────────── */
     body { background: var(--bg); }
@@ -433,12 +446,12 @@
 </head>
 <body>
 
+
+
   <!-- GRAIN + ORBS BACKGROUND -->
   <div class="bg-layer">
     <div class="grain"></div>
-    <div class="orb orb-blue"></div>
-    <div class="orb orb-yellow"></div>
-    <div class="orb orb-rose"></div>
+    <canvas id="orb-canvas"></canvas>
   </div>
 
   <!-- NAV -->
@@ -448,11 +461,12 @@
         <a href="index.html"><span class="logo-dot"></span>Larsson.</a>
       </div>
       <div class="nav-links">
-        <a href="index.html">Home</a>
         <a href="index.html#work">Work</a>
+        <a href="index.html#expertise">Expertise</a>
         <a href="index.html#about">About</a>
         <a href="index.html#contact">Contact</a>
       </div>
+
     </div>
   </header>
 
@@ -568,7 +582,7 @@
     </div>
   </div>
 
-  <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/main.js?v=60"></script>
   <script>
     // Video map for projects with video previews
     const videoMap = {
