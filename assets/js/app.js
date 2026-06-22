@@ -305,14 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // On mobile, skip the heavy real-time SVG displacement calculations entirely
-    if (isMobile) {
-      if (swipeLine) {
-        swipeLine.style.opacity = '0';
-      }
-      return;
-    }
-
     // Calculate displacement scale & swipe line opacity
     let scaleVal = 0;
     let lineOpacity = 0;
@@ -322,6 +314,30 @@ document.addEventListener('DOMContentLoaded', () => {
       const wave = Math.sin(transitionProgress * Math.PI);
       scaleVal = 40 * wave; // Peak displacement scale is 40px (clean slices)
       lineOpacity = wave;
+    }
+
+    // Position and show/hide the swipe line (works on both mobile and desktop)
+    if (swipeLine) {
+      swipeLine.style.top = Y_pct + '%';
+      swipeLine.style.opacity = lineOpacity.toString();
+    }
+
+    // Toggle nav dot visibility based on container bounding box
+    const vh = window.innerHeight;
+    if (rect.top <= vh * 0.5 && rect.bottom >= vh * 0.5) {
+      if (slideNav) {
+        slideNav.classList.add('visible');
+        slideNav.classList.add('slide-nav-light');
+      }
+    } else {
+      if (slideNav) {
+        slideNav.classList.remove('visible');
+      }
+    }
+
+    // On mobile, skip the heavy real-time SVG displacement calculations entirely
+    if (isMobile) {
+      return;
     }
 
     // Find the visual box of the active slide to calculate the relative swipe position inside it
@@ -376,25 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
-
-    // Position and show/hide the swipe line
-    if (swipeLine) {
-      swipeLine.style.top = Y_pct + '%';
-      swipeLine.style.opacity = lineOpacity.toString();
-    }
-
-    // Toggle nav dot visibility based on container bounding box
-    const vh = window.innerHeight;
-    if (rect.top <= vh * 0.5 && rect.bottom >= vh * 0.5) {
-      if (slideNav) {
-        slideNav.classList.add('visible');
-        slideNav.classList.add('slide-nav-light');
-      }
-    } else {
-      if (slideNav) {
-        slideNav.classList.remove('visible');
-      }
-    }
   }
 
   /* ── MAIN SCROLL HANDLER ──────────────────────── */
