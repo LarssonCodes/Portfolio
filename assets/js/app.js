@@ -4,6 +4,20 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ── INITIALIZE LENIS SMOOTH SCROLL ──────────────── */
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    smoothTouch: false,
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
   /* ── ELEMENTS ─────────────────────────────────── */
   const intro      = document.getElementById('intro');
   const introName  = document.getElementById('intro-name');
@@ -14,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav        = document.getElementById('nav');
   const profileImg = document.querySelector('.hero-profile-img');
   const mobileVideo = document.getElementById('intro-video-mobile');
+  const slides     = document.querySelectorAll('.project-slide');
+  const slideNav   = document.querySelector('.slide-nav');
+  const slideNavItems = document.querySelectorAll('.slide-nav-item');
 
   /* ── STATE ────────────────────────────────────── */
   let introActive    = true;  // are we in the fullscreen intro?
@@ -171,6 +188,189 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ── PROJECT SCROLL ENGINE (SMOOTH HORIZONTAL WIPE & GLITCH) ── */
+  const workSection = document.getElementById('work');
+  const swipeLine = document.querySelector('.swipe-line');
+  const displacementMaps = [
+    document.getElementById('glitch-displacement-0'),
+    document.getElementById('glitch-displacement-1'),
+    document.getElementById('glitch-displacement-2'),
+    document.getElementById('glitch-displacement-3')
+  ];
+  const glitchImages = [
+    document.getElementById('glitch-image-0'),
+    document.getElementById('glitch-image-1'),
+    document.getElementById('glitch-image-2'),
+    document.getElementById('glitch-image-3')
+  ];
+
+  function updateProjectScrollEffects() {
+    if (!workSection) return;
+
+    const scrollY = window.scrollY;
+    const rect = workSection.getBoundingClientRect();
+    const startY = rect.top + scrollY;
+    const totalScrollHeight = workSection.offsetHeight - window.innerHeight;
+
+    // Calculate relative scroll position within the work container
+    const relScroll = Math.max(0, Math.min(scrollY - startY, totalScrollHeight));
+
+    // Normalized progress across the 5 slides (goes from 0.0 to 4.0)
+    const progress = (relScroll / window.innerHeight);
+
+    // Active slide index (0 to 4)
+    const currentSlideIdx = Math.max(0, Math.min(Math.floor(progress), slides.length - 1));
+
+    // Transition progress between current slide and next slide (from 0 to 1)
+    const transitionProgress = progress - currentSlideIdx;
+
+    // Y coordinate percentage of the swipe line (moves from 100% down to 0% as transition progress goes 0 to 1)
+    const Y_pct = (1 - transitionProgress) * 100;
+
+    slides.forEach((slide, idx) => {
+      const slideProgress = progress - idx;
+
+      if (idx === currentSlideIdx) {
+        slide.classList.add('active');
+        
+        if (transitionProgress > 0 && currentSlideIdx < slides.length - 1) {
+          // Outgoing slide is visible ABOVE the swipe line (from 0% to Y_pct)
+          slide.style.clipPath = `inset(0px 0px ${100 - Y_pct}% 0px)`;
+        } else {
+          // Settled state: fully visible
+          slide.style.clipPath = 'none';
+        }
+      } else if (idx === currentSlideIdx + 1 && transitionProgress > 0) {
+        slide.classList.add('active');
+        
+        // Incoming slide is visible BELOW the swipe line (from Y_pct to 100%)
+        slide.style.clipPath = `inset(${Y_pct}% 0px 0px 0px)`;
+      } else {
+        // Completely hidden
+        slide.classList.remove('active');
+        slide.style.clipPath = 'none';
+      }
+
+      // Translate columns vertically to simulate natural vertical scrolling
+      const colLeft = slide.querySelector('.project-col-left');
+      const colRight = slide.querySelector('.project-col-right');
+      
+      const translateY = slideProgress * -100; // in vh units
+      
+      if (colLeft) {
+        // Project title column fades out/in instead of translating vertically
+        const titleOpacity = Math.max(0, 1 - Math.abs(slideProgress) / 0.4);
+        colLeft.style.transform = 'none';
+        colLeft.style.opacity = titleOpacity.toString();
+      }
+      if (colRight) {
+        if (window.innerWidth < 901) {
+          // On mobile, fade out/in statically to prevent vertical overlapping with visual box
+          const descOpacity = Math.max(0, 1 - Math.abs(slideProgress) / 0.4);
+          colRight.style.transform = 'none';
+          colRight.style.opacity = descOpacity.toString();
+        } else {
+          // On desktop, translate vertically
+          colRight.style.transform = `translateY(${translateY}vh)`;
+          colRight.style.opacity = '1';
+        }
+      }
+    });
+
+    // Update active class on dot nav items
+    slideNavItems.forEach((item, idx) => {
+      const activeIndex = Math.min(Math.round(progress), slides.length - 1);
+      if (idx === activeIndex) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+
+    // Calculate displacement scale & swipe line opacity
+    let scaleVal = 0;
+    let lineOpacity = 0;
+
+    if (transitionProgress > 0 && transitionProgress < 1 && currentSlideIdx < slides.length - 1) {
+      // Smooth sine wave peaking at transitionProgress = 0.5
+      const wave = Math.sin(transitionProgress * Math.PI);
+      scaleVal = 40 * wave; // Peak displacement scale is 40px (clean slices)
+      lineOpacity = wave;
+    }
+
+    // Find the visual box of the active slide to calculate the relative swipe position inside it
+    const activeSlide = slides[currentSlideIdx];
+    const visualBox = activeSlide ? activeSlide.querySelector('.project-visual-box') : null;
+    let relativeY_pct = 50; // default middle
+    if (visualBox) {
+      const boxRect = visualBox.getBoundingClientRect();
+      const swipeY = (Y_pct / 100) * window.innerHeight; // Swipe line Y coordinate in viewport pixels
+      
+      if (boxRect.height > 0) {
+        // Calculate vertical position of swipe line relative to visual box top
+        const relativeY = swipeY - boxRect.top;
+        relativeY_pct = (relativeY / boxRect.height) * 100;
+      }
+    }
+
+    // Set scale on displacement maps and position displacement band at the swipe line
+    displacementMaps.forEach((map, idx) => {
+      if (map) {
+        // Only apply glitch to the incoming slide (revealed slide) to keep transition clean
+        let isIncoming = false;
+        if (scrollingUp) {
+          isIncoming = (idx === currentSlideIdx); // entering Slide A
+        } else {
+          isIncoming = (idx === currentSlideIdx + 1); // entering Slide B
+        }
+
+        if (isIncoming && scaleVal > 0) {
+          map.setAttribute('scale', scaleVal.toString());
+        } else {
+          map.setAttribute('scale', '0');
+        }
+      }
+    });
+
+    glitchImages.forEach((img, idx) => {
+      if (img) {
+        let isIncoming = false;
+        if (scrollingUp) {
+          isIncoming = (idx === currentSlideIdx);
+        } else {
+          isIncoming = (idx === currentSlideIdx + 1);
+        }
+
+        if (isIncoming) {
+          // Center the 20% height glitch band exactly on the relative swipe Y percentage
+          const glitchY = relativeY_pct - 10;
+          img.setAttribute('y', glitchY + '%');
+        } else {
+          img.setAttribute('y', '40%');
+        }
+      }
+    });
+
+    // Position and show/hide the swipe line
+    if (swipeLine) {
+      swipeLine.style.top = Y_pct + '%';
+      swipeLine.style.opacity = lineOpacity.toString();
+    }
+
+    // Toggle nav dot visibility based on container bounding box
+    const vh = window.innerHeight;
+    if (rect.top <= vh * 0.5 && rect.bottom >= vh * 0.5) {
+      if (slideNav) {
+        slideNav.classList.add('visible');
+        slideNav.classList.add('slide-nav-light');
+      }
+    } else {
+      if (slideNav) {
+        slideNav.classList.remove('visible');
+      }
+    }
+  }
+
   /* ── MAIN SCROLL HANDLER ──────────────────────── */
   window.addEventListener('scroll', () => {
     const currentScrollY = window.scrollY;
@@ -184,6 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
         handleIntroScroll();
         updateParallax();
         updateNavbar();
+        updateProjectScrollEffects();
         ticking = false;
       });
       ticking = true;
@@ -205,37 +406,80 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ── SMOOTH SCROLL BYPASS HELPER FOR NAVIGATION ─── */
+  function smoothScrollTo(target) {
+    if (!target) return;
+    lenis.scrollTo(target, {
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+    });
+  }
+
+  function smoothScrollToSlide(idx) {
+    if (!workSection) return;
+    const targetY = (workSection.getBoundingClientRect().top + window.scrollY) + idx * window.innerHeight;
+    lenis.scrollTo(targetY, {
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+    });
+  }
+
   /* ── SMOOTH ANCHOR SCROLL ─────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
-      const target = document.querySelector(anchor.getAttribute('href'));
-      if (target) {
+      const href = anchor.getAttribute('href');
+      if (href === '#work') {
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        smoothScrollToSlide(0);
+      } else {
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          smoothScrollTo(target);
+        }
       }
     });
   });
 
-  /* ── CURSOR MAGNETIC EFFECT on project cards ─── */
-  document.querySelectorAll('.work-stack-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect   = card.getBoundingClientRect();
-      const x      = (e.clientX - rect.left - rect.width  / 2) / rect.width;
-      const y      = (e.clientY - rect.top  - rect.height / 2) / rect.height;
-      card.style.transform = `perspective(800px) rotateY(${x * 4}deg) rotateX(${-y * 3}deg) translateZ(4px)`;
-      card.style.transition = 'transform 0.1s ease';
+  // Click handler for side navigation dots
+  slideNavItems.forEach((item, idx) => {
+    item.addEventListener('click', () => {
+      smoothScrollToSlide(idx);
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-      card.style.transition = 'transform 0.6s cubic-bezier(0.16,1,0.3,1)';
-    });
+  });
+
+  /* ── MOCKUP 3D TILT HOVER EFFECT ─── */
+  slides.forEach((slide) => {
+    const visual = slide.querySelector('.project-visual-box');
+    if (visual) {
+      slide.addEventListener('mousemove', (e) => {
+        // Disable tilt effect on mobile viewports
+        if (window.innerWidth < 901) return;
+        
+        const rect   = slide.getBoundingClientRect();
+        const x      = (e.clientX - rect.left - rect.width  / 2) / rect.width;
+        const y      = (e.clientY - rect.top  - rect.height / 2) / rect.height;
+        visual.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateZ(15px)`;
+        visual.style.transition = 'transform 0.1s ease';
+      });
+      slide.addEventListener('mouseleave', () => {
+        visual.style.transform = '';
+        visual.style.transition = 'transform 0.8s cubic-bezier(0.16,1,0.3,1)';
+      });
+    }
   });
 
   /* ── INITIAL CALL ─────────────────────────────── */
   updateParallax();
+  updateProjectScrollEffects();
   if (window.scrollY > 10) {
     handleIntroScroll();
     navbar.classList.add('revealed');
   }
+
+  window.addEventListener('resize', () => {
+    updateProjectScrollEffects();
+    updateParallax();
+  });
 
 });

@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=57">
     <style>
     /* ── PROJECT DETAIL PAGE ─────────────────────── */
     body { background: var(--bg); }
@@ -572,9 +572,9 @@
   <script>
     // Video map for projects with video previews
     const videoMap = {
-      'ila': 'assets/images/ila.gif',
-      'anatomypro': 'assets/images/nova.gif',
-      'inbawk': 'assets/images/inbawk.gif'
+      'ila': 'assets/images/ila.mp4',
+      'anatomypro': 'assets/images/nova.mp4',
+      'inbawk': 'assets/images/inbawk.mp4'
     };
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -583,7 +583,11 @@
       const container = document.getElementById('hero-media-container');
 
       if (container && videoMap[projectId]) {
-        container.innerHTML = `<img src="${videoMap[projectId]}" class="project-hero-img" alt="Project Preview">`;
+        container.innerHTML = `
+          <video autoplay muted loop playsinline class="project-hero-video">
+            <source src="${videoMap[projectId]}" type="video/mp4">
+          </video>
+        `;
       } else if (container) {
         container.innerHTML = `<img id="project-hero-img" src="" alt="Project Preview" class="project-hero-img">`;
       }
