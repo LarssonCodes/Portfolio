@@ -316,10 +316,14 @@ document.addEventListener('DOMContentLoaded', () => {
       lineOpacity = wave;
     }
 
-    // Position and show/hide the swipe line (works on both mobile and desktop)
+    // Position and show/hide the swipe line (desktop only)
     if (swipeLine) {
-      swipeLine.style.top = Y_pct + '%';
-      swipeLine.style.opacity = lineOpacity.toString();
+      if (isMobile) {
+        swipeLine.style.opacity = '0';
+      } else {
+        swipeLine.style.top = Y_pct + '%';
+        swipeLine.style.opacity = lineOpacity.toString();
+      }
     }
 
     // Toggle nav dot visibility based on container bounding box
