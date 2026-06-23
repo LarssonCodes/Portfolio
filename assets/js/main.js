@@ -595,10 +595,29 @@ if (pitchForm) {
         };
 
         try {
+            // 1. Save to Firebase (optional, keeps your dashboard working)
             await addDoc(collection(db, "proposals"), proposalData);
+
+            // 2. Send email via Web3Forms
+            await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    access_key: "aa77608e-a63c-48f0-9fed-de7c2277de18",
+                    subject: "New App Idea Pitch from Portfolio",
+                    from_name: "Larsson Portfolio",
+                    name: proposalData.clientName,
+                    email: proposalData.clientEmail,
+                    message: proposalData.requirements
+                })
+            });
+
             if (status) {
                 status.style.display = 'block';
-                status.textContent = 'App idea successfully sent! I will review it and get back to you.';
+                status.textContent = 'App idea successfully sent to your email!';
             }
             pitchForm.reset();
         } catch (error) {
