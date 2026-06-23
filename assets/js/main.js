@@ -599,7 +599,7 @@ if (pitchForm) {
             await addDoc(collection(db, "proposals"), proposalData);
 
             // 2. Send email via Web3Forms
-            await fetch('https://api.web3forms.com/submit', {
+            const response = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -614,16 +614,21 @@ if (pitchForm) {
                     message: proposalData.requirements
                 })
             });
-
-            if (status) {
-                status.style.display = 'block';
-                status.textContent = 'App idea successfully sent to your email!';
+            const result = await response.json();
+            
+            if (response.status === 200) {
+                if (status) {
+                    status.style.display = 'block';
+                    status.textContent = 'App idea successfully sent to your email!';
+                }
+                pitchForm.reset();
+            } else {
+                throw new Error(result.message || 'Web3Forms error');
             }
-            pitchForm.reset();
         } catch (error) {
             if (status) {
                 status.style.display = 'block';
-                status.textContent = 'Error sending idea. Please contact me directly via email.';
+                status.textContent = 'Error sending idea: ' + error.message;
             }
         } finally {
             btn.disabled = false;
