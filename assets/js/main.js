@@ -595,10 +595,7 @@ if (pitchForm) {
         };
 
         try {
-            // 1. Save to Firebase (optional, keeps your dashboard working)
-            await addDoc(collection(db, "proposals"), proposalData);
-
-            // 2. Send email via Web3Forms
+            // 1. Send email via Web3Forms
             const response = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: {
@@ -616,15 +613,22 @@ if (pitchForm) {
             });
             const result = await response.json();
             
-            if (response.status === 200) {
-                if (status) {
-                    status.style.display = 'block';
-                    status.textContent = 'App idea successfully sent to your email!';
-                }
-                pitchForm.reset();
-            } else {
+            if (response.status !== 200) {
                 throw new Error(result.message || 'Web3Forms error');
             }
+
+            // 2. Save to Firebase (wrapped in own try/catch so it doesn't block the email if it fails)
+            try {
+                await addDoc(collection(db, "proposals"), proposalData);
+            } catch (fbError) {
+                console.warn("Firebase save failed (usually due to permissions), but email was still sent:", fbError);
+            }
+
+            if (status) {
+                status.style.display = 'block';
+                status.textContent = 'App idea successfully sent to your email!';
+            }
+            pitchForm.reset();
         } catch (error) {
             if (status) {
                 status.style.display = 'block';
