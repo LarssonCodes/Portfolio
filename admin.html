@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css?v=57">
+    <!-- PDF.js Client-Side PDF Parser Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <style>
         /* ── ADMIN OVERRIDES ─────────────────────────── */
         body {
@@ -549,6 +551,16 @@
                       <label style="display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem; color: var(--ink-muted);">Fact Content</label>
                       <textarea id="rag-content" rows="4" placeholder="Type factual information here. Supports standard markdown text. Nimbus will prioritize this information when answering." style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border); background: #fff; font-family: inherit; font-size: 0.85rem; outline: none; box-sizing: border-box; resize: vertical;" required></textarea>
                   </div>
+                  
+                  <!-- File Uploader for Datasets/PDFs -->
+                  <div style="background: rgba(255,255,255,0.5); padding: 1rem; border-radius: 8px; border: 1px dashed var(--border); display: flex; flex-direction: column; gap: 0.5rem;">
+                      <label style="display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--ink-muted);">Or Upload Knowledge File (PDF, CSV, TXT, MD)</label>
+                      <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                          <input type="file" id="rag-file-input" accept=".pdf,.txt,.csv,.md" style="font-family: inherit; font-size: 0.8rem; color: var(--ink-muted);">
+                          <span id="rag-file-status" style="font-size: 0.8rem; font-weight: 600; color: #ff8f00; display: none;"></span>
+                      </div>
+                  </div>
+
                   <button type="submit" class="admin-btn" style="align-self: flex-start; padding: 0.7rem 1.8rem; font-weight: 700;">Add to AI Memory</button>
               </form>
 
@@ -650,8 +662,87 @@
       window.initNimbusRagAdmin = async function() {
           const memoriesList = document.getElementById('rag-memories-list');
           const addForm = document.getElementById('rag-add-form');
+          const fileInput = document.getElementById('rag-file-input');
+          const fileStatus = document.getElementById('rag-file-status');
+          const contentArea = document.getElementById('rag-content');
+          const titleInput = document.getElementById('rag-title');
           
           if (!memoriesList) return;
+
+          // File Uploader Parser Logic
+          fileInput?.addEventListener('change', async (e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+
+              if (fileStatus) {
+                  fileStatus.style.display = 'inline-block';
+                  fileStatus.style.color = '#ff8f00';
+                  fileStatus.textContent = 'Reading file content...';
+              }
+
+              // Auto-fill title from filename
+              if (titleInput && !titleInput.value) {
+                  titleInput.value = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
+              }
+
+              try {
+                  if (file.type === 'application/pdf') {
+                      // Parse PDF using PDF.js entirely in-browser!
+                      const reader = new FileReader();
+                      reader.onload = async function() {
+                          try {
+                              const typedarray = new Uint8Array(this.result);
+                              pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+                              const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                              let fullText = '';
+                              for (let i = 1; i <= pdf.numPages; i++) {
+                                  const page = await pdf.getPage(i);
+                                  const textContent = await page.getTextContent();
+                                  const pageText = textContent.items.map(item => item.str).join(' ');
+                                  fullText += pageText + '\n';
+                              }
+                              
+                              if (contentArea) contentArea.value = fullText.trim();
+                              
+                              if (fileStatus) {
+                                  fileStatus.style.color = '#10B981';
+                                  fileStatus.textContent = `PDF parsed successfully! (${pdf.numPages} pages)`;
+                              }
+                          } catch (pdfErr) {
+                              console.error("PDF.js parsing failed:", pdfErr);
+                              if (fileStatus) {
+                                  fileStatus.style.color = '#EF4444';
+                                  fileStatus.textContent = 'Error parsing PDF. Make sure it contains selectable text.';
+                              }
+                          }
+                      };
+                      reader.readAsArrayBuffer(file);
+                  } else {
+                      // Plain text dataset/CSV/MD parser
+                      const reader = new FileReader();
+                      reader.onload = function(evt) {
+                          if (contentArea) contentArea.value = evt.target.result.trim();
+                          if (fileStatus) {
+                              fileStatus.style.color = '#10B981';
+                              fileStatus.textContent = 'Text file loaded successfully!';
+                          }
+                      };
+                      reader.onerror = function() {
+                          if (fileStatus) {
+                              fileStatus.style.color = '#EF4444';
+                              fileStatus.textContent = 'Failed to read text file.';
+                          }
+                      };
+                      reader.readAsText(file);
+                  }
+              } catch (err) {
+                  console.error("File loading error:", err);
+                  if (fileStatus) {
+                      fileStatus.style.color = '#EF4444';
+                      fileStatus.textContent = 'Error reading file: ' + err.message;
+                  }
+              }
+          });
           
           const refreshKnowledgeList = async () => {
               if (!window.getNimbusKnowledge) return;
@@ -712,6 +803,7 @@
                   try {
                       await window.addNimbusKnowledge(cat, title, content);
                       addForm.reset();
+                      if (fileStatus) fileStatus.style.display = 'none';
                       await refreshKnowledgeList();
                   } catch (err) {
                       alert("Failed to add fact: " + err.message);

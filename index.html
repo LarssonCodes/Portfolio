@@ -411,12 +411,6 @@
             <a href="https://github.com/LarssonCodes" target="_blank" class="contact-link">GitHub</a>
           </div>
 
-          <!-- AI CV Generator Button -->
-          <button id="ai-cv-btn" class="reveal rd4">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M9 12h6M9 16h4M7 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><path d="M9 4h6v4H9V4Z" stroke="currentColor" stroke-width="1.75"/></svg>
-            Generate Tailored CV with AI ↗
-          </button>
-
           <div class="footer-bottom reveal rd4">
             <p>© 2026 Larsson. All rights reserved. • <a href="admin.html" class="footer-admin-link">Admin Console</a></p>
             <div class="social-links">
@@ -459,25 +453,6 @@
       <button id="ai-chat-send" aria-label="Send">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
       </button>
-    </div>
-  </div>
-
-  <!-- AI CV Generator Modal -->
-  <div id="ai-cv-modal" role="dialog" aria-label="AI CV Generator">
-    <div class="ai-cv-modal-box">
-      <div class="ai-cv-modal-header">
-        <h3><span>✦</span> AI Tailored CV Generator</h3>
-        <button id="ai-cv-close" aria-label="Close">✕</button>
-      </div>
-      <div class="ai-cv-modal-body">
-        <p>Paste a job description or role below. Gemini will write a tailored 1-page CV summary for Larsson that matches it perfectly.</p>
-        <form id="ai-cv-form">
-          <textarea id="cv-job-desc" placeholder="e.g. 'Senior React Native Developer with experience in Firebase and real-time apps…'"></textarea>
-          <button type="submit" class="cv-generate-btn">Generate CV ↗</button>
-        </form>
-        <pre id="ai-cv-output"></pre>
-        <button id="ai-cv-copy">Copy to Clipboard</button>
-      </div>
     </div>
   </div>
 

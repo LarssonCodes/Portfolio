@@ -733,112 +733,11 @@ function initTypingBio() {
 
 
 /* ═══════════════════════════════════════════════════
-   FEATURE 5 — AI CV GENERATOR
-   ═══════════════════════════════════════════════════ */
-function initCVGenerator() {
-  const btn   = document.getElementById('ai-cv-btn');
-  const modal = document.getElementById('ai-cv-modal');
-  const closeBtn = document.getElementById('ai-cv-close');
-  const form  = document.getElementById('ai-cv-form');
-  const output = document.getElementById('ai-cv-output');
-  const copyBtn = document.getElementById('ai-cv-copy');
-
-  if (!btn || !modal) return;
-
-  btn.addEventListener('click', () => {
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  });
-
-  function closeModal() {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  closeBtn?.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  copyBtn?.addEventListener('click', () => {
-    navigator.clipboard.writeText(output?.textContent || '');
-    copyBtn.textContent = 'Copied! ✓';
-    setTimeout(() => copyBtn.textContent = 'Copy to Clipboard', 2000);
-  });
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const jobDesc = document.getElementById('cv-job-desc')?.value.trim();
-    if (!jobDesc) return;
-
-    const generateBtn = form.querySelector('.cv-generate-btn');
-    if (generateBtn) {
-      generateBtn.disabled = true;
-      generateBtn.textContent = 'Generating…';
-    }
-
-    if (output) {
-      output.innerHTML = `<div class="cv-loading"><div class="pitch-result-orb"></div><p>Tailoring your CV<span class="dot-anim">...</span></p></div>`;
-      output.classList.add('visible');
-    }
-    if (copyBtn) copyBtn.style.display = 'none';
-
-    const activeCtx = getActiveContext();
-    const prompt = `
-Write a tailored, professional 1-page CV summary for Larsson Lalremtluanga specifically for this job description.
-Highlight only the most relevant skills and projects. Use clean plain text formatting with sections.
-Make it sound like a real, polished CV — not a template.
-
-About Larsson:
-${activeCtx}
-
-Job Description:
-"${jobDesc}"
-
-Output a complete CV text with sections: Summary, Skills, Projects, Education. Plain text only, no markdown symbols.
-    `.trim();
-
-    try {
-      let fullCV = '';
-      if (output) output.textContent = '';
-      if (copyBtn) copyBtn.style.display = 'none';
-
-      await window.GeminiAI.geminiStream(
-        'gemini-flash-lite-latest',
-        [{ role: 'user', parts: [{ text: prompt }] }],
-        '',
-        (chunk) => {
-          fullCV += chunk;
-          if (output) {
-            output.textContent = fullCV;
-            output.scrollTop = output.scrollHeight;
-          }
-        }
-      );
-
-      if (copyBtn) {
-        copyBtn.style.display = 'block';
-        copyBtn.textContent = 'Copy to Clipboard';
-      }
-    } catch {
-      if (output) output.textContent = 'Generation failed. Please try again.';
-    }
-
-    if (generateBtn) {
-      generateBtn.disabled = false;
-      generateBtn.textContent = 'Generate CV ↗';
-    }
-  });
-}
-
-
-/* ═══════════════════════════════════════════════════
    INIT ALL FEATURES
    ═══════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', async () => {
   initTypingBio();
   initPitchAnalyzer();
-  initCVGenerator();
 
   // Initial fetch of Nimbus knowledge base
   await loadNimbusKnowledge();
