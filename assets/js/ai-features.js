@@ -371,9 +371,10 @@ function initAIChat() {
         addActionChip(name, args);
 
         // Build the follow-up conversation including the function result
+        // We MUST pass the original model parts array to preserve the thoughtSignature
         const followUpHistory = [
           ...chatHistory,
-          { role: 'model',  parts: [{ functionCall: fnCallPart.functionCall }] },
+          { role: 'model',  parts: parts },
           { role: 'user',   parts: [{ functionResponse: { name, response: { result: actionResult } } }] },
         ];
 
@@ -391,6 +392,10 @@ function initAIChat() {
           }
         );
         responseEl.closest('.ai-msg-bubble').classList.remove('streaming');
+        
+        // Push the full tool call sequence to main chat history to maintain context
+        chatHistory.push({ role: 'model', parts: parts });
+        chatHistory.push({ role: 'user', parts: [{ functionResponse: { name, response: { result: actionResult } } }] });
         chatHistory.push({ role: 'model', parts: [{ text: fullText }] });
 
       } else if (textPart) {
