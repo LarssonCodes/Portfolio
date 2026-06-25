@@ -376,6 +376,32 @@ function initAIChat() {
     if (!isOpen) bubble.classList.add('pulse');
     setTimeout(() => bubble.classList.remove('pulse'), 4000);
   }, 3000);
+
+  // Show saying bubble hint automatically after 3.5s
+  let hintTimeout = setTimeout(() => {
+    if (!isOpen && toggleLabel) {
+      toggleLabel.classList.add('show-hint');
+    }
+  }, 3500);
+
+  // Auto-hide saying bubble hint after 8 seconds of showing (11.5s total)
+  let hideHintTimeout = setTimeout(() => {
+    if (toggleLabel) {
+      toggleLabel.classList.remove('show-hint');
+    }
+  }, 11500);
+
+  function dismissHint() {
+    clearTimeout(hintTimeout);
+    clearTimeout(hideHintTimeout);
+    if (toggleLabel) {
+      toggleLabel.classList.remove('show-hint');
+    }
+  }
+
+  // Dismiss hint bubble on user interaction
+  bubble.addEventListener('mouseenter', dismissHint);
+  bubble.addEventListener('click', dismissHint);
 }
 
 

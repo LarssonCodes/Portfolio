@@ -114,9 +114,23 @@
   visibility: visible;
 }
 
-#ai-chat-bubble.ready:hover + #ai-chat-toggle-label.ready {
+#ai-chat-bubble.ready:hover + #ai-chat-toggle-label.ready,
+#ai-chat-toggle-label.ready.show-hint {
   opacity: 1;
   transform: translateX(0);
+}
+
+/* Speech bubble arrow pointing right towards the AI chat button */
+#ai-chat-toggle-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border-width: 6px 0 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(15, 15, 20, 0.92);
+  pointer-events: none;
 }
 
 /* Chat Panel */
