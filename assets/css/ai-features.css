@@ -77,12 +77,12 @@
   transform: scale(0.92) rotate(10deg);
 }
 
-#ai-chat-bubble svg {
-  width: 30px;
-  height: 30px;
-  color: #fff;
-  position: relative;
-  z-index: 1;
+.ai-chat-bubble-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
 }
 
 /* Toggle label tooltip */
@@ -186,11 +186,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
 }
-.ai-chat-avatar-ring svg {
-  width: 28px;
-  height: 28px;
-  color: #10a37f;
+.ai-chat-avatar-ring img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .ai-chat-header-info-block {
