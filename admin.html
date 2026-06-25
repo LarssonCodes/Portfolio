@@ -13,8 +13,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Outfit:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
-    <!-- PDF.js Client-Side PDF Parser Library -->
+    <!-- PDF.js Client-Side PDF Parser Library & SheetJS Excel/CSV Parser -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <!-- Tailwind Custom Config -->
     <script id="tailwind-config">
@@ -364,6 +365,10 @@
           <span class="material-symbols-outlined text-[20px]">psychology</span>
           Nimbus AI Brain
         </a>
+        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-black/5 active:scale-[0.98] font-body-md text-sm" href="#section-language">
+          <span class="material-symbols-outlined text-[20px]">translate</span>
+          Language Trainer
+        </a>
         <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-black/5 active:scale-[0.98] font-body-md text-sm" href="#section-downloads">
           <span class="material-symbols-outlined text-[20px]">download</span>
           Downloads
@@ -597,6 +602,71 @@
           </div>
         </section>
 
+        <!-- Mizo Language Trainer Panel (Language Section) -->
+        <section id="section-language" class="scroll-mt-20">
+          <div class="bg-white rounded-xl border border-[#E5E7EB] shadow-sm overflow-hidden mb-6">
+            <div class="px-6 py-4 bg-[#F8F9FA] border-b border-[#E5E7EB] flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-[20px]">translate</span>
+              <span class="font-body-sm text-xs text-[#111111] font-bold uppercase tracking-wider">Mizo Language Trainer</span>
+            </div>
+            <div class="p-6">
+              <p class="font-body-sm text-sm text-on-surface-variant mb-6">
+                Teach Nimbus Mizo vocabulary, phrase mappings, and conversational rules. Upload dictionaries in Excel (xlsx), CSV, PDF, or text formats to automatically chunk and embed them into the Vector Database.
+              </p>
+              
+              <!-- Form to Add Custom Translation Rule -->
+              <form id="lang-add-form" class="space-y-5 bg-[#F8F9FA] p-5 rounded-lg border border-[#E5E7EB] mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block font-body-sm text-xs uppercase font-bold tracking-wider text-on-surface-variant mb-2">English Word / Phrase</label>
+                    <input type="text" id="lang-title" placeholder="e.g., How are you? or React Developer" class="w-full bg-white border border-[#E5E7EB] rounded-lg py-2.5 px-4 font-body-sm text-sm text-[#111111] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-on-surface-variant/40" required>
+                  </div>
+                  <div>
+                    <label class="block font-body-sm text-xs uppercase font-bold tracking-wider text-on-surface-variant mb-2">Mizo Translation</label>
+                    <input type="text" id="lang-mizo-trans" placeholder="e.g., I dam em? or React Riral/Siamtu" class="w-full bg-white border border-[#E5E7EB] rounded-lg py-2.5 px-4 font-body-sm text-sm text-[#111111] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-on-surface-variant/40" required>
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block font-body-sm text-xs uppercase font-bold tracking-wider text-on-surface-variant mb-2">Context / Usage Notes (Optional)</label>
+                  <textarea id="lang-content" rows="3" placeholder="Explain when to use this translation or provide details about the tone (friendly, formal, etc.)." class="w-full bg-white border border-[#E5E7EB] rounded-lg py-2.5 px-4 font-body-sm text-sm text-[#111111] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-on-surface-variant/40 resize-vertical"></textarea>
+                </div>
+                
+                <!-- File Ingestion Section -->
+                <div class="bg-white p-5 rounded-lg border border-dashed border-[#E5E7EB] hover:border-primary/40 transition-colors flex flex-col gap-3">
+                  <span class="font-body-sm text-xs uppercase font-bold tracking-wider text-on-surface-variant">Or Upload Dictionary Sheet (Excel, CSV, PDF, TXT)</span>
+                  <div class="flex items-center gap-4 flex-wrap">
+                    <label class="bg-[#F8F9FA] hover:bg-[#E5E7EB] text-[#111111] border border-[#E5E7EB] transition-colors py-2 px-4 rounded-lg cursor-pointer font-body-sm text-xs flex items-center gap-2 active:scale-[0.98] select-none">
+                      <span class="material-symbols-outlined text-[16px] text-primary">upload_file</span>
+                      Select Sheet / File
+                      <input type="file" id="lang-file-input" accept=".xlsx,.xls,.csv,.pdf,.txt,.md" class="sr-only">
+                    </label>
+                    <span id="lang-file-status" class="font-code-md text-[10px] font-bold text-primary py-1 px-3 bg-primary/5 border border-primary/15 rounded-full hidden"></span>
+                  </div>
+                </div>
+                
+                <button type="submit" class="admin-btn py-2.5 px-6 rounded-lg text-xs font-bold border border-[#111111] hover:bg-[#111111] hover:text-white flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[16px]">save</span>
+                  SAVE LANGUAGE RULE
+                </button>
+              </form>
+              
+              <!-- Stored Language Rules Feed -->
+              <h3 class="font-serif text-lg font-bold text-[#111111] mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[18px]">g_translate</span>
+                Mizo Vocabulary & Translation Rules
+              </h3>
+              
+              <div id="lang-rules-list" class="space-y-4 max-h-[400px] overflow-y-auto pr-2 terminal-scroll">
+                <div class="text-center text-on-surface-variant/50 py-8">
+                  <span class="material-symbols-outlined text-[32px] animate-spin">sync</span>
+                  <p class="font-code-md text-xs mt-2">Accessing vocabulary catalog...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- Download Tracker Window (Downloads Section) -->
         <section id="section-downloads" class="scroll-mt-20">
           <div class="bg-white rounded-xl border border-[#E5E7EB] shadow-sm overflow-hidden mb-6">
@@ -673,6 +743,9 @@
     </main>
   </div>
 
+  <!-- AI Configuration -->
+  <script src="assets/js/ai-config.js"></script>
+  
   <!-- Firebase Scripts modules -->
   <script type="module" src="assets/js/main.js"></script>
   
@@ -751,16 +824,77 @@
           }
       });
 
-      // ─── 3. File Ingestion Parser (Runs immediately on DOM ready) ───
+      // ─── 3. Vector RAG Math & Text Chunking Utilities ───
+      
+      /**
+       * Calculates the cosine similarity of two vectors.
+       * @param {Array<number>} vecA - 768-dimensional float array
+       * @param {Array<number>} vecB - 768-dimensional float array
+       */
+      function cosineSimilarity(vecA, vecB) {
+          if (!vecA || !vecB || vecA.length !== vecB.length) return 0;
+          let dotProduct = 0;
+          let normA = 0;
+          let normB = 0;
+          for (let i = 0; i < vecA.length; i++) {
+              dotProduct += vecA[i] * vecB[i];
+              normA += vecA[i] * vecA[i];
+              normB += vecB[i] * vecB[i];
+          }
+          if (normA === 0 || normB === 0) return 0;
+          return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+      }
+
+      /**
+       * Semantic text chunker. Splits text by paragraphs/sentences to stay under maxLength.
+       * @param {string} text - full document text
+       * @param {number} maxLength - max character length per chunk
+       */
+      function chunkText(text, maxLength = 600) {
+          const paragraphs = text.split(/\n\s*\n/);
+          const chunks = [];
+          let currentChunk = '';
+          
+          paragraphs.forEach(p => {
+              p = p.trim();
+              if (!p) return;
+              
+              if (p.length > maxLength) {
+                  const sentences = p.split(/(?<=[.!?])\s+/);
+                  sentences.forEach(s => {
+                      if ((currentChunk + ' ' + s).length > maxLength) {
+                          if (currentChunk) chunks.push(currentChunk.trim());
+                          currentChunk = s;
+                      } else {
+                          currentChunk = currentChunk ? currentChunk + ' ' + s : s;
+                      }
+                  });
+              } else {
+                  if ((currentChunk + '\n\n' + p).length > maxLength) {
+                      if (currentChunk) chunks.push(currentChunk.trim());
+                      currentChunk = p;
+                  } else {
+                      currentChunk = currentChunk ? currentChunk + '\n\n' + p : p;
+                  }
+              }
+          });
+          if (currentChunk) chunks.push(currentChunk.trim());
+          return chunks;
+      }
+
+      // ─── 4. General RAG File & Ingestion Parser ───
       function initFileUploader() {
           const fileInput = document.getElementById('rag-file-input');
           const fileStatus = document.getElementById('rag-file-status');
           const contentArea = document.getElementById('rag-content');
           const titleInput = document.getElementById('rag-title');
+          const addForm = document.getElementById('rag-add-form');
+          
+          let parsedChunks = []; // Cache parsed chunks for batch vector generation
           
           if (!fileInput) return;
 
-          // File Ingestion Parser
+          // File selection and parsing
           fileInput.addEventListener('change', async (e) => {
               const file = e.target.files[0];
               if (!file) return;
@@ -768,7 +902,7 @@
               if (fileStatus) {
                   fileStatus.classList.remove('hidden');
                   fileStatus.style.color = '#2563EB';
-                  fileStatus.textContent = 'Reading document content...';
+                  fileStatus.textContent = 'Parsing document text...';
               }
 
               // Auto-fill title from filename
@@ -777,69 +911,364 @@
               }
 
               try {
-                  if (file.type === 'application/pdf') {
-                      const reader = new FileReader();
-                      reader.onload = async function() {
-                          try {
-                              const typedarray = new Uint8Array(this.result);
-                              pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-                              const pdf = await pdfjsLib.getDocument(typedarray).promise;
-                              let fullText = '';
-                              for (let i = 1; i <= pdf.numPages; i++) {
-                                  const page = await pdf.getPage(i);
-                                  const textContent = await page.getTextContent();
-                                  const pageText = textContent.items.map(item => item.str).join(' ');
-                                  fullText += pageText + '\n';
-                              }
-                              
-                              if (contentArea) contentArea.value = fullText.trim();
-                              
+                  const extractText = () => {
+                      return new Promise((resolve, reject) => {
+                          if (file.type === 'application/pdf') {
+                              const reader = new FileReader();
+                              reader.onload = async function() {
+                                  try {
+                                      const typedarray = new Uint8Array(this.result);
+                                      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+                                      const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                                      let fullText = '';
+                                      for (let i = 1; i <= pdf.numPages; i++) {
+                                          const page = await pdf.getPage(i);
+                                          const textContent = await page.getTextContent();
+                                          const pageText = textContent.items.map(item => item.str).join(' ');
+                                          fullText += pageText + '\n';
+                                      }
+                                      resolve(fullText.trim());
+                                  } catch (err) { reject(err); }
+                              };
+                              reader.readAsArrayBuffer(file);
+                          } else {
+                              const reader = new FileReader();
+                              reader.onload = (evt) => resolve(evt.target.result.trim());
+                              reader.onerror = () => reject(new Error("Failed to read text file"));
+                              reader.readAsText(file);
+                          }
+                      });
+                  };
+
+                  const fullText = await extractText();
+                  
+                  // Split into semantic chunks
+                  const chunks = chunkText(fullText, 600);
+                  parsedChunks = chunks.map((chunk, idx) => ({
+                      title: `${titleInput.value} [Chunk ${idx + 1}/${chunks.length}]`,
+                      text: chunk
+                  }));
+
+                  if (contentArea) {
+                      contentArea.value = parsedChunks.map(c => `[${c.title}]\n${c.text}`).join('\n\n');
+                  }
+
+                  if (fileStatus) {
+                      fileStatus.style.color = '#2563EB';
+                      fileStatus.textContent = `Parsed: ${chunks.length} chunks extracted. Click "Add to AI Memory" to calculate embeddings.`;
+                  }
+              } catch (err) {
+                  console.error("Ingestion failed:", err);
+                  if (fileStatus) {
+                      fileStatus.style.color = '#ef4444';
+                      fileStatus.textContent = 'Error parsing file: ' + err.message;
+                  }
+              }
+          });
+
+          // Ingest Form Submit
+          if (addForm) {
+              addForm.onsubmit = async (e) => {
+                  e.preventDefault();
+                  const cat = document.getElementById('rag-category').value;
+                  const titleVal = document.getElementById('rag-title').value.trim();
+                  const contentVal = document.getElementById('rag-content').value.trim();
+                  const submitBtn = addForm.querySelector('button[type="submit"]');
+                  
+                  if (!titleVal || !contentVal) return;
+                  if (!window.addNimbusKnowledge) {
+                      alert("Database connection is still initializing. Please wait a moment and try again.");
+                      return;
+                  }
+                  if (!window.GeminiAI || !window.GeminiAI.geminiEmbed) {
+                      alert("AI configuration could not be loaded. Please check that assets/js/ai-config.js is loaded correctly.");
+                      return;
+                  }
+                  
+                  submitBtn.disabled = true;
+
+                  try {
+                      if (parsedChunks.length > 0) {
+                          // Batch Ingestion with Embeddings
+                          submitBtn.innerHTML = `<span class="material-symbols-outlined text-[16px] animate-spin">sync</span> GENERATING VECTORS...`;
+                          
+                          for (let i = 0; i < parsedChunks.length; i++) {
+                              const chunk = parsedChunks[i];
                               if (fileStatus) {
-                                  fileStatus.style.color = '#2563EB';
-                                  fileStatus.textContent = `PDF ingested: ${pdf.numPages} pages`;
+                                  fileStatus.style.color = '#ff8f00';
+                                  fileStatus.textContent = `Generating vector ${i + 1} of ${parsedChunks.length}...`;
                               }
-                          } catch (pdfErr) {
-                              console.error("PDF parsing failed:", pdfErr);
+                              
+                              const embedding = await window.GeminiAI.geminiEmbed(chunk.text);
+                              await window.addNimbusKnowledge(cat, chunk.title, chunk.text, embedding);
+                          }
+                          
+                          if (fileStatus) {
+                              fileStatus.style.color = '#059669';
+                              fileStatus.textContent = `Successfully saved ${parsedChunks.length} vector chunks!`;
+                          }
+                      } else {
+                          // Single Manual Ingestion with Embedding
+                          submitBtn.innerHTML = `<span class="material-symbols-outlined text-[16px] animate-spin">sync</span> EMBEDDING...`;
+                          if (fileStatus) {
+                              fileStatus.classList.remove('hidden');
+                              fileStatus.style.color = '#ff8f00';
+                              fileStatus.textContent = 'Generating 768-dimension vector...';
+                          }
+
+                          const embedding = await window.GeminiAI.geminiEmbed(contentVal);
+                          await window.addNimbusKnowledge(cat, titleVal, contentVal, embedding);
+
+                          if (fileStatus) {
+                              fileStatus.style.color = '#059669';
+                              fileStatus.textContent = 'Fact successfully saved with vector embedding!';
+                          }
+                      }
+                      
+                      addForm.reset();
+                      parsedChunks = [];
+                      if (fileInput) fileInput.value = '';
+                      
+                      // Refresh dynamic views
+                      if (window.initNimbusRagAdmin) await window.initNimbusRagAdmin();
+                  } catch (err) {
+                      alert("Vector ingestion failed: " + err.message);
+                  } finally {
+                      submitBtn.disabled = false;
+                      submitBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">save</span> ADD TO AI MEMORY';
+                  }
+              };
+          }
+      }
+
+      // ─── 5. Mizo Language Ingestion Parser (SheetJS + text) ───
+      function initLanguageTrainer() {
+          const fileInput = document.getElementById('lang-file-input');
+          const fileStatus = document.getElementById('lang-file-status');
+          const contentArea = document.getElementById('lang-content');
+          const titleInput = document.getElementById('lang-title');
+          const mizoInput = document.getElementById('lang-mizo-trans');
+          const addForm = document.getElementById('lang-add-form');
+          
+          let parsedChunks = []; // Cache parsed rows/chunks for batch uploader
+          
+          if (!fileInput) return;
+
+          fileInput.addEventListener('change', async (e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+
+              if (fileStatus) {
+                  fileStatus.classList.remove('hidden');
+                  fileStatus.style.color = '#2563EB';
+                  fileStatus.textContent = 'Reading vocabulary document...';
+              }
+
+              try {
+                  const extension = file.name.split('.').pop().toLowerCase();
+                  
+                  if (extension === 'xlsx' || extension === 'xls' || extension === 'csv') {
+                      // Excel/CSV parsing using SheetJS
+                      const reader = new FileReader();
+                      reader.onload = function(evt) {
+                          try {
+                              const data = new Uint8Array(evt.target.result);
+                              const workbook = XLSX.read(data, {type: 'array'});
+                              const firstSheetName = workbook.SheetNames[0];
+                              const worksheet = workbook.Sheets[firstSheetName];
+                              const json = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+                              
+                              parsedChunks = [];
+                              let count = 0;
+                              
+                              json.forEach((row, idx) => {
+                                  // Skip header rows
+                                  if (idx === 0 && (
+                                      row[0]?.toString().toLowerCase().includes('english') || 
+                                      row[0]?.toString().toLowerCase().includes('word') ||
+                                      row[0]?.toString().toLowerCase().includes('phrase')
+                                  )) {
+                                      return;
+                                  }
+                                  const english = row[0]?.toString().trim();
+                                  const mizo = row[1]?.toString().trim();
+                                  const context = row[2]?.toString().trim() || '';
+                                  
+                                  if (english && mizo) {
+                                      parsedChunks.push({
+                                          title: `English: "${english}"`,
+                                          text: `Mizo: "${mizo}"${context ? `\nContext: ${context}` : ''}`
+                                      });
+                                      count++;
+                                  }
+                              });
+                              
+                              if (count > 0) {
+                                  if (titleInput) titleInput.value = `Imported Vocabulary: ${file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ")}`;
+                                  if (mizoInput) mizoInput.value = `Batch Ingested (${count} terms)`;
+                                  if (contentArea) {
+                                      contentArea.value = parsedChunks.map(c => `${c.title}\n${c.text}`).join('\n\n');
+                                  }
+                                  if (fileStatus) {
+                                      fileStatus.style.color = '#2563EB';
+                                      fileStatus.textContent = `Parsed sheet: ${count} vocabulary rows extracted. Click "Save Language Rule" to generate embeddings.`;
+                                  }
+                              } else {
+                                  if (fileStatus) {
+                                      fileStatus.style.color = '#ef4444';
+                                      fileStatus.textContent = 'No data found. Expect Col A: English, Col B: Mizo.';
+                                  }
+                              }
+                          } catch (parseErr) {
+                              console.error("SheetJS parse failed:", parseErr);
                               if (fileStatus) {
                                   fileStatus.style.color = '#ef4444';
-                                  fileStatus.textContent = 'Error parsing PDF layout.';
+                                  fileStatus.textContent = 'Failed to parse spreadsheet columns.';
                               }
                           }
                       };
                       reader.readAsArrayBuffer(file);
                   } else {
-                      // Text parser (TXT, CSV, MD)
-                      const reader = new FileReader();
-                      reader.onload = function(evt) {
-                          if (contentArea) contentArea.value = evt.target.result.trim();
-                          if (fileStatus) {
-                              fileStatus.style.color = '#2563EB';
-                              fileStatus.textContent = 'Text document loaded!';
-                          }
+                      // Text/PDF parsing fallback (sentence-level chunking)
+                      const extractText = () => {
+                          return new Promise((resolve, reject) => {
+                              if (file.type === 'application/pdf') {
+                                  const reader = new FileReader();
+                                  reader.onload = async function() {
+                                      try {
+                                          const typedarray = new Uint8Array(this.result);
+                                          pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+                                          const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                                          let fullText = '';
+                                          for (let i = 1; i <= pdf.numPages; i++) {
+                                              const page = await pdf.getPage(i);
+                                              const textContent = await page.getTextContent();
+                                              const pageText = textContent.items.map(item => item.str).join(' ');
+                                              fullText += pageText + '\n';
+                                          }
+                                          resolve(fullText.trim());
+                                      } catch (err) { reject(err); }
+                                  };
+                                  reader.readAsArrayBuffer(file);
+                              } else {
+                                  const reader = new FileReader();
+                                  reader.onload = (evt) => resolve(evt.target.result.trim());
+                                  reader.onerror = () => reject(new Error("Failed to read text"));
+                                  reader.readAsText(file);
+                              }
+                          });
                       };
-                      reader.onerror = function() {
-                          if (fileStatus) {
-                              fileStatus.style.color = '#ef4444';
-                              fileStatus.textContent = 'Failed to load text file.';
-                          }
-                      };
-                      reader.readAsText(file);
+
+                      const fullText = await extractText();
+                      const chunks = chunkText(fullText, 400); // Smaller chunks for vocabulary rules
+                      
+                      parsedChunks = chunks.map((chunk, idx) => ({
+                          title: `Mizo Vocabulary Ingestion [Chunk ${idx + 1}/${chunks.length}]`,
+                          text: chunk
+                      }));
+
+                      if (titleInput) titleInput.value = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
+                      if (mizoInput) mizoInput.value = 'Ingested text dataset';
+                      if (contentArea) {
+                          contentArea.value = parsedChunks.map(c => `[${c.title}]\n${c.text}`).join('\n\n');
+                      }
+                      if (fileStatus) {
+                          fileStatus.style.color = '#2563EB';
+                          fileStatus.textContent = `Parsed: ${chunks.length} chunks extracted. Click "Save Language Rule" to generate embeddings.`;
+                      }
                   }
               } catch (err) {
-                  console.error("File ingestion error:", err);
+                  console.error("Language ingestion error:", err);
                   if (fileStatus) {
                       fileStatus.style.color = '#ef4444';
-                      fileStatus.textContent = 'Ingestion error: ' + err.message;
+                      fileStatus.textContent = 'Error: ' + err.message;
                   }
               }
           });
+
+          // Form Submit for Language Rules
+          if (addForm) {
+              addForm.onsubmit = async (e) => {
+                  e.preventDefault();
+                  const engVal = document.getElementById('lang-title').value.trim();
+                  const mizoVal = document.getElementById('lang-mizo-trans').value.trim();
+                  const contextVal = document.getElementById('lang-content').value.trim();
+                  const submitBtn = addForm.querySelector('button[type="submit"]');
+                  
+                  if (!engVal || !mizoVal) return;
+                  if (!window.addNimbusKnowledge) {
+                      alert("Database connection is still initializing. Please wait a moment and try again.");
+                      return;
+                  }
+                  if (!window.GeminiAI || !window.GeminiAI.geminiEmbed) {
+                      alert("AI configuration could not be loaded. Please check that assets/js/ai-config.js is loaded correctly.");
+                      return;
+                  }
+                  
+                  submitBtn.disabled = true;
+
+                  try {
+                      if (parsedChunks.length > 0) {
+                          // Batch Ingestion with Embeddings
+                          submitBtn.innerHTML = `<span class="material-symbols-outlined text-[16px] animate-spin">sync</span> GENERATING VECTORS...`;
+                          
+                          for (let i = 0; i < parsedChunks.length; i++) {
+                              const chunk = parsedChunks[i];
+                              if (fileStatus) {
+                                  fileStatus.style.color = '#ff8f00';
+                                  fileStatus.textContent = `Generating vector ${i + 1} of ${parsedChunks.length}...`;
+                              }
+                              
+                              const embedding = await window.GeminiAI.geminiEmbed(chunk.text);
+                              await window.addNimbusKnowledge('language', chunk.title, chunk.text, embedding);
+                          }
+                          
+                          if (fileStatus) {
+                              fileStatus.style.color = '#059669';
+                              fileStatus.textContent = `Ingested ${parsedChunks.length} vector vocabulary rules successfully!`;
+                          }
+                      } else {
+                          // Single Manual Ingestion with Embedding
+                          submitBtn.innerHTML = `<span class="material-symbols-outlined text-[16px] animate-spin">sync</span> EMBEDDING...`;
+                          if (fileStatus) {
+                              fileStatus.classList.remove('hidden');
+                              fileStatus.style.color = '#ff8f00';
+                              fileStatus.textContent = 'Generating 768-dimension vector...';
+                          }
+
+                          // Format manual rule
+                          const title = `English: "${engVal}"`;
+                          const content = `Mizo: "${mizoVal}"${contextVal ? `\nContext: ${contextVal}` : ''}`;
+
+                          const embedding = await window.GeminiAI.geminiEmbed(content);
+                          await window.addNimbusKnowledge('language', title, content, embedding);
+
+                          if (fileStatus) {
+                              fileStatus.style.color = '#059669';
+                              fileStatus.textContent = 'Translation rule successfully saved with vector embedding!';
+                          }
+                      }
+                      
+                      addForm.reset();
+                      parsedChunks = [];
+                      if (fileInput) fileInput.value = '';
+                      
+                      // Refresh lists
+                      if (window.initNimbusRagAdmin) await window.initNimbusRagAdmin();
+                  } catch (err) {
+                      alert("Failed to save language rule: " + err.message);
+                  } finally {
+                      submitBtn.disabled = false;
+                      submitBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">save</span> SAVE LANGUAGE RULE';
+                  }
+              };
+          }
       }
 
-      // ─── 4. Nimbus RAG Database Setup ───
+      // ─── 6. Nimbus RAG Database Setup ───
       window.initNimbusRagAdmin = async function() {
           const memoriesList = document.getElementById('rag-memories-list');
-          const addForm = document.getElementById('rag-add-form');
-          const fileStatus = document.getElementById('rag-file-status');
+          const langRulesList = document.getElementById('lang-rules-list');
           
           if (!memoriesList) return;
           
@@ -851,89 +1280,110 @@
                       <p class="font-code-md text-xs mt-2">Refreshing knowledge base...</p>
                   </div>
               `;
+              if (langRulesList) {
+                  langRulesList.innerHTML = `
+                      <div class="text-center text-on-surface-variant/50 py-8">
+                          <span class="material-symbols-outlined text-[32px] animate-spin">sync</span>
+                          <p class="font-code-md text-xs mt-2">Refreshing vocabulary base...</p>
+                      </div>
+                  `;
+              }
               
               try {
                   const docs = await window.getNimbusKnowledge();
-                  if (docs.length === 0) {
+                  
+                  // Filter out language category from general memories list
+                  const generalDocs = docs.filter(d => d.category !== 'language');
+                  const languageDocs = docs.filter(d => d.category === 'language');
+
+                  // Render General Memories List
+                  if (generalDocs.length === 0) {
                       memoriesList.innerHTML = `
                           <div class="text-center text-on-surface-variant/40 py-12 border border-dashed border-[#E5E7EB] rounded-lg">
                               <span class="material-symbols-outlined text-[36px] mb-2 text-on-surface-variant/30">database_off</span>
                               <p class="font-code-md text-xs">Nimbus is relying on default memory. Add knowledge items to train.</p>
                           </div>
                       `;
-                      return;
-                  }
-                  
-                  memoriesList.innerHTML = docs.map(d => {
-                      const badgeStyles = {
-                          biography: 'background: rgba(37, 99, 235, 0.08); color: #2563eb; border: 1px solid rgba(37, 99, 235, 0.15);',
-                          projects: 'background: rgba(217, 119, 6, 0.08); color: #d97706; border: 1px solid rgba(217, 119, 6, 0.15);',
-                          skills: 'background: rgba(147, 51, 234, 0.08); color: #9333ea; border: 1px solid rgba(147, 51, 234, 0.15);',
-                          qa: 'background: rgba(5, 150, 105, 0.08); color: #059669; border: 1px solid rgba(5, 150, 105, 0.15);',
-                          other: 'background: rgba(75, 85, 99, 0.08); color: #4b5563; border: 1px solid rgba(75, 85, 99, 0.15);'
-                      };
-                      const categoryLabels = {
-                          biography: 'Bio',
-                          projects: 'Project',
-                          skills: 'Skills',
-                          qa: 'Q&A',
-                          other: 'Other'
-                      };
-                      const style = badgeStyles[d.category] || badgeStyles['other'];
-                      const label = categoryLabels[d.category] || 'Info';
-                      
-                      return `
-                          <div class="bg-white p-5 rounded-xl border border-[#E5E7EB] hover:border-[#CBD5E1] hover:shadow-sm transition-all relative flex flex-col md:flex-row md:items-center justify-between gap-4">
-                              <div class="flex-1">
-                                  <div class="flex items-center gap-2.5 mb-2">
-                                      <span class="font-body-sm text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full" style="${style}">
-                                          ${label}
-                                      </span>
-                                      <strong class="font-serif text-sm text-[#111111] font-semibold">${d.title}</strong>
+                  } else {
+                      memoriesList.innerHTML = generalDocs.map(d => {
+                          const badgeStyles = {
+                              biography: 'background: rgba(37, 99, 235, 0.08); color: #2563eb; border: 1px solid rgba(37, 99, 235, 0.15);',
+                              projects: 'background: rgba(217, 119, 6, 0.08); color: #d97706; border: 1px solid rgba(217, 119, 6, 0.15);',
+                              skills: 'background: rgba(147, 51, 234, 0.08); color: #9333ea; border: 1px solid rgba(147, 51, 234, 0.15);',
+                              qa: 'background: rgba(5, 150, 105, 0.08); color: #059669; border: 1px solid rgba(5, 150, 105, 0.15);',
+                              other: 'background: rgba(75, 85, 99, 0.08); color: #4b5563; border: 1px solid rgba(75, 85, 99, 0.15);'
+                          };
+                          const categoryLabels = {
+                              biography: 'Bio',
+                              projects: 'Project',
+                              skills: 'Skills',
+                              qa: 'Q&A',
+                              other: 'Other'
+                          };
+                          const style = badgeStyles[d.category] || badgeStyles['other'];
+                          const label = categoryLabels[d.category] || 'Info';
+                          
+                          return `
+                              <div class="bg-white p-5 rounded-xl border border-[#E5E7EB] hover:border-[#CBD5E1] hover:shadow-sm transition-all relative flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                  <div class="flex-1">
+                                      <div class="flex items-center gap-2.5 mb-2">
+                                          <span class="font-body-sm text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full" style="${style}">
+                                              ${label}
+                                          </span>
+                                          <strong class="font-serif text-sm text-[#111111] font-semibold">${d.title}</strong>
+                                          ${d.embedding ? `<span class="font-code-md text-[8px] px-1.5 py-0.2 bg-[#EBF5FF] text-[#2563EB] border border-[#BFDBFE] rounded" title="Vector embedded for similarity search">VECTOR</span>` : ''}
+                                      </div>
+                                      <div class="font-body-sm text-xs text-[#4B5563] whitespace-pre-wrap pr-16 leading-relaxed">${d.content}</div>
                                   </div>
-                                  <div class="font-body-sm text-xs text-[#4B5563] whitespace-pre-wrap pr-16 leading-relaxed">${d.content}</div>
+                                  <div class="flex items-center md:self-center">
+                                      <button onclick="window.deleteRagFact('${d.id}')" class="admin-btn btn-decline flex items-center gap-1 py-1.5 px-3 rounded text-[10px]" style="box-shadow: none;">
+                                          <span class="material-symbols-outlined text-[14px]">delete</span>
+                                          DELETE
+                                      </button>
+                                  </div>
                               </div>
-                              <div class="flex items-center md:self-center">
-                                  <button onclick="window.deleteRagFact('${d.id}')" class="admin-btn btn-decline flex items-center gap-1 py-1.5 px-3 rounded text-[10px]" style="box-shadow: none;">
-                                      <span class="material-symbols-outlined text-[14px]">delete</span>
-                                      DELETE
-                                  </button>
+                          `;
+                      }).join('');
+                  }
+
+                  // Render Mizo Language Rules List
+                  if (langRulesList) {
+                      if (languageDocs.length === 0) {
+                          langRulesList.innerHTML = `
+                              <div class="text-center text-on-surface-variant/40 py-12 border border-dashed border-[#E5E7EB] rounded-lg">
+                                  <span class="material-symbols-outlined text-[36px] mb-2 text-on-surface-variant/30">g_translate</span>
+                                  <p class="font-code-md text-xs">No custom Mizo language rules added yet. Add vocabulary above to train Nimbus.</p>
                               </div>
-                          </div>
-                      `;
-                  }).join('');
+                          `;
+                      } else {
+                          langRulesList.innerHTML = languageDocs.map(d => {
+                              return `
+                                  <div class="bg-white p-5 rounded-xl border border-[#E5E7EB] hover:border-[#CBD5E1] hover:shadow-sm transition-all relative flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                      <div class="flex-1">
+                                          <div class="flex items-center gap-2.5 mb-2">
+                                              <span class="font-body-sm text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-primary/5 text-primary border border-primary/15">
+                                                  Mizo
+                                              </span>
+                                              <strong class="font-serif text-sm text-[#111111] font-semibold">${d.title}</strong>
+                                              ${d.embedding ? `<span class="font-code-md text-[8px] px-1.5 py-0.2 bg-[#EBF5FF] text-[#2563EB] border border-[#BFDBFE] rounded" title="Vector embedded for similarity search">VECTOR</span>` : ''}
+                                          </div>
+                                          <div class="font-body-sm text-xs text-[#4B5563] whitespace-pre-wrap pr-16 leading-relaxed">${d.content}</div>
+                                      </div>
+                                      <div class="flex items-center md:self-center">
+                                          <button onclick="window.deleteRagFact('${d.id}')" class="admin-btn btn-decline flex items-center gap-1 py-1.5 px-3 rounded text-[10px]" style="box-shadow: none;">
+                                              <span class="material-symbols-outlined text-[14px]">delete</span>
+                                              DELETE
+                                          </button>
+                                      </div>
+                                  </div>
+                              `;
+                          }).join('');
+                      }
+                  }
               } catch (e) {
                   memoriesList.innerHTML = `<div class="text-center text-red-500 font-body-sm text-xs py-8">Error loading memories: ${e.message}</div>`;
               }
           };
-
-          // Form submit to add new fact
-          if (addForm) {
-              addForm.onsubmit = async (e) => {
-                  e.preventDefault();
-                  const cat = document.getElementById('rag-category').value;
-                  const title = document.getElementById('rag-title').value.trim();
-                  const content = document.getElementById('rag-content').value.trim();
-                  const submitBtn = addForm.querySelector('button[type="submit"]');
-                  
-                  if (!title || !content || !window.addNimbusKnowledge) return;
-                  
-                  submitBtn.disabled = true;
-                  submitBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">sync</span> ADDING...';
-                  
-                  try {
-                      await window.addNimbusKnowledge(cat, title, content);
-                      addForm.reset();
-                      if (fileStatus) fileStatus.classList.add('hidden');
-                      await refreshKnowledgeList();
-                  } catch (err) {
-                      alert("Failed to add fact: " + err.message);
-                  } finally {
-                      submitBtn.disabled = false;
-                      submitBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">save</span> ADD TO AI MEMORY';
-                  }
-              };
-          }
 
           // Expose delete fact on window
           window.deleteRagFact = async (id) => {
@@ -952,8 +1402,9 @@
 
       // Unified ready initialization
       const initAll = () => {
-          // Bind file uploader immediately so it works even if Firebase is still connecting
+          // Bind file uploaders immediately so they work even if Firebase is still connecting
           initFileUploader();
+          initLanguageTrainer();
           
           // Auto-trigger Firebase telemetry if authorized
           if (sessionStorage.getItem('admin_authorized') === 'true') {

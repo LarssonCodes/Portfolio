@@ -180,7 +180,34 @@ async function geminiWithTools(model, messages, systemPrompt = '', tools = []) {
   return await res.json(); // full response — caller inspects candidates
 }
 
+/**
+ * Generates text embeddings using text-embedding-004
+ * @param {string} text - text content to embed
+ * @returns {Promise<Array<number>>} 768-dimensional float array
+ */
+async function geminiEmbed(text) {
+  if (allKeysExhausted()) throw new Error('ALL_QUOTA_EXHAUSTED');
+  const key = getNextKey();
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${key}`;
+  const body = {
+    model: "models/text-embedding-004",
+    content: { parts: [{ text }] }
+  };
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (res.status === 429 || res.status === 503) {
+    markKeyExhausted(key);
+    return geminiEmbed(text); // retry with next key
+  }
+  if (!res.ok) throw new Error(`Gemini embedding error ${res.status}`);
+  const data = await res.json();
+  return data.embedding?.values || [];
+}
+
 window.GeminiAI = {
   getNextKey, geminiGenerate, geminiStream,
-  geminiWithTools, allKeysExhausted, markKeyExhausted,
+  geminiWithTools, geminiEmbed, allKeysExhausted, markKeyExhausted,
 };

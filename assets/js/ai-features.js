@@ -86,7 +86,8 @@ Currently doing an internship at LushAITech. If someone asks about collaboration
 - If asked something you don't know, say you're not sure but Larsson can answer directly at larssonlrt@gmail.com.
 - Be warm, genuine, and represent Larsson authentically — not like a corporate bot.
 - Always refer to Larsson in the third person (he/him/his). Never say "I am Larsson" or speak in the first person as Larsson.
-- If asked who you are, introduce yourself as Nimbus, Larsson's AI assistant.
+- If asked who you are, introduce yourself as Nimbus, Larsson's AI assistant, and mention that you can also forward a message or send an email to Larsson directly on their behalf if they want to get in touch.
+- If Mizo language vocabulary, translation pairs, or phrase mappings are provided in the DYNAMIC KNOWLEDGE BASE under LANGUAGE, strictly prioritize and use them to converse with visitors in natural, culturally and grammatically accurate Mizo when they write in Mizo.
 - Strictly refuse to answer any questions unrelated to Larsson, his portfolio, his skills, and his projects.
 - If a user has a question for Larsson, wants to get in touch, or wants to send him a message/email:
   1. Offer to send an email to Larsson directly on their behalf.
@@ -96,37 +97,100 @@ Currently doing an internship at LushAITech. If someone asks about collaboration
 `;
 
 // ─── DYNAMIC KNOWLEDGE BASE LOAD (RAG) ────────
-let DYNAMIC_KNOWLEDGE = '';
+let RAG_DOCUMENTS = [];
 
 async function loadNimbusKnowledge() {
   try {
     if (window.getNimbusKnowledge) {
-      const docs = await window.getNimbusKnowledge();
-      if (docs && docs.length > 0) {
-        const categories = {};
-        docs.forEach(d => {
-          const cat = (d.category || 'other').toUpperCase();
-          if (!categories[cat]) categories[cat] = [];
-          categories[cat].push(`### ${d.title}\n${d.content}`);
-        });
-
-        let compiled = '\n\n━━━ DYNAMIC KNOWLEDGE BASE (REAL-TIME UPDATED) ━━━\n';
-        Object.entries(categories).forEach(([cat, items]) => {
-          compiled += `\n━━━ ${cat} ━━━\n` + items.join('\n\n') + '\n';
-        });
-        DYNAMIC_KNOWLEDGE = compiled;
-        console.log("Nimbus RAG Knowledge loaded successfully! Facts length:", docs.length);
-      } else {
-        DYNAMIC_KNOWLEDGE = '';
-      }
+      RAG_DOCUMENTS = await window.getNimbusKnowledge();
+      console.log("Nimbus RAG Knowledge loaded successfully! Facts count:", RAG_DOCUMENTS.length);
     }
   } catch (err) {
     console.warn("Failed to load dynamic RAG knowledge, relying on default context:", err);
   }
 }
 
-function getActiveContext() {
-  return LARSSON_CONTEXT + DYNAMIC_KNOWLEDGE;
+function cosineSimilarity(vecA, vecB) {
+  let dotProduct = 0;
+  let normA = 0;
+  let normB = 0;
+  for (let i = 0; i < vecA.length; i++) {
+    dotProduct += vecA[i] * vecB[i];
+    normA += vecA[i] * vecA[i];
+    normB += vecB[i] * vecB[i];
+  }
+  if (normA === 0 || normB === 0) return 0;
+  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+async function getActiveContext(userQuery = '') {
+  if (!RAG_DOCUMENTS || RAG_DOCUMENTS.length === 0) {
+    return LARSSON_CONTEXT;
+  }
+
+  // Separate documents with embeddings from those without (global/always-include)
+  const globalDocs = [];
+  const searchableDocs = [];
+
+  RAG_DOCUMENTS.forEach(d => {
+    if (d.embedding && Array.isArray(d.embedding) && d.embedding.length > 0) {
+      searchableDocs.push(d);
+    } else {
+      globalDocs.push(d);
+    }
+  });
+
+  let selectedDocs = [...globalDocs];
+
+  // If there are searchable documents and a user query is provided, run Similarity Search
+  if (searchableDocs.length > 0 && userQuery.trim()) {
+    try {
+      const queryVector = await window.GeminiAI.geminiEmbed(userQuery);
+      if (queryVector && queryVector.length > 0) {
+        const scoredDocs = searchableDocs.map(d => {
+          const score = cosineSimilarity(queryVector, d.embedding);
+          return { doc: d, score };
+        });
+
+        // Sort by similarity descending
+        scoredDocs.sort((a, b) => b.score - a.score);
+
+        // Print top matches for logging/debugging
+        console.log(`Vector RAG search for: "${userQuery}"`);
+        scoredDocs.slice(0, 10).forEach((item, idx) => {
+          console.log(`  [Match ${idx + 1}] Score: ${item.score.toFixed(4)} | Category: ${item.doc.category} | Title: ${item.doc.title}`);
+        });
+
+        // Take top 5-10 relevant sentences/chunks (using top 8)
+        const topMatches = scoredDocs.slice(0, 8).map(item => item.doc);
+        selectedDocs = selectedDocs.concat(topMatches);
+      } else {
+        // Fallback if embedding fails
+        selectedDocs = selectedDocs.concat(searchableDocs.slice(0, 8));
+      }
+    } catch (err) {
+      console.warn("Failed similarity search, falling back to top docs:", err);
+      selectedDocs = selectedDocs.concat(searchableDocs.slice(0, 8));
+    }
+  } else {
+    // If no query, just include a default set
+    selectedDocs = selectedDocs.concat(searchableDocs.slice(0, 8));
+  }
+
+  // Compile selected documents into the formatted context string
+  const categories = {};
+  selectedDocs.forEach(d => {
+    const cat = (d.category || 'other').toUpperCase();
+    if (!categories[cat]) categories[cat] = [];
+    categories[cat].push(`### ${d.title}\n${d.content}`);
+  });
+
+  let compiled = '\n\n━━━ DYNAMIC KNOWLEDGE BASE (REAL-TIME UPDATED) ━━━\n';
+  Object.entries(categories).forEach(([cat, items]) => {
+    compiled += `\n━━━ ${cat} ━━━\n` + items.join('\n\n') + '\n';
+  });
+
+  return LARSSON_CONTEXT + compiled;
 }
 
 function formatMarkdown(text) {
@@ -397,7 +461,7 @@ function initAIChat() {
     chatHistory.push({ role: 'user', parts: [{ text }] });
 
     try {
-      const activeCtx = getActiveContext();
+      const activeCtx = await getActiveContext(text);
       // ── Step 1: call Gemini with tool declarations ──
       const raw = await window.GeminiAI.geminiWithTools(
         'gemini-flash-lite-latest',
@@ -440,7 +504,7 @@ function initAIChat() {
           return;
         }
 
-        const activeCtx = getActiveContext();
+        const activeCtx = await getActiveContext(text);
         // Build the follow-up conversation including the function result
         // We MUST pass the original model parts array to preserve the thoughtSignature
         const followUpHistory = [
@@ -470,7 +534,7 @@ function initAIChat() {
         chatHistory.push({ role: 'model', parts: [{ text: fullText }] });
 
       } else if (textPart) {
-        const activeCtx = getActiveContext();
+        const activeCtx = await getActiveContext(text);
         // ── Plain text path — display streamed response ─
         // Re-stream via a dedicated streaming call for proper typewriter effect
         const responseEl = addMessage('model', '', true);
@@ -516,7 +580,7 @@ function initAIChat() {
       // Reload knowledge base in real-time on chat open!
       await loadNimbusKnowledge();
       if (messages.children.length === 0) {
-        addMessage('model', "Hey! 👋 I'm Nimbus, Larsson's AI assistant. Ask me anything about his work, skills, or projects!");
+        addMessage('model', "Hey! 👋 I'm Nimbus, Larsson's AI assistant. Ask me anything about his work, skills, or projects! I can also forward a message or send an email directly to Larsson on your behalf.");
         setTimeout(renderSuggestions, 300);
       }
     }

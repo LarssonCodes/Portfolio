@@ -681,14 +681,18 @@ window.getNimbusKnowledge = async function() {
     }
 };
 
-window.addNimbusKnowledge = async function(category, title, content) {
+window.addNimbusKnowledge = async function(category, title, content, embedding = null) {
     try {
-        await addDoc(collection(db, "nimbus_knowledge"), {
+        const docData = {
             category,
             title,
             content,
             timestamp: serverTimestamp()
-        });
+        };
+        if (embedding) {
+            docData.embedding = embedding;
+        }
+        await addDoc(collection(db, "nimbus_knowledge"), docData);
     } catch (e) {
         console.error("Failed to add Nimbus knowledge:", e);
         throw e;

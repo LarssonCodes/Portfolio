@@ -640,6 +640,11 @@ nav { display:flex; gap:2.5rem; }
 #project-inbawk .project-visual-box { filter: url(#slice-glitch-3); }
 #project-pitch .project-visual-box { filter: url(#slice-glitch-4); }
 
+#project-inbawk .project-visual-box .main-video {
+  border: 2.5px solid #111111;
+}
+
+
 /* Crisp pixelated rendering for displacement map feImage elements */
 feImage {
   image-rendering: -moz-crisp-edges;
