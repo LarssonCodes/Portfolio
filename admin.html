@@ -569,7 +569,7 @@
                     <label class="bg-[#F8F9FA] hover:bg-[#E5E7EB] text-[#111111] border border-[#E5E7EB] transition-colors py-2 px-4 rounded-lg cursor-pointer font-body-sm text-xs flex items-center gap-2 active:scale-[0.98] select-none">
                       <span class="material-symbols-outlined text-[16px] text-primary">upload_file</span>
                       Select File
-                      <input type="file" id="rag-file-input" accept=".pdf,.txt,.csv,.md" class="hidden">
+                      <input type="file" id="rag-file-input" accept=".pdf,.txt,.csv,.md" class="sr-only">
                     </label>
                     <span id="rag-file-status" class="font-code-md text-[10px] font-bold text-primary py-1 px-3 bg-primary/5 border border-primary/15 rounded-full hidden"></span>
                   </div>
@@ -751,19 +751,17 @@
           }
       });
 
-      // ─── 3. Nimbus RAG Environment Setup ───
-      window.initNimbusRagAdmin = async function() {
-          const memoriesList = document.getElementById('rag-memories-list');
-          const addForm = document.getElementById('rag-add-form');
+      // ─── 3. File Ingestion Parser (Runs immediately on DOM ready) ───
+      function initFileUploader() {
           const fileInput = document.getElementById('rag-file-input');
           const fileStatus = document.getElementById('rag-file-status');
           const contentArea = document.getElementById('rag-content');
           const titleInput = document.getElementById('rag-title');
           
-          if (!memoriesList) return;
+          if (!fileInput) return;
 
           // File Ingestion Parser
-          fileInput?.addEventListener('change', async (e) => {
+          fileInput.addEventListener('change', async (e) => {
               const file = e.target.files[0];
               if (!file) return;
 
@@ -835,6 +833,15 @@
                   }
               }
           });
+      }
+
+      // ─── 4. Nimbus RAG Database Setup ───
+      window.initNimbusRagAdmin = async function() {
+          const memoriesList = document.getElementById('rag-memories-list');
+          const addForm = document.getElementById('rag-add-form');
+          const fileStatus = document.getElementById('rag-file-status');
+          
+          if (!memoriesList) return;
           
           const refreshKnowledgeList = async () => {
               if (!window.getNimbusKnowledge) return;
@@ -943,12 +950,22 @@
           await refreshKnowledgeList();
       };
 
-      // Auto-trigger if sessionStorage authorization is already true on load
-      if (sessionStorage.getItem('admin_authorized') === 'true') {
-          document.addEventListener('DOMContentLoaded', () => {
+      // Unified ready initialization
+      const initAll = () => {
+          // Bind file uploader immediately so it works even if Firebase is still connecting
+          initFileUploader();
+          
+          // Auto-trigger Firebase telemetry if authorized
+          if (sessionStorage.getItem('admin_authorized') === 'true') {
               runWhenReady(window.initAdminDashboard);
               runWhenReady(window.initNimbusRagAdmin);
-          });
+          }
+      };
+
+      if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initAll);
+      } else {
+          initAll();
       }
 
       // ─── 4. Mobile Menu Drawer Toggle ───
