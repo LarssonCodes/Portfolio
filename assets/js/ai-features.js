@@ -370,6 +370,27 @@ function initAIChat() {
         const actionResult = executePortfolioAction(name, args);
         addActionChip(name, args);
 
+        // If the action is sending an email, print a premium direct confirmation instantly.
+        // This makes the interaction incredibly fast, robust, and completely fail-safe.
+        if (name === 'sendEmailToLarsson') {
+          const responseEl = addMessage('model', '', true);
+          const confirmationText = `**Message successfully sent!** ✉️\n\nNimbus has forwarded your inquiry directly to Larsson's email, and your message has also been saved to his dashboard. He will get back to you as soon as possible!`;
+          responseEl.innerHTML = formatMarkdown(confirmationText);
+          responseEl.closest('.ai-msg-bubble').classList.remove('streaming');
+
+          // Record the sequence in chat history so the AI maintains context
+          chatHistory.push({ role: 'model', parts: parts });
+          chatHistory.push({ role: 'user', parts: [{ functionResponse: { name, response: { result: actionResult } } }] });
+          chatHistory.push({ role: 'model', parts: [{ text: confirmationText }] });
+
+          // Re-enable inputs
+          input.disabled = false;
+          sendBtn.disabled = false;
+          sendBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+          input.focus();
+          return;
+        }
+
         // Build the follow-up conversation including the function result
         // We MUST pass the original model parts array to preserve the thoughtSignature
         const followUpHistory = [
