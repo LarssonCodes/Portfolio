@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html class="light" lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -10,7 +10,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     
     <!-- Google Fonts & Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Outfit:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
     <!-- PDF.js Client-Side PDF Parser Library -->
@@ -23,71 +23,32 @@
             theme: {
                 extend: {
                     colors: {
-                        "secondary-fixed-dim": "#0cdbe7",
-                        "surface-container-highest": "#343439",
-                        "on-error-container": "#ffdad6",
-                        "primary-fixed": "#ffdcc2",
-                        "surface-container-lowest": "#0d0e12",
-                        "primary": "#ffb87b", // Peach cockatiel glow
-                        "primary-container": "#ff8f00", // Neon orange
-                        "on-tertiary-fixed-variant": "#454748",
-                        "error-container": "#93000a",
-                        "on-tertiary-fixed": "#1a1c1d",
-                        "surface-container": "#1f1f24",
-                        "on-surface": "#e3e2e8",
-                        "on-primary-container": "#623400",
-                        "on-secondary": "#00363a",
-                        "primary-fixed-dim": "#ffb77a",
-                        "surface": "#121317",
-                        "tertiary": "#c6c7c8",
-                        "on-primary": "#4c2700",
-                        "secondary-container": "#00d8e4",
-                        "inverse-on-surface": "#2f3035",
-                        "error": "#ffb4ab",
-                        "outline": "#a48c7a",
-                        "on-error": "#690005",
-                        "on-surface-variant": "#dcc1ae",
-                        "secondary": "#5df4ff", // Electric teal
-                        "secondary-fixed": "#75f5ff",
-                        "tertiary-fixed-dim": "#c5c6c7",
-                        "on-background": "#e3e2e8",
-                        "outline-variant": "#564334",
-                        "tertiary-fixed": "#e2e2e3",
-                        "surface-container-low": "#1a1b20",
-                        "background": "#121317",
-                        "surface-bright": "#38393e",
-                        "on-primary-fixed": "#2e1500",
-                        "on-primary-fixed-variant": "#6d3a00",
-                        "surface-variant": "#343439",
-                        "surface-tint": "#ffb77a",
-                        "surface-container-high": "#292a2e",
-                        "inverse-surface": "#e3e2e8",
-                        "on-secondary-fixed": "#002022",
-                        "on-tertiary-container": "#3e4041",
-                        "on-secondary-container": "#005a5f",
-                        "on-secondary-fixed-variant": "#004f54",
-                        "on-tertiary": "#2e3132",
-                        "inverse-primary": "#8f4e00",
-                        "surface-dim": "#121317",
-                        "tertiary-container": "#abacad"
+                        "primary": "#2563EB", // Royal Blue brand color matching main site
+                        "primary-container": "#1D4ED8",
+                        "secondary": "#3B82F6",
+                        "background": "#F8F9FA", // Light editorial background
+                        "surface": "#ffffff",
+                        "on-surface": "#111111", // Ink black
+                        "on-surface-variant": "#6B7280", // Muted ink
+                        "border": "#E5E7EB" // Thin subtle borders
                     },
                     borderRadius: {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.375rem",
-                        "xl": "0.75rem",
+                        "DEFAULT": "0.375rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
                         "full": "9999px"
                     },
                     fontFamily: {
                         "code-md": ["Geist", "monospace"],
-                        "headline-lg": ["Inter", "sans-serif"],
-                        "label-sm": ["Geist", "monospace"],
-                        "display-lg": ["Inter", "sans-serif"],
-                        "body-lg": ["Inter", "sans-serif"],
-                        "label-md": ["Geist", "monospace"],
-                        "headline-md": ["Inter", "sans-serif"],
-                        "body-md": ["Inter", "sans-serif"],
-                        "body-sm": ["Inter", "sans-serif"],
-                        "headline-sm": ["Inter", "sans-serif"]
+                        "headline-lg": ["Cormorant Garamond", "Georgia", "serif"],
+                        "label-sm": ["Outfit", "sans-serif"],
+                        "display-lg": ["Playfair Display", "Georgia", "serif"],
+                        "body-lg": ["Outfit", "sans-serif"],
+                        "label-md": ["Outfit", "sans-serif"],
+                        "headline-md": ["Cormorant Garamond", "Georgia", "serif"],
+                        "body-md": ["Outfit", "sans-serif"],
+                        "body-sm": ["Outfit", "sans-serif"],
+                        "headline-sm": ["Cormorant Garamond", "Georgia", "serif"]
                     }
                 }
             }
@@ -100,60 +61,57 @@
         }
 
         body {
-            background-color: #0B0C10; /* Deep Midnight Level 0 */
-            background-image: 
-                radial-gradient(circle at 100% 0%, rgba(0, 216, 228, 0.04) 0%, transparent 50%),
-                radial-gradient(circle at 0% 100%, rgba(255, 184, 123, 0.04) 0%, transparent 50%);
-            color: #e3e2e8;
+            background-color: #F8F9FA; /* Warm editorial light gray/beige */
+            color: #111111;
         }
         
+        /* ── GRAIN + ORBS BACKGROUND (Matches Main Website) ── */
+        .bg-layer {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+        }
+        .grain {
+            position: absolute; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            mix-blend-mode: multiply;
+        }
+        #orb-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            filter: blur(100px);
+            mix-blend-mode: multiply;
+            pointer-events: none;
+        }
+
         .micro-grid {
-            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.015) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 0, 0, 0.015) 1px, transparent 1px);
             background-size: 32px 32px;
         }
 
+        /* ── EDITORIAL CONTAINERS ── */
         .glass-panel {
-            background-color: rgba(26, 27, 32, 0.7); /* Charcoal Navy 70% */
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.01);
         }
 
         .glow-border-primary {
-            border: 1px solid rgba(255, 184, 123, 0.4);
-            box-shadow: 0 0 12px rgba(255, 184, 123, 0.15);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.04);
         }
 
         .glow-border-secondary {
-            border: 1px solid rgba(93, 244, 255, 0.4);
-            box-shadow: 0 0 12px rgba(93, 244, 255, 0.15);
-        }
-
-        .corner-accent-primary::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            right: -1px;
-            width: 16px;
-            height: 16px;
-            border-top: 2px solid #ffb87b;
-            border-right: 2px solid #ffb87b;
-        }
-        
-        .corner-accent-secondary::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            right: -1px;
-            width: 16px;
-            height: 16px;
-            border-top: 2px solid #5df4ff;
-            border-right: 2px solid #5df4ff;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.04);
         }
 
         .terminal-scroll {
             scrollbar-width: thin;
-            scrollbar-color: rgba(93, 244, 255, 0.2) transparent;
+            scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
         }
         
         .terminal-scroll::-webkit-scrollbar {
@@ -162,7 +120,7 @@
         }
         
         .terminal-scroll::-webkit-scrollbar-thumb {
-            background-color: rgba(93, 244, 255, 0.2);
+            background-color: rgba(0, 0, 0, 0.1);
             border-radius: 3px;
         }
 
@@ -180,74 +138,76 @@
         }
 
         @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(93, 244, 255, 0.5); }
-            70% { transform: scale(1.1); opacity: 0.8; box-shadow: 0 0 0 8px rgba(93, 244, 255, 0); }
-            100% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(93, 244, 255, 0); }
+            0% { transform: scale(0.85); opacity: 0.5; box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.3); }
+            70% { transform: scale(1.05); opacity: 0.8; box-shadow: 0 0 0 6px rgba(37, 99, 235, 0); }
+            100% { transform: scale(0.85); opacity: 0.5; box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
         }
         
         .status-pulse {
-            animation: pulse-ring 2s infinite;
+            animation: pulse-ring 2.5s infinite;
         }
 
-        /* ── DYNAMIC FIREBASE ELEMENT STYLING OVERRIDES ── */
+        /* ── DYNAMIC FIREBASE ELEMENT STYLING OVERRIDES (EDITORIAL REDESIGN) ── */
         .window {
-            background-color: rgba(26, 27, 32, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 0.5rem;
+            background-color: #ffffff;
+            border: 1px solid #E5E7EB;
+            border-radius: 0.75rem; /* lg */
             overflow: hidden;
             margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.01);
         }
 
         .window-header {
-            padding: 1rem 1.5rem;
-            background-color: rgba(18, 19, 23, 0.6);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-family: 'Geist', monospace;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #ffb87b;
+            padding: 1.25rem 1.75rem;
+            background-color: #ffffff;
+            border-bottom: 1px solid #E5E7EB;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #111111;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .window-content {
-            padding: 1.5rem;
+            padding: 1.75rem;
         }
 
         .admin-btn {
-            font-family: 'Geist', monospace;
+            font-family: 'Outfit', sans-serif;
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            border: 1px solid rgba(93, 244, 255, 0.3);
-            background: rgba(93, 244, 255, 0.05);
-            color: #5df4ff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px; /* Pill buttons */
+            border: 1px solid #111111;
+            background: #ffffff;
+            color: #111111;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .admin-btn:hover {
-            background: #5df4ff;
-            color: #0b0c10;
-            box-shadow: 0 0 10px rgba(93, 244, 255, 0.4);
+            background: #111111;
+            color: #ffffff;
             transform: translateY(-1px);
         }
 
         .btn-decline {
-            border-color: rgba(239, 68, 68, 0.4);
-            background: rgba(239, 68, 68, 0.05);
-            color: #ef4444;
+            border-color: #EF4444;
+            color: #EF4444;
+            background: #ffffff;
         }
 
         .btn-decline:hover {
-            background: #ef4444;
-            color: #fff;
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+            background: #EF4444;
+            color: #ffffff;
+            border-color: #EF4444;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
         }
 
         .proposal-card {
@@ -257,193 +217,194 @@
         .proposal-meta {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 0.375rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 1rem;
-            font-size: 0.8rem;
-            font-family: 'Geist', monospace;
-            color: #c6c7c8;
+            gap: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            background: #F8F9FA;
+            border-radius: 0.5rem;
+            border: 1px solid #E5E7EB;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem;
+            font-family: 'Outfit', sans-serif;
+            color: #4B5563;
         }
 
         .proposal-meta span {
             display: inline-flex;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.35rem;
         }
 
         .proposal-details p {
-            font-size: 0.875rem;
-            line-height: 1.6;
-            color: #e3e2e8;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.25rem;
-            border-radius: 0.375rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #111111;
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #E5E7EB;
             white-space: pre-wrap;
+            font-family: 'Outfit', sans-serif;
         }
 
         .feedback-entry {
-            padding: 1rem 1.25rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 0.375rem;
-            background: rgba(0, 0, 0, 0.2);
+            padding: 1.25rem 1.5rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 0.5rem;
+            background: #F8F9FA;
             margin-bottom: 0.75rem;
-            font-size: 0.875rem;
-            color: #e3e2e8;
-            line-height: 1.5;
-            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #111111;
+            line-height: 1.6;
+            font-family: 'Outfit', sans-serif;
         }
 
         .admin-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
         }
 
         .admin-table th,
         .admin-table td {
-            padding: 1rem 1.25rem;
+            padding: 1.2rem 1.5rem;
             text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid #E5E7EB;
         }
 
         .admin-table th {
-            background-color: rgba(18, 19, 23, 0.6);
-            font-family: 'Geist', monospace;
-            font-weight: 500;
-            color: #ffb87b;
+            background-color: #F8F9FA;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: #111111;
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
         }
 
         .admin-table tbody tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(0, 0, 0, 0.005);
         }
     </style>
 </head>
-<body class="min-h-screen micro-grid font-body-md text-on-surface antialiased overflow-x-hidden selection:bg-primary/30">
+<body class="min-h-screen micro-grid font-body-md text-on-surface antialiased overflow-x-hidden selection:bg-primary/10 relative z-10">
 
-  <!-- LOGIN PROTECTION OVERLAY -->
-  <div id="admin-login-overlay" class="fixed inset-0 w-full h-full bg-[#0B0C10] z-[99999] flex items-center justify-center font-body-md selection:bg-primary/30 micro-grid">
-    <!-- Glowing Background Orbs -->
+  <!-- GRAIN + ORBS BACKGROUND (Dynamic and Interactive from main.js) -->
+  <div class="bg-layer">
+    <div class="grain"></div>
+    <canvas id="orb-canvas"></canvas>
+  </div>
+
+  <!-- LOGIN PROTECTION OVERLAY (EDITORIAL THEME) -->
+  <div id="admin-login-overlay" class="fixed inset-0 w-full h-full bg-[#F8F9FA] z-[99999] flex items-center justify-center font-body-md selection:bg-primary/10 micro-grid">
+    <!-- Blurry Background Orbs -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-secondary/5 blur-[120px]"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-primary/5 blur-[120px]"></div>
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-[120px]"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-secondary/5 blur-[120px]"></div>
     </div>
     
     <!-- Login Card -->
-    <div class="glass-panel p-10 rounded-xl glow-border-primary w-full max-w-[400px] text-center relative z-10 mx-4">
-       <!-- Decorative Corner Accents -->
-       <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary"></div>
-       <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary"></div>
-       
-       <!-- Logo -->
+    <div class="bg-white p-10 rounded-2xl border border-[#E5E7EB] w-full max-w-[400px] text-center relative z-10 mx-4 shadow-xl shadow-black/[0.015]">
+       <!-- Decorative Serif Branding -->
        <div class="flex items-center justify-center gap-2.5 mb-6">
-           <span class="w-3 h-3 rounded-full bg-primary-container status-pulse"></span>
-           <span class="font-display-lg text-xl font-black tracking-widest text-on-surface uppercase">LARSSON.AI</span>
+           <span class="w-2.5 h-2.5 rounded-full bg-primary status-pulse"></span>
+           <span class="font-serif text-2xl font-bold tracking-wide text-[#111111]">Larsson.</span>
        </div>
        
-       <h2 class="font-headline-sm text-xl font-bold text-primary mb-2">Admin Authorization</h2>
-       <p class="font-body-sm text-sm text-on-surface-variant/70 mb-6">Secure portal. Please authenticate to gain access to core systems.</p>
+       <h2 class="font-serif text-2xl font-bold text-[#111111] mb-2 italic">Admin Authorization</h2>
+       <p class="font-body-sm text-sm text-on-surface-variant mb-6">Please authenticate to access the administration dashboard console.</p>
        
-       <div id="login-error-msg" class="text-red-400 font-code-md text-xs mb-4 font-bold border border-red-500/20 bg-red-950/20 py-2.5 rounded-lg hidden">
-           AUTHENTICATION_FAILED: INVALID_KEY
+       <div id="login-error-msg" class="text-red-700 font-code-md text-xs mb-4 font-bold border border-red-200 bg-red-50 py-2.5 rounded-lg hidden">
+           AUTHENTICATION_FAILED: INVALID_CREDENTIALS
        </div>
        
        <div class="space-y-4 mb-6">
            <div class="relative">
                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">person</span>
-               <input type="text" id="admin-username" placeholder="System Operator ID" class="w-full bg-black/40 border border-white/10 rounded-lg py-3 pl-12 pr-4 font-code-md text-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-on-surface-variant/40">
+               <input type="text" id="admin-username" placeholder="Operator ID" class="w-full bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg py-3 pl-12 pr-4 font-body-sm text-sm text-[#111111] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-[#9CA3AF]">
            </div>
            <div class="relative">
                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">lock</span>
-               <input type="password" id="admin-password" placeholder="Authorization Code" class="w-full bg-black/40 border border-white/10 rounded-lg py-3 pl-12 pr-4 font-code-md text-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-on-surface-variant/40">
+               <input type="password" id="admin-password" placeholder="Passkey" class="w-full bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg py-3 pl-12 pr-4 font-body-sm text-sm text-[#111111] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-[#9CA3AF]">
            </div>
        </div>
        
-       <button id="admin-login-btn" class="w-full bg-primary-container text-black font-label-md font-bold py-3.5 rounded-lg hover:shadow-[0_0_15px_rgba(255,143,0,0.5)] transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+       <button id="admin-login-btn" class="w-full bg-primary hover:bg-[#1D4ED8] text-white font-label-md font-bold py-3.5 rounded-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-primary/15">
            <span class="material-symbols-outlined text-[18px]">vpn_key</span>
-           AUTHENTICATE OPERATOR
+           SIGN IN
        </button>
     </div>
   </div>
 
   <!-- MAIN DASHBOARD WRAPPER (HIDDEN UNTIL AUTHENTICATED) -->
-  <div id="admin-dashboard-content" class="min-h-screen" style="display: none;">
+  <div id="admin-dashboard-content" class="min-h-screen relative z-10" style="display: none;">
 
     <!-- Mobile Navigation Drawer Overlay -->
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden"></div>
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
 
-    <!-- SideNavBar -->
-    <nav id="sidebar-nav" class="flex flex-col h-full py-6 fixed left-0 top-0 w-[280px] z-50 bg-[#141519]/90 md:bg-surface-container/70 backdrop-blur-xl border-r border-white/10 shadow-sm transform -translate-x-full md:translate-x-0 transition-transform duration-300">
+    <!-- SideNavBar (Clean Light Theme) -->
+    <nav id="sidebar-nav" class="flex flex-col h-full py-6 fixed left-0 top-0 w-[280px] z-50 bg-white border-r border-[#E5E7EB] shadow-sm transform -translate-x-full md:translate-x-0 transition-transform duration-300">
       <div class="px-6 mb-8 flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg overflow-hidden border border-primary/30 flex items-center justify-center bg-[#ffb87b]/10">
-          <!-- Stylized Cockatiel Logo / Geometric icon -->
-          <span class="material-symbols-outlined text-primary text-[24px]">developer_board</span>
+        <div class="w-10 h-10 rounded-lg overflow-hidden border border-primary/20 flex items-center justify-center bg-primary/5">
+          <span class="material-symbols-outlined text-primary text-[22px]">developer_board</span>
         </div>
         <div>
-          <h2 class="font-headline-sm text-base font-bold text-primary">Larsson OS</h2>
-          <p class="font-label-sm text-[11px] text-on-surface-variant tracking-wider uppercase">System Admin</p>
+          <h2 class="font-serif text-lg font-bold text-[#111111]">Larsson OS</h2>
+          <p class="font-label-sm text-[10px] text-on-surface-variant tracking-wider uppercase">Console Panel</p>
         </div>
       </div>
       
       <!-- Nav Links -->
       <div class="flex-1 px-4 flex flex-col gap-1">
         <a class="flex items-center gap-3 text-primary border-l-2 border-primary bg-primary/5 py-3 px-4 font-body-md text-sm active:scale-[0.98] transition-all duration-200 relative group" href="#section-dashboard">
-          <span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+          <span class="material-symbols-outlined text-[20px] transition-colors">dashboard</span>
           Dashboard
-          <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-primary shadow-[0_0_8px_rgba(255,184,123,0.8)]"></div>
+          <div class="active-bar absolute left-0 top-0 bottom-0 w-[2px] bg-primary"></div>
         </a>
-        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-white/5 active:scale-[0.98] font-body-md text-sm" href="#section-nimbus">
+        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-black/5 active:scale-[0.98] font-body-md text-sm" href="#section-nimbus">
           <span class="material-symbols-outlined text-[20px]">psychology</span>
           Nimbus AI Brain
         </a>
-        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-white/5 active:scale-[0.98] font-body-md text-sm" href="#section-downloads">
+        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-black/5 active:scale-[0.98] font-body-md text-sm" href="#section-downloads">
           <span class="material-symbols-outlined text-[20px]">download</span>
           Downloads
         </a>
-        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-white/5 active:scale-[0.98] font-body-md text-sm" href="#section-feedback">
+        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-black/5 active:scale-[0.98] font-body-md text-sm" href="#section-feedback">
           <span class="material-symbols-outlined text-[20px]">rate_review</span>
           User Feedback
         </a>
-        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-white/5 active:scale-[0.98] font-body-md text-sm" href="#section-proposals">
+        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-black/5 active:scale-[0.98] font-body-md text-sm" href="#section-proposals">
           <span class="material-symbols-outlined text-[20px]">business_center</span>
           App Pitches
         </a>
       </div>
       
       <!-- Document & Links -->
-      <div class="px-4 flex flex-col gap-1 border-t border-white/5 pt-4 mt-auto">
-        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-2.5 px-4 transition-colors hover:bg-white/5 font-label-sm text-xs" href="index.html">
+      <div class="px-4 flex flex-col gap-1 border-t border-[#E5E7EB] pt-4 mt-auto">
+        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-2.5 px-4 transition-colors hover:bg-black/5 font-label-sm text-xs" href="index.html">
           <span class="material-symbols-outlined text-[16px]">arrow_back</span>
           ← Return to Site
         </a>
       </div>
     </nav>
 
-    <!-- TopNavBar -->
-    <header class="hidden md:flex justify-between items-center h-16 px-8 ml-[280px] sticky top-0 z-45 w-[calc(100%-280px)] bg-surface/40 backdrop-blur-md border-b border-white/5">
+    <!-- TopNavBar (Editorial styling) -->
+    <header class="hidden md:flex justify-between items-center h-16 px-8 ml-[280px] sticky top-0 z-40 w-[calc(100%-280px)] bg-[#F8F9FA]/80 backdrop-blur-md border-b border-[#E5E7EB]">
       <div class="flex items-center gap-8">
-        <span class="font-display-lg text-lg font-black tracking-widest text-on-surface uppercase">LARSSON.AI</span>
+        <span class="font-serif text-xl font-bold tracking-wide text-[#111111]">Larsson.</span>
         <div class="relative w-64">
           <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
-          <input class="w-full bg-black/40 border border-white/10 rounded-lg py-1.5 pl-10 pr-3 font-code-md text-xs text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all placeholder:text-on-surface-variant/40" placeholder="Search system..." type="text"/>
+          <input class="w-full bg-white border border-[#E5E7EB] rounded-lg py-1.5 pl-10 pr-3 font-body-sm text-xs text-[#111111] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-[#9CA3AF]" placeholder="Search system..." type="text"/>
         </div>
       </div>
       <div class="flex items-center gap-6">
         <!-- Firebase Login Status & Controls (Google auth) -->
         <div class="flex items-center gap-2" id="admin-auth-nav">
-          <!-- Populated dynamically by main.js -->
-          <span class="font-code-md text-xs text-on-surface-variant">Connecting auth...</span>
+          <span class="font-body-sm text-xs text-on-surface-variant">Connecting auth nodes...</span>
         </div>
         
-        <div class="flex items-center gap-2 px-3 py-1 bg-secondary/10 rounded-full border border-secondary/20">
-          <div class="w-2 h-2 rounded-full bg-secondary status-pulse"></div>
-          <span class="font-label-sm text-[10px] text-secondary font-bold tracking-widest uppercase">100% ONLINE</span>
+        <div class="flex items-center gap-2 px-3 py-1 bg-primary/5 rounded-full border border-primary/15">
+          <div class="w-1.5 h-1.5 rounded-full bg-primary status-pulse"></div>
+          <span class="font-label-sm text-[10px] text-primary font-bold tracking-widest uppercase">100% ONLINE</span>
         </div>
       </div>
     </header>
@@ -451,37 +412,34 @@
     <!-- Main Content Area -->
     <main class="md:ml-[280px] p-6 md:p-8 min-h-screen">
       
-      <!-- Mobile Header (Visible only on small screens) -->
-      <div class="md:hidden flex justify-between items-center mb-6 bg-[#141519] p-4 rounded-xl border border-white/5">
+      <!-- Mobile Header -->
+      <div class="md:hidden flex justify-between items-center mb-6 bg-white p-4 rounded-xl border border-[#E5E7EB] shadow-sm">
         <div class="flex items-center gap-3">
           <button id="mobile-menu-toggle" class="text-on-surface hover:text-primary transition-colors focus:outline-none">
             <span class="material-symbols-outlined text-[26px]">menu</span>
           </button>
-          <span class="font-headline-md text-base font-bold text-primary">Larsson OS</span>
+          <span class="font-serif text-lg font-bold text-[#111111]">Larsson OS</span>
         </div>
         
-        <div class="flex items-center gap-2 px-2.5 py-1 bg-secondary/10 rounded-full border border-secondary/20">
-          <div class="w-1.5 h-1.5 rounded-full bg-secondary status-pulse"></div>
-          <span class="font-label-sm text-[9px] text-secondary font-bold tracking-wider">ONLINE</span>
+        <div class="flex items-center gap-2 px-2.5 py-1 bg-primary/5 rounded-full border border-primary/15">
+          <div class="w-1.5 h-1.5 rounded-full bg-primary status-pulse"></div>
+          <span class="font-label-sm text-[9px] text-primary font-bold tracking-wider">ONLINE</span>
         </div>
       </div>
 
       <!-- Dashboard Grid -->
       <div class="flex flex-col gap-6 max-w-7xl mx-auto">
         
-        <!-- Header Title Block -->
+        <!-- Header Title Block (Serif Editorial Styling) -->
         <div class="mb-2 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <span class="font-code-md text-xs text-primary-container uppercase tracking-widest font-bold">Larsson OS Core v2.0</span>
-                <h1 class="font-display-lg text-3xl font-black tracking-tight text-on-surface uppercase mt-1">System Control Panel</h1>
-                <p class="font-body-md text-sm text-on-surface-variant/70 mt-0.5">Real-time system telemetry, client-side RAG environment, visitor tracking and App pitches.</p>
-            </div>
-            <div class="md:hidden" id="mobile-auth-nav-container">
-               <!-- Mobile fallback container if needed -->
+                <span class="font-code-md text-xs text-primary uppercase tracking-widest font-bold">Larsson OS Core</span>
+                <h1 class="font-serif text-3xl font-bold text-[#111111] tracking-tight italic mt-1">System Control Panel</h1>
+                <p class="font-body-md text-sm text-on-surface-variant mt-1">Real-time telemetry, client-side RAG environment, visitor tracking, and app pitches.</p>
             </div>
         </div>
 
-        <!-- Diagnostics Log Banner -->
+        <!-- Diagnostics Log Banner (Clean Monochrome Monospace) -->
         <div id="admin-diagnostics" class="font-code-md text-xs">
             ADMIN_ENGINE: CONNECTING TO FIREBASE SERVICES...
         </div>
@@ -489,28 +447,28 @@
         <!-- Telemetry Row / Metrics (Dashboard Section) -->
         <section id="section-dashboard" class="scroll-mt-20">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            <!-- Stat 1: Total Visits (Ingress) -->
-            <div class="glass-panel p-6 relative corner-accent-primary rounded-xl flex flex-col justify-between h-44">
+            <!-- Stat 1: Total Ingress -->
+            <div class="bg-white p-6 relative rounded-xl border border-[#E5E7EB] shadow-sm flex flex-col justify-between h-44">
               <div>
-                <h3 class="font-code-md text-xs text-on-surface-variant/70 uppercase tracking-wider mb-2">Total Ingress</h3>
+                <h3 class="font-body-sm text-xs text-on-surface-variant uppercase tracking-wider font-bold mb-1">Total Ingress</h3>
                 <div class="flex items-baseline gap-2">
-                  <span class="font-display-lg text-3xl font-black text-on-surface" id="total-visits">0</span>
-                  <span class="font-code-md text-xs text-secondary font-bold flex items-center gap-0.5">
+                  <span class="font-body-lg text-3xl font-extrabold text-[#111111]" id="total-visits">0</span>
+                  <span class="font-body-sm text-xs text-primary font-bold flex items-center gap-0.5">
                     +14.2% 
                     <span class="material-symbols-outlined text-[12px] align-middle">arrow_upward</span>
                   </span>
                 </div>
               </div>
               
-              <!-- Simulated Sparkline via SVG -->
-              <div class="h-12 w-full border-b border-l border-white/5 relative mt-4 overflow-hidden">
+              <!-- Sparkline via SVG (Royal Blue matching main site) -->
+              <div class="h-12 w-full border-b border-l border-black/5 relative mt-4 overflow-hidden">
                 <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 40">
-                  <path d="M0,35 Q10,25 20,30 T40,20 T60,15 T80,5 T100,2" fill="none" stroke="#ffb87b" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
-                  <path d="M0,40 L0,35 Q10,25 20,30 T40,20 T60,15 T80,5 T100,2 L100,40 Z" fill="url(#grad1)" opacity="0.15"></path>
+                  <path d="M0,35 Q10,25 20,30 T40,20 T60,15 T80,5 T100,2" fill="none" stroke="#2563EB" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
+                  <path d="M0,40 L0,35 Q10,25 20,30 T40,20 T60,15 T80,5 T100,2 L100,40 Z" fill="url(#grad1)" opacity="0.05"></path>
                   <defs>
                     <linearGradient id="grad1" x1="0%" x2="0%" y1="0%" y2="100%">
-                      <stop offset="0%" style="stop-color:#ffb87b;stop-opacity:1"></stop>
-                      <stop offset="100%" style="stop-color:#121317;stop-opacity:0"></stop>
+                      <stop offset="0%" style="stop-color:#2563EB;stop-opacity:1"></stop>
+                      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0"></stop>
                     </linearGradient>
                   </defs>
                 </svg>
@@ -518,74 +476,74 @@
             </div>
             
             <!-- Stat 2: Active Sessions -->
-            <div class="glass-panel p-6 relative corner-accent-secondary rounded-xl flex flex-col justify-between h-44">
+            <div class="bg-white p-6 relative rounded-xl border border-[#E5E7EB] shadow-sm flex flex-col justify-between h-44">
               <div>
-                <h3 class="font-code-md text-xs text-on-surface-variant/70 uppercase tracking-wider mb-2">Active Sessions</h3>
+                <h3 class="font-body-sm text-xs text-on-surface-variant uppercase tracking-wider font-bold mb-1">Active Sessions</h3>
                 <div class="flex items-center justify-between">
-                  <span class="font-display-lg text-3xl font-black text-on-surface" id="active-sessions">4,892</span>
-                  <div class="w-10 h-10 rounded-full border border-secondary/20 flex items-center justify-center relative bg-secondary/5">
-                    <div class="absolute inset-0 rounded-full border border-secondary/40 status-pulse"></div>
-                    <span class="material-symbols-outlined text-secondary text-[20px]">wifi_tethering</span>
+                  <span class="font-body-lg text-3xl font-extrabold text-[#111111]" id="active-sessions">4,892</span>
+                  <div class="w-9 h-9 rounded-full border border-primary/10 flex items-center justify-center relative bg-primary/5">
+                    <div class="absolute inset-0 rounded-full border border-primary/20 status-pulse"></div>
+                    <span class="material-symbols-outlined text-primary text-[18px]">wifi_tethering</span>
                   </div>
                 </div>
               </div>
-              <div class="font-code-md text-xs text-tertiary/60 border-t border-white/5 pt-3">
+              <div class="font-body-sm text-xs text-on-surface-variant border-t border-[#E5E7EB] pt-3">
                   Peak load: 5,102 (10m ago)
               </div>
             </div>
             
             <!-- Stat 3: System Health -->
-            <div class="glass-panel p-6 relative rounded-xl glow-border-secondary flex flex-col justify-between h-44 bg-[#1a202c]/30">
+            <div class="bg-white p-6 relative rounded-xl border border-[#E5E7EB] shadow-sm flex flex-col justify-between h-44">
               <div>
-                <h3 class="font-code-md text-xs text-on-surface-variant/70 uppercase tracking-wider mb-2">Node Health</h3>
+                <h3 class="font-body-sm text-xs text-on-surface-variant uppercase tracking-wider font-bold mb-1">Node Health</h3>
                 <div class="flex items-center justify-between">
-                  <span class="font-display-lg text-3xl font-black text-secondary" id="system-health">100%</span>
-                  <div class="w-10 h-10 rounded-full border border-secondary/20 flex items-center justify-center bg-secondary/5">
-                    <span class="material-symbols-outlined text-secondary text-[20px]">dns</span>
+                  <span class="font-body-lg text-3xl font-extrabold text-[#059669]" id="system-health">100%</span>
+                  <div class="w-9 h-9 rounded-full border border-[#059669]/10 flex items-center justify-center bg-[#059669]/5">
+                    <span class="material-symbols-outlined text-[#059669] text-[18px]">dns</span>
                   </div>
                 </div>
               </div>
-              <div class="font-code-md text-xs text-secondary/70 flex items-center gap-2 border-t border-white/5 pt-3">
-                  <span class="w-2 h-2 rounded-full bg-secondary status-pulse"></span>
-                  All services active & operational
+              <div class="font-body-sm text-xs text-on-surface-variant flex items-center gap-2 border-t border-[#E5E7EB] pt-3">
+                  <span class="w-2 h-2 rounded-full bg-[#059669] status-pulse"></span>
+                  Operational
               </div>
             </div>
           </div>
 
-          <!-- Live Log Stream Console -->
-          <div class="glass-panel rounded-xl overflow-hidden mb-6">
-            <div class="px-6 py-4 bg-black/30 border-b border-white/5 flex items-center justify-between">
+          <!-- Live Log Stream Console (Clean grey container) -->
+          <div class="bg-white rounded-xl border border-[#E5E7EB] shadow-sm overflow-hidden mb-6">
+            <div class="px-6 py-4 bg-[#F8F9FA] border-b border-[#E5E7EB] flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-secondary status-pulse"></span>
-                <span class="font-code-md text-xs text-secondary font-bold uppercase tracking-wider">Live System Traffic Feed</span>
+                <span class="w-2 h-2 rounded-full bg-primary status-pulse"></span>
+                <span class="font-body-sm text-xs text-[#111111] font-bold uppercase tracking-wider">Live System Traffic Feed</span>
               </div>
-              <span class="font-code-md text-[10px] text-on-surface-variant/50">SECURE_SHELL_SSL</span>
+              <span class="font-code-md text-[10px] text-on-surface-variant">SECURE_SSL</span>
             </div>
-            <div class="p-5 bg-black/50 font-code-md text-xs text-on-surface-variant/80 h-[200px] overflow-y-auto terminal-scroll space-y-1.5" id="log-container">
-              <div class="text-[#5df4ff]/60">[SYS_INIT]: Connecting to datastore...</div>
-              <div class="text-[#5df4ff]/60">[SYS_LOG]: Session started. Tracking active.</div>
+            <div class="p-5 bg-white font-code-md text-xs text-[#4B5563] h-[200px] overflow-y-auto terminal-scroll space-y-1.5" id="log-container">
+              <div class="text-primary/70">[SYS_INIT]: Connecting to datastore...</div>
+              <div class="text-primary/70">[SYS_LOG]: Session started. Tracking active.</div>
             </div>
           </div>
         </section>
 
         <!-- Nimbus AI Brain / RAG Feed Panel (RAG Section) -->
         <section id="section-nimbus" class="scroll-mt-20">
-          <div class="glass-panel rounded-xl overflow-hidden mb-6">
-            <div class="px-6 py-4 bg-black/30 border-b border-white/5 flex items-center gap-2">
+          <div class="bg-white rounded-xl border border-[#E5E7EB] shadow-sm overflow-hidden mb-6">
+            <div class="px-6 py-4 bg-[#F8F9FA] border-b border-[#E5E7EB] flex items-center gap-2">
               <span class="material-symbols-outlined text-primary text-[20px]">psychology</span>
-              <span class="font-code-md text-xs text-primary font-bold uppercase tracking-wider">Nimbus AI Brain (RAG Feed)</span>
+              <span class="font-body-sm text-xs text-[#111111] font-bold uppercase tracking-wider">Nimbus AI Brain (RAG Feed)</span>
             </div>
             <div class="p-6">
-              <p class="font-body-sm text-sm text-on-surface-variant/80 mb-6">
+              <p class="font-body-sm text-sm text-on-surface-variant mb-6">
                 Manage the custom knowledge base snippets and guardrail facts that Nimbus references during visitor chat conversations. Upload structured files directly to import datasets.
               </p>
               
               <!-- Form to Add/Ingest Custom Fact -->
-              <form id="rag-add-form" class="space-y-5 bg-black/20 p-5 rounded-lg border border-white/5 mb-8">
+              <form id="rag-add-form" class="space-y-5 bg-[#F8F9FA] p-5 rounded-lg border border-[#E5E7EB] mb-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label class="block font-code-md text-[10px] uppercase font-bold tracking-widest text-on-surface-variant/70 mb-2">Category</label>
-                    <select id="rag-category" class="w-full bg-[#1e2026] border border-white/10 rounded-lg py-2.5 px-3 font-body-sm text-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" required>
+                    <label class="block font-body-sm text-xs uppercase font-bold tracking-wider text-on-surface-variant mb-2">Category</label>
+                    <select id="rag-category" class="w-full bg-white border border-[#E5E7EB] rounded-lg py-2.5 px-3 font-body-sm text-sm text-[#111111] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" required>
                         <option value="biography">Biography / About Me</option>
                         <option value="projects">Projects & Case Studies</option>
                         <option value="skills">Skills & Tech Stack</option>
@@ -594,38 +552,38 @@
                     </select>
                   </div>
                   <div class="md:col-span-2">
-                    <label class="block font-code-md text-[10px] uppercase font-bold tracking-widest text-on-surface-variant/70 mb-2">Title / Topic</label>
-                    <input type="text" id="rag-title" placeholder="e.g., MSc Graduation Date or Flutter App architecture" class="w-full bg-[#1e2026] border border-white/10 rounded-lg py-2.5 px-4 font-body-sm text-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-on-surface-variant/30" required>
+                    <label class="block font-body-sm text-xs uppercase font-bold tracking-wider text-on-surface-variant mb-2">Title / Topic</label>
+                    <input type="text" id="rag-title" placeholder="e.g., MSc Graduation Date or Flutter App architecture" class="w-full bg-white border border-[#E5E7EB] rounded-lg py-2.5 px-4 font-body-sm text-sm text-[#111111] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-on-surface-variant/40" required>
                   </div>
                 </div>
                 
                 <div>
-                  <label class="block font-code-md text-[10px] uppercase font-bold tracking-widest text-on-surface-variant/70 mb-2">Fact Content</label>
-                  <textarea id="rag-content" rows="4" placeholder="Type factual portfolio information here. Supports standard markdown text. Nimbus will prioritize this exact content when answering visitors." class="w-full bg-[#1e2026] border border-white/10 rounded-lg py-2.5 px-4 font-body-sm text-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-on-surface-variant/30 resize-vertical" required></textarea>
+                  <label class="block font-body-sm text-xs uppercase font-bold tracking-wider text-on-surface-variant mb-2">Fact Content</label>
+                  <textarea id="rag-content" rows="4" placeholder="Type factual portfolio information here. Supports standard markdown text. Nimbus will prioritize this exact content when answering visitors." class="w-full bg-white border border-[#E5E7EB] rounded-lg py-2.5 px-4 font-body-sm text-sm text-[#111111] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-on-surface-variant/40 resize-vertical" required></textarea>
                 </div>
                 
                 <!-- File Ingestion Section -->
-                <div class="bg-black/30 p-5 rounded-lg border border-dashed border-white/10 hover:border-primary/30 transition-colors flex flex-col gap-3">
-                  <span class="font-code-md text-[10px] uppercase font-bold tracking-wider text-on-surface-variant/70">Or Ingest Knowledge File (PDF, CSV, TXT, MD)</span>
+                <div class="bg-white p-5 rounded-lg border border-dashed border-[#E5E7EB] hover:border-primary/40 transition-colors flex flex-col gap-3">
+                  <span class="font-body-sm text-xs uppercase font-bold tracking-wider text-on-surface-variant">Or Ingest Knowledge File (PDF, CSV, TXT, MD)</span>
                   <div class="flex items-center gap-4 flex-wrap">
-                    <label class="bg-white/5 hover:bg-white/10 text-on-surface border border-white/10 hover:border-white/20 transition-colors py-2 px-4 rounded-lg cursor-pointer font-code-md text-xs flex items-center gap-2 active:scale-[0.98] select-none">
-                      <span class="material-symbols-outlined text-[16px]">upload_file</span>
+                    <label class="bg-[#F8F9FA] hover:bg-[#E5E7EB] text-[#111111] border border-[#E5E7EB] transition-colors py-2 px-4 rounded-lg cursor-pointer font-body-sm text-xs flex items-center gap-2 active:scale-[0.98] select-none">
+                      <span class="material-symbols-outlined text-[16px] text-primary">upload_file</span>
                       Select File
                       <input type="file" id="rag-file-input" accept=".pdf,.txt,.csv,.md" class="hidden">
                     </label>
-                    <span id="rag-file-status" class="font-code-md text-[10px] font-bold text-primary py-1 px-3 bg-primary/10 border border-primary/20 rounded-full hidden"></span>
+                    <span id="rag-file-status" class="font-code-md text-[10px] font-bold text-primary py-1 px-3 bg-primary/5 border border-primary/15 rounded-full hidden"></span>
                   </div>
                 </div>
                 
-                <button type="submit" class="admin-btn py-2.5 px-6 rounded-lg text-xs font-bold bg-primary/10 hover:bg-primary text-primary hover:text-black border border-primary/30 hover:border-primary flex items-center gap-2">
+                <button type="submit" class="admin-btn py-2.5 px-6 rounded-lg text-xs font-bold border border-[#111111] hover:bg-[#111111] hover:text-white flex items-center gap-2">
                   <span class="material-symbols-outlined text-[16px]">save</span>
                   ADD TO AI MEMORY
                 </button>
               </form>
               
               <!-- Memories List Feed -->
-              <h3 class="font-code-md text-xs font-bold uppercase tracking-wider text-on-surface mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-secondary text-[16px]">database</span>
+              <h3 class="font-serif text-lg font-bold text-[#111111] mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[18px]">database</span>
                 Stored Memories & AI Knowledge Assets
               </h3>
               
@@ -641,11 +599,11 @@
 
         <!-- Download Tracker Window (Downloads Section) -->
         <section id="section-downloads" class="scroll-mt-20">
-          <div class="glass-panel rounded-xl overflow-hidden mb-6">
-            <div class="px-6 py-4 bg-black/30 border-b border-white/5 flex items-center justify-between gap-4 flex-wrap">
+          <div class="bg-white rounded-xl border border-[#E5E7EB] shadow-sm overflow-hidden mb-6">
+            <div class="px-6 py-4 bg-[#F8F9FA] border-b border-[#E5E7EB] flex items-center justify-between gap-4 flex-wrap">
               <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-secondary text-[20px]">download</span>
-                <span class="font-code-md text-xs text-secondary font-bold uppercase tracking-wider">Download Tracker Records</span>
+                <span class="material-symbols-outlined text-primary text-[20px]">download</span>
+                <span class="font-body-sm text-xs text-[#111111] font-bold uppercase tracking-wider">Download Tracker Records</span>
               </div>
               <button onclick="window.clearAllDownloads()" class="admin-btn btn-decline py-1.5 px-4 text-xs">
                 Clear All Records
@@ -665,7 +623,7 @@
                 </thead>
                 <tbody id="downloads-body">
                   <tr>
-                    <td colspan="6" class="text-center text-on-surface-variant/50 font-code-md text-xs py-10">
+                    <td colspan="6" class="text-center text-on-surface-variant/50 font-body-sm text-xs py-10">
                       Connecting to database nodes...
                     </td>
                   </tr>
@@ -677,14 +635,14 @@
 
         <!-- User Feedback (Feedback Section) -->
         <section id="section-feedback" class="scroll-mt-20">
-          <div class="glass-panel rounded-xl overflow-hidden mb-6">
-            <div class="px-6 py-4 bg-black/30 border-b border-white/5 flex items-center gap-2">
-              <span class="material-symbols-outlined text-[#EC4899] text-[20px]">rate_review</span>
-              <span class="font-code-md text-xs text-[#EC4899] font-bold uppercase tracking-wider">User Feedback Feed</span>
+          <div class="bg-white rounded-xl border border-[#E5E7EB] shadow-sm overflow-hidden mb-6">
+            <div class="px-6 py-4 bg-[#F8F9FA] border-b border-[#E5E7EB] flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-[20px]">rate_review</span>
+              <span class="font-body-sm text-xs text-[#111111] font-bold uppercase tracking-wider">User Feedback Feed</span>
             </div>
             <div class="p-6">
               <div id="feedback-list" class="space-y-3 max-h-[400px] overflow-y-auto pr-2 terminal-scroll">
-                <div class="text-center text-on-surface-variant/50 font-code-md text-xs py-8">
+                <div class="text-center text-on-surface-variant/50 font-body-sm text-xs py-8">
                   Connecting to collection "feedback"...
                 </div>
               </div>
@@ -695,17 +653,17 @@
         <!-- Client Proposals List (Proposals Section) -->
         <section id="section-proposals" class="scroll-mt-20">
           <div class="mb-4">
-            <h2 class="font-display-lg text-2xl font-black tracking-tight text-on-surface uppercase flex items-center gap-2">
+            <h2 class="font-serif text-2xl font-bold text-[#111111] flex items-center gap-2">
               <span class="material-symbols-outlined text-primary text-[24px]">business_center</span>
               App Idea Pitches & Collaborations
             </h2>
-            <p class="font-body-md text-sm text-on-surface-variant/70 mt-1">
+            <p class="font-body-md text-sm text-on-surface-variant mt-1">
               Submitted app concepts, requirements, and client collaboration proposals received from the home page builder.
             </p>
           </div>
           
           <div id="proposals-list" class="space-y-4">
-            <div class="glass-panel p-10 rounded-xl text-center text-on-surface-variant/50 font-code-md text-xs">
+            <div class="bg-white p-10 rounded-xl border border-[#E5E7EB] shadow-sm text-center text-on-surface-variant/50 font-body-sm text-xs">
               Accessing proposals datastore...
             </div>
           </div>
@@ -784,8 +742,8 @@
               logs.forEach((log, index) => {
                   setTimeout(() => {
                       const entry = document.createElement('div');
-                      entry.className = 'py-0.5 border-b border-white/5';
-                      entry.innerHTML = `<span class="text-secondary/60">${new Date().toLocaleTimeString()}</span> <span class="text-on-surface/80">${log}</span>`;
+                      entry.className = 'py-0.5 border-b border-black/5';
+                      entry.innerHTML = `<span class="text-primary/60">${new Date().toLocaleTimeString()}</span> <span class="text-[#4B5563]">${log}</span>`;
                       logBox.appendChild(entry);
                       logBox.scrollTop = logBox.scrollHeight;
                   }, (index + 1) * 300);
@@ -811,7 +769,7 @@
 
               if (fileStatus) {
                   fileStatus.classList.remove('hidden');
-                  fileStatus.style.color = '#ffb87b';
+                  fileStatus.style.color = '#2563EB';
                   fileStatus.textContent = 'Reading document content...';
               }
 
@@ -839,7 +797,7 @@
                               if (contentArea) contentArea.value = fullText.trim();
                               
                               if (fileStatus) {
-                                  fileStatus.style.color = '#5df4ff';
+                                  fileStatus.style.color = '#2563EB';
                                   fileStatus.textContent = `PDF ingested: ${pdf.numPages} pages`;
                               }
                           } catch (pdfErr) {
@@ -857,7 +815,7 @@
                       reader.onload = function(evt) {
                           if (contentArea) contentArea.value = evt.target.result.trim();
                           if (fileStatus) {
-                              fileStatus.style.color = '#5df4ff';
+                              fileStatus.style.color = '#2563EB';
                               fileStatus.textContent = 'Text document loaded!';
                           }
                       };
@@ -891,7 +849,7 @@
                   const docs = await window.getNimbusKnowledge();
                   if (docs.length === 0) {
                       memoriesList.innerHTML = `
-                          <div class="text-center text-on-surface-variant/40 py-12 border border-dashed border-white/5 rounded-lg">
+                          <div class="text-center text-on-surface-variant/40 py-12 border border-dashed border-[#E5E7EB] rounded-lg">
                               <span class="material-symbols-outlined text-[36px] mb-2 text-on-surface-variant/30">database_off</span>
                               <p class="font-code-md text-xs">Nimbus is relying on default memory. Add knowledge items to train.</p>
                           </div>
@@ -901,11 +859,11 @@
                   
                   memoriesList.innerHTML = docs.map(d => {
                       const badgeStyles = {
-                          biography: 'background: rgba(93, 244, 255, 0.1); color: #5df4ff; border: 1px solid rgba(93, 244, 255, 0.2);',
-                          projects: 'background: rgba(255, 184, 123, 0.1); color: #ffb87b; border: 1px solid rgba(255, 184, 123, 0.2);',
-                          skills: 'background: rgba(192, 132, 252, 0.1); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.2);',
-                          qa: 'background: rgba(52, 211, 153, 0.1); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.2);',
-                          other: 'background: rgba(156, 163, 175, 0.1); color: #9ca3af; border: 1px solid rgba(156, 163, 175, 0.2);'
+                          biography: 'background: rgba(37, 99, 235, 0.08); color: #2563eb; border: 1px solid rgba(37, 99, 235, 0.15);',
+                          projects: 'background: rgba(217, 119, 6, 0.08); color: #d97706; border: 1px solid rgba(217, 119, 6, 0.15);',
+                          skills: 'background: rgba(147, 51, 234, 0.08); color: #9333ea; border: 1px solid rgba(147, 51, 234, 0.15);',
+                          qa: 'background: rgba(5, 150, 105, 0.08); color: #059669; border: 1px solid rgba(5, 150, 105, 0.15);',
+                          other: 'background: rgba(75, 85, 99, 0.08); color: #4b5563; border: 1px solid rgba(75, 85, 99, 0.15);'
                       };
                       const categoryLabels = {
                           biography: 'Bio',
@@ -918,15 +876,15 @@
                       const label = categoryLabels[d.category] || 'Info';
                       
                       return `
-                          <div class="bg-black/20 p-5 rounded-lg border border-white/5 hover:border-white/10 transition-all relative flex flex-col md:flex-row md:items-center justify-between gap-4">
+                          <div class="bg-white p-5 rounded-xl border border-[#E5E7EB] hover:border-[#CBD5E1] hover:shadow-sm transition-all relative flex flex-col md:flex-row md:items-center justify-between gap-4">
                               <div class="flex-1">
                                   <div class="flex items-center gap-2.5 mb-2">
-                                      <span class="font-code-md text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full" style="${style}">
+                                      <span class="font-body-sm text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full" style="${style}">
                                           ${label}
                                       </span>
-                                      <strong class="font-headline-sm text-sm text-on-surface font-semibold">${d.title}</strong>
+                                      <strong class="font-serif text-sm text-[#111111] font-semibold">${d.title}</strong>
                                   </div>
-                                  <div class="font-body-sm text-xs text-on-surface-variant/80 whitespace-pre-wrap pr-16 leading-relaxed">${d.content}</div>
+                                  <div class="font-body-sm text-xs text-[#4B5563] whitespace-pre-wrap pr-16 leading-relaxed">${d.content}</div>
                               </div>
                               <div class="flex items-center md:self-center">
                                   <button onclick="window.deleteRagFact('${d.id}')" class="admin-btn btn-decline flex items-center gap-1 py-1.5 px-3 rounded text-[10px]" style="box-shadow: none;">
@@ -938,7 +896,7 @@
                       `;
                   }).join('');
               } catch (e) {
-                  memoriesList.innerHTML = `<div class="text-center text-red-400 font-code-md text-xs py-8">Error loading memories: ${e.message}</div>`;
+                  memoriesList.innerHTML = `<div class="text-center text-red-500 font-body-sm text-xs py-8">Error loading memories: ${e.message}</div>`;
               }
           };
 
@@ -962,7 +920,7 @@
                       if (fileStatus) fileStatus.classList.add('hidden');
                       await refreshKnowledgeList();
                   } catch (err) {
-                      alert("Failed to add fact to Nimbus's memory: " + err.message);
+                      alert("Failed to add fact: " + err.message);
                   } finally {
                       submitBtn.disabled = false;
                       submitBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">save</span> ADD TO AI MEMORY';
@@ -972,7 +930,7 @@
 
           // Expose delete fact on window
           window.deleteRagFact = async (id) => {
-              if (!confirm('Are you sure you want to delete this fact from Nimbus\'s active memory?')) return;
+              if (!confirm('Are you sure you want to delete this fact from Nimbus\'s memory?')) return;
               try {
                   await window.deleteNimbusKnowledge(id);
                   await refreshKnowledgeList();
@@ -1018,6 +976,46 @@
                   }
               });
           });
+      });
+
+      // ─── 5. Scroll Spy to update active sidebar link ───
+      document.addEventListener('DOMContentLoaded', () => {
+          const sections = document.querySelectorAll('section[id^="section-"]');
+          const navLinks = document.querySelectorAll('#sidebar-nav a[href^="#section-"]');
+          
+          const onScroll = () => {
+              let currentSectionId = '';
+              const scrollPos = window.scrollY + 100;
+              
+              sections.forEach(section => {
+                  if (scrollPos >= section.offsetTop) {
+                      currentSectionId = '#' + section.getAttribute('id');
+                  }
+              });
+              
+              if (!currentSectionId && sections.length > 0) {
+                  currentSectionId = '#' + sections[0].getAttribute('id');
+              }
+              
+              navLinks.forEach(link => {
+                  const href = link.getAttribute('href');
+                  if (href === currentSectionId) {
+                      link.className = 'flex items-center gap-3 text-primary border-l-2 border-primary bg-primary/5 py-3 px-4 font-body-md text-sm transition-all duration-200 relative';
+                      if (!link.querySelector('.active-bar')) {
+                          const activeBar = document.createElement('div');
+                          activeBar.className = 'active-bar absolute left-0 top-0 bottom-0 w-[2px] bg-primary';
+                          link.appendChild(activeBar);
+                      }
+                  } else {
+                      link.className = 'flex items-center gap-3 text-on-surface-variant hover:text-on-surface py-3 px-4 transition-colors hover:bg-black/5 active:scale-[0.98] font-body-md text-sm';
+                      const activeBar = link.querySelector('.active-bar');
+                      if (activeBar) activeBar.remove();
+                  }
+              });
+          };
+          
+          window.addEventListener('scroll', onScroll);
+          onScroll(); // initial check
       });
   </script>
 </body>
