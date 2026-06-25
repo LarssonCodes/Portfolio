@@ -83,6 +83,28 @@ Currently doing an internship at LushAITech. If someone asks about collaboration
   4. Once you have their name, email, and message, invoke the 'sendEmailToLarsson' tool to send it.
 `;
 
+function formatMarkdown(text) {
+  if (!text) return '';
+  // Simple HTML escaping to prevent XSS
+  let safe = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+  
+  // Replace **bold** with <strong>bold</strong>
+  safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // Replace *italic* or _italic_ with <em>italic</em>
+  safe = safe.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  
+  // Replace line breaks with <br>
+  safe = safe.replace(/\n/g, '<br>');
+  
+  return safe;
+}
+
 
 /* ═══════════════════════════════════════════════════
    FEATURE 1 — AI CHAT BUBBLE
@@ -143,7 +165,7 @@ function initAIChat() {
     if (isStreaming) bubble.classList.add('streaming');
 
     const p = document.createElement('p');
-    p.textContent = text;
+    p.innerHTML = formatMarkdown(text);
     bubble.appendChild(p);
     wrapper.appendChild(bubble);
     messages.appendChild(wrapper);
@@ -361,7 +383,7 @@ function initAIChat() {
           LARSSON_CONTEXT,
           (chunk) => {
             fullText += chunk;
-            responseEl.textContent = fullText;
+            responseEl.innerHTML = formatMarkdown(fullText);
             messages.scrollTop = messages.scrollHeight;
           }
         );
@@ -379,7 +401,7 @@ function initAIChat() {
           LARSSON_CONTEXT,
           (chunk) => {
             fullText += chunk;
-            responseEl.textContent = fullText;
+            responseEl.innerHTML = formatMarkdown(fullText);
             messages.scrollTop = messages.scrollHeight;
           }
         );
@@ -664,7 +686,7 @@ Be specific, sharp, and interesting. No fluff. Project: ${ctx}
     slide.addEventListener('mouseenter', () => {
       if (fetched || data.cached) {
         if (data.cached) {
-          insightEl.textContent = data.cached;
+          insightEl.innerHTML = formatMarkdown(data.cached);
           insightEl.classList.add('visible');
         }
         return;
@@ -681,7 +703,7 @@ Be specific, sharp, and interesting. No fluff. Project: ${ctx}
             [{ role: 'user', parts: [{ text: prompt(data.context) }] }]
           );
           data.cached = text.trim();
-          insightEl.textContent = data.cached;
+          insightEl.innerHTML = formatMarkdown(data.cached);
         } catch {
           insightEl.textContent = '✨ Hover again for AI insight';
           fetched = false;
