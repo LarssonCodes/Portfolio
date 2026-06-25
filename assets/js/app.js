@@ -115,6 +115,26 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollHint.style.opacity = Math.max(1 - progress * 4, 0);
       }
     }
+    updateAIChatBubbleVisibility();
+  }
+
+  /* ── AI CHAT BUBBLE VISIBILITY LOGIC ──────────────── */
+  function updateAIChatBubbleVisibility() {
+    const bubble = document.getElementById('ai-chat-bubble');
+    const label  = document.getElementById('ai-chat-toggle-label');
+    if (!bubble) return;
+
+    // Show only if the intro has been exited, the intro video ended on desktop,
+    // or if we scrolled past the intro section (50% of screen height)
+    const showChat = introExited || videoEnded || window.scrollY > (window.innerHeight * 0.5);
+
+    if (showChat) {
+      bubble.classList.add('ai-visible');
+      if (label) label.classList.add('ai-visible');
+    } else {
+      bubble.classList.remove('ai-visible');
+      if (label) label.classList.remove('ai-visible');
+    }
   }
 
   /* ── VIDEO: auto-exit on end, mobile loops ────── */
@@ -137,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollHint.style.transition = 'opacity 0.8s ease';
             scrollHint.style.opacity = '0';
           }
+          updateAIChatBubbleVisibility();
         }
       }
     });
@@ -492,6 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── INITIAL CALL ─────────────────────────────── */
   updateParallax();
   updateProjectScrollEffects();
+  updateAIChatBubbleVisibility();
   if (window.scrollY > 10) {
     handleIntroScroll();
     navbar.classList.add('revealed');
