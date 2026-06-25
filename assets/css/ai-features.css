@@ -78,10 +78,11 @@
 }
 
 .ai-chat-bubble-img {
-  width: 85%;
-  height: 85%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
+  border-radius: 50%;
 }
 
 /* Toggle label tooltip */
@@ -191,9 +192,9 @@
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 .ai-chat-avatar-ring img {
-  width: 85%;
-  height: 85%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .ai-chat-header-info-block {
