@@ -326,7 +326,7 @@ function initAIChat() {
     try {
       // ── Step 1: call Gemini with tool declarations ──
       const raw = await window.GeminiAI.geminiWithTools(
-        'gemini-2.0-flash',
+        'gemini-flash-lite-latest',
         [...chatHistory],
         LARSSON_CONTEXT,
         AI_TOOLS
@@ -356,7 +356,7 @@ function initAIChat() {
         const responseEl = addMessage('model', '', true);
         let fullText = '';
         await window.GeminiAI.geminiStream(
-          'gemini-2.0-flash-lite',
+          'gemini-flash-lite-latest',
           followUpHistory,
           LARSSON_CONTEXT,
           (chunk) => {
@@ -374,7 +374,7 @@ function initAIChat() {
         const responseEl = addMessage('model', '', true);
         let fullText = '';
         await window.GeminiAI.geminiStream(
-          'gemini-2.0-flash-lite',
+          'gemini-flash-lite-latest',
           [...chatHistory],
           LARSSON_CONTEXT,
           (chunk) => {
@@ -517,7 +517,7 @@ Pitch from ${name}:
 
     try {
       const raw = await window.GeminiAI.geminiGenerate(
-        'gemini-2.0-flash',
+        'gemini-flash-lite-latest',
         [{ role: 'user', parts: [{ text: prompt }] }]
       );
 
@@ -677,7 +677,7 @@ Be specific, sharp, and interesting. No fluff. Project: ${ctx}
         insightEl.classList.add('visible');
         try {
           const text = await window.GeminiAI.geminiGenerate(
-            'gemini-2.0-flash-lite',
+            'gemini-flash-lite-latest',
             [{ role: 'user', parts: [{ text: prompt(data.context) }] }]
           );
           data.cached = text.trim();
@@ -770,7 +770,7 @@ Output a complete CV text with sections: Summary, Skills, Projects, Education. P
       if (copyBtn) copyBtn.style.display = 'none';
 
       await window.GeminiAI.geminiStream(
-        'gemini-2.0-flash',
+        'gemini-flash-lite-latest',
         [{ role: 'user', parts: [{ text: prompt }] }],
         '',
         (chunk) => {
