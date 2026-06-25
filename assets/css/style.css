@@ -824,6 +824,17 @@ feImage {
   font-size:.875rem; color:rgba(255,255,255,.4); text-align: left;
 }
 
+.footer-admin-link {
+  color: rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  margin-left: 0.5rem;
+}
+
+.footer-admin-link:hover {
+  color: #ff8f00; /* Subtle cockatiel orange hover accent */
+}
+
 /* ── DESKTOP LAYOUT ADJUSTMENTS ────────────────────── */
 @media (min-width: 901px) {
   html {

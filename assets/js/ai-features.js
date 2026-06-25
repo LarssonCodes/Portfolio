@@ -95,6 +95,40 @@ Currently doing an internship at LushAITech. If someone asks about collaboration
   4. Once you have their name, email, and message, invoke the 'sendEmailToLarsson' tool to send it.
 `;
 
+// ─── DYNAMIC KNOWLEDGE BASE LOAD (RAG) ────────
+let DYNAMIC_KNOWLEDGE = '';
+
+async function loadNimbusKnowledge() {
+  try {
+    if (window.getNimbusKnowledge) {
+      const docs = await window.getNimbusKnowledge();
+      if (docs && docs.length > 0) {
+        const categories = {};
+        docs.forEach(d => {
+          const cat = (d.category || 'other').toUpperCase();
+          if (!categories[cat]) categories[cat] = [];
+          categories[cat].push(`### ${d.title}\n${d.content}`);
+        });
+
+        let compiled = '\n\n━━━ DYNAMIC KNOWLEDGE BASE (REAL-TIME UPDATED) ━━━\n';
+        Object.entries(categories).forEach(([cat, items]) => {
+          compiled += `\n━━━ ${cat} ━━━\n` + items.join('\n\n') + '\n';
+        });
+        DYNAMIC_KNOWLEDGE = compiled;
+        console.log("Nimbus RAG Knowledge loaded successfully! Facts length:", docs.length);
+      } else {
+        DYNAMIC_KNOWLEDGE = '';
+      }
+    }
+  } catch (err) {
+    console.warn("Failed to load dynamic RAG knowledge, relying on default context:", err);
+  }
+}
+
+function getActiveContext() {
+  return LARSSON_CONTEXT + DYNAMIC_KNOWLEDGE;
+}
+
 function formatMarkdown(text) {
   if (!text) return '';
   // Simple HTML escaping to prevent XSS
@@ -363,11 +397,12 @@ function initAIChat() {
     chatHistory.push({ role: 'user', parts: [{ text }] });
 
     try {
+      const activeCtx = getActiveContext();
       // ── Step 1: call Gemini with tool declarations ──
       const raw = await window.GeminiAI.geminiWithTools(
         'gemini-flash-lite-latest',
         [...chatHistory],
-        LARSSON_CONTEXT,
+        activeCtx,
         AI_TOOLS
       );
 
@@ -405,6 +440,7 @@ function initAIChat() {
           return;
         }
 
+        const activeCtx = getActiveContext();
         // Build the follow-up conversation including the function result
         // We MUST pass the original model parts array to preserve the thoughtSignature
         const followUpHistory = [
@@ -419,7 +455,7 @@ function initAIChat() {
         await window.GeminiAI.geminiStream(
           'gemini-flash-lite-latest',
           followUpHistory,
-          LARSSON_CONTEXT,
+          activeCtx,
           (chunk) => {
             fullText += chunk;
             responseEl.innerHTML = formatMarkdown(fullText);
@@ -434,6 +470,7 @@ function initAIChat() {
         chatHistory.push({ role: 'model', parts: [{ text: fullText }] });
 
       } else if (textPart) {
+        const activeCtx = getActiveContext();
         // ── Plain text path — display streamed response ─
         // Re-stream via a dedicated streaming call for proper typewriter effect
         const responseEl = addMessage('model', '', true);
@@ -441,7 +478,7 @@ function initAIChat() {
         await window.GeminiAI.geminiStream(
           'gemini-flash-lite-latest',
           [...chatHistory],
-          LARSSON_CONTEXT,
+          activeCtx,
           (chunk) => {
             fullText += chunk;
             responseEl.innerHTML = formatMarkdown(fullText);
@@ -471,13 +508,17 @@ function initAIChat() {
   }
 
   // Toggle panel
-  bubble.addEventListener('click', () => {
+  bubble.addEventListener('click', async () => {
     isOpen = !isOpen;
     panel.classList.toggle('open', isOpen);
     bubble.classList.toggle('active', isOpen);
-    if (isOpen && messages.children.length === 0) {
-      addMessage('model', "Hey! 👋 I'm Nimbus, Larsson's AI assistant. Ask me anything about his work, skills, or projects!");
-      setTimeout(renderSuggestions, 300);
+    if (isOpen) {
+      // Reload knowledge base in real-time on chat open!
+      await loadNimbusKnowledge();
+      if (messages.children.length === 0) {
+        addMessage('model', "Hey! 👋 I'm Nimbus, Larsson's AI assistant. Ask me anything about his work, skills, or projects!");
+        setTimeout(renderSuggestions, 300);
+      }
     }
   });
 
@@ -742,13 +783,14 @@ function initCVGenerator() {
     }
     if (copyBtn) copyBtn.style.display = 'none';
 
+    const activeCtx = getActiveContext();
     const prompt = `
 Write a tailored, professional 1-page CV summary for Larsson Lalremtluanga specifically for this job description.
 Highlight only the most relevant skills and projects. Use clean plain text formatting with sections.
 Make it sound like a real, polished CV — not a template.
 
 About Larsson:
-${LARSSON_CONTEXT}
+${activeCtx}
 
 Job Description:
 "${jobDesc}"
@@ -793,10 +835,13 @@ Output a complete CV text with sections: Summary, Skills, Projects, Education. P
 /* ═══════════════════════════════════════════════════
    INIT ALL FEATURES
    ═══════════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   initTypingBio();
   initPitchAnalyzer();
   initCVGenerator();
+
+  // Initial fetch of Nimbus knowledge base
+  await loadNimbusKnowledge();
 
   const bubble = document.getElementById('ai-chat-bubble');
   const label  = document.getElementById('ai-chat-toggle-label');

@@ -668,6 +668,42 @@ window.saveContactMessageToFirebase = async function(data) {
     }
 };
 
+// ─── Nimbus RAG Knowledge Base Helpers ────────
+window.getNimbusKnowledge = async function() {
+    try {
+        const snap = await getDocs(collection(db, "nimbus_knowledge"));
+        const docs = [];
+        snap.forEach(d => docs.push({ id: d.id, ...d.data() }));
+        return docs;
+    } catch (e) {
+        console.error("Failed to get Nimbus knowledge:", e);
+        return [];
+    }
+};
+
+window.addNimbusKnowledge = async function(category, title, content) {
+    try {
+        await addDoc(collection(db, "nimbus_knowledge"), {
+            category,
+            title,
+            content,
+            timestamp: serverTimestamp()
+        });
+    } catch (e) {
+        console.error("Failed to add Nimbus knowledge:", e);
+        throw e;
+    }
+};
+
+window.deleteNimbusKnowledge = async function(docId) {
+    try {
+        await deleteDoc(doc(db, "nimbus_knowledge", docId));
+    } catch (e) {
+        console.error("Failed to delete Nimbus knowledge:", e);
+        throw e;
+    }
+};
+
 // 3. Interactive Background Orbs Canvas
 function initBackgroundOrbs() {
     const canvas = document.getElementById('orb-canvas');
