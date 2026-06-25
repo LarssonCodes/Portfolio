@@ -40,14 +40,14 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #FFE066 0%, #F57C00 100%);
+  background: #FFB57F; /* Solid pastel cockatiel cheek orange */
   border: 2px solid #ffffff;
   cursor: pointer;
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 24px rgba(245,124,0,0.35), 0 1px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 24px rgba(255,181,127,0.4), 0 1px 4px rgba(0,0,0,0.15);
   transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
               box-shadow 0.25s ease,
               opacity 0.4s ease;
@@ -78,11 +78,10 @@
 }
 
 .ai-chat-bubble-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
   display: block;
-  border-radius: 50%;
 }
 
 /* Toggle label tooltip */
@@ -188,13 +187,13 @@
   justify-content: center;
   border-radius: 50%;
   overflow: hidden;
-  background: linear-gradient(135deg, #FFF176 0%, #FF8F00 100%);
+  background: #FFF099; /* Solid pastel cockatiel face yellow */
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 .ai-chat-avatar-ring img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
 }
 
 .ai-chat-header-info-block {
@@ -330,9 +329,9 @@
 
 /* Suggestion chip styling */
 .ai-suggestion-chip {
-  background: rgba(245, 124, 0, 0.06);
-  border: 1px solid rgba(245, 124, 0, 0.15);
-  color: #e67e00;
+  background: rgba(255, 181, 127, 0.08);
+  border: 1px solid rgba(255, 181, 127, 0.3);
+  color: #d66c2a;
   font-family: var(--font-ui, 'Outfit', sans-serif);
   font-size: 0.8rem;
   font-weight: 500;
@@ -344,8 +343,8 @@
 }
 
 .ai-suggestion-chip:hover {
-  background: rgba(245, 124, 0, 0.12);
-  border-color: rgba(245, 124, 0, 0.35);
+  background: rgba(255, 181, 127, 0.16);
+  border-color: rgba(255, 181, 127, 0.5);
   transform: translateY(-1px);
 }
 
@@ -401,7 +400,7 @@
 #ai-chat-input::placeholder { color: rgba(0, 0, 0, 0.4); }
 
 #ai-chat-input:focus {
-  border-color: #ff8f00;
+  border-color: #FFB57F;
   background: #ffffff;
 }
 
@@ -409,7 +408,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #FFE066 0%, #F57C00 100%);
+  background: #FFB57F; /* Solid pastel cockatiel cheek orange */
   border: none;
   cursor: pointer;
   display: flex;
