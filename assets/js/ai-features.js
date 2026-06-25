@@ -322,15 +322,20 @@ function initAIChat() {
 
   // ── ACTION CHIP (shown in chat when an action fires) ─
   function addActionChip(name, args) {
-    const labels = {
-      scrollToSection:    `↗ Navigating to ${args.section}`,
-      highlightProject:   `✦ Spotlighting ${args.projectId.toUpperCase()} project`,
-      openProjectCaseStudy: `→ Opening case study…`,
-      sendEmailToLarsson: `✉ Sending email to Larsson…`,
-    };
+    let labelText = '⚡ Action triggered';
+    if (name === 'scrollToSection') {
+      labelText = `↗ Navigating to ${args.section || ''}`;
+    } else if (name === 'highlightProject') {
+      labelText = `✦ Spotlighting ${(args.projectId || '').toUpperCase()} project`;
+    } else if (name === 'openProjectCaseStudy') {
+      labelText = `→ Opening case study…`;
+    } else if (name === 'sendEmailToLarsson') {
+      labelText = `✉ Sending email to Larsson…`;
+    }
+
     const wrapper = document.createElement('div');
     wrapper.className = 'ai-action-chip-wrapper';
-    wrapper.innerHTML = `<span class="ai-action-chip">${labels[name] || '⚡ Action triggered'}</span>`;
+    wrapper.innerHTML = `<span class="ai-action-chip">${labelText}</span>`;
     messages.appendChild(wrapper);
     messages.scrollTop = messages.scrollHeight;
   }
