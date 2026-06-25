@@ -446,7 +446,7 @@ function initAIChat() {
       const errEl = addMessage('model', '');
       errEl.textContent = err.message === 'ALL_QUOTA_EXHAUSTED'
         ? 'All AI keys are out of quota for today. Come back tomorrow! 🌙'
-        : 'Hmm, something went wrong. Try again in a moment!';
+        : `Hmm, something went wrong: ${err.message}. Please try again!`;
       errEl.closest('.ai-msg-bubble').classList.remove('streaming');
     }
 
