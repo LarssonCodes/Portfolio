@@ -500,7 +500,9 @@ function initAIChat() {
           input.disabled = false;
           sendBtn.disabled = false;
           sendBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-          input.focus();
+          if (window.innerWidth > 768) {
+            input.focus();
+          }
           return;
         }
 
@@ -568,7 +570,9 @@ function initAIChat() {
     input.disabled = false;
     sendBtn.disabled = false;
     sendBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    input.focus();
+    if (window.innerWidth > 768) {
+      input.focus();
+    }
   }
 
   // Toggle panel
