@@ -438,7 +438,6 @@ function initAIChat() {
       addMessage('model', "Hey! 👋 I'm Nimbus, Larsson's AI assistant. Ask me anything about his work, skills, or projects!");
       setTimeout(renderSuggestions, 300);
     }
-    if (isOpen) setTimeout(() => input.focus(), 350);
   });
 
   closeBtn?.addEventListener('click', () => {
@@ -648,80 +647,7 @@ function initTypingBio() {
 }
 
 
-/* ═══════════════════════════════════════════════════
-   FEATURE 4 — PROJECT AI INSIGHTS (on slide focus)
-   ═══════════════════════════════════════════════════ */
-function initProjectInsights() {
-  const projectInsights = {
-    'project-ila': {
-      context: `ILA — a gig economy platform for musicians in Mizoram, India. "ILA" is Mizo slang for "Let's go". Built with React Native, Firebase (auth + Realtime DB), and Razorpay payments. The goal: help bands and solo performers find paid gigs and make performing a real profession, not just a hobby. Still in active development — the most ambitious project Larsson is currently building.`,
-      cached: null,
-    },
-    'project-nova': {
-      context: `Nova — a personal habit tracker built by Larsson for himself. The unique concept: habits are mapped onto an interactive human anatomy model built with React Native Skia. Track a workout and specific muscles light up. Track hydration, sleep, meditation — different parts of the body respond. Not a checkbox app — a visual body-based habit system. Personal project, actively used by Larsson himself.`,
-      cached: null,
-    },
-    'project-spam': {
-      context: `Spam Filter — a college machine learning project for Larsson's MSc Data Science program. Connects to Gmail via the Gmail API, downloads emails, and classifies them as spam or not using a Naive Bayes model (MultinomialNB from Scikit-Learn). Also includes smart sorting into categories. A clean end-to-end ML pipeline: data ingestion, feature engineering, model training, and real API integration. Honest college work, not a commercial product.`,
-      cached: null,
-    },
-    'project-inbawk': {
-      context: `INBAWK Cards — a digital version of INBAWK, a real card game native to Mizoram, India. Larsson built it for two reasons: he genuinely loves the game, and he wanted to master Firebase real-time features. Multiple players join a room and play simultaneously with live game state synced via Firebase Realtime Database. The UI is intentionally premium — casino aesthetic — to make a local Mizo game feel world-class. Built with React Native and Expo. Complete and working.`,
-      cached: null,
-    },
-  };
 
-  const prompt = (ctx) => `
-You are a senior engineer. Give ONE ultra-concise (max 2 sentences, 30 words) technical insight about this project that would impress a developer reading a portfolio.
-Be specific, sharp, and interesting. No fluff. Project: ${ctx}
-  `.trim();
-
-  Object.entries(projectInsights).forEach(([id, data]) => {
-    const slide = document.getElementById(id);
-    if (!slide) return;
-
-    const insightEl = slide.querySelector('.ai-project-insight');
-    if (!insightEl) return;
-
-    let hoverTimer = null;
-    let fetched = false;
-
-    slide.addEventListener('mouseenter', () => {
-      if (fetched || data.cached) {
-        if (data.cached) {
-          insightEl.innerHTML = formatMarkdown(data.cached);
-          insightEl.classList.add('visible');
-        }
-        return;
-      }
-
-      hoverTimer = setTimeout(async () => {
-        if (fetched) return;
-        fetched = true;
-        insightEl.textContent = 'Generating insight…';
-        insightEl.classList.add('visible');
-        try {
-          const text = await window.GeminiAI.geminiGenerate(
-            'gemini-flash-lite-latest',
-            [{ role: 'user', parts: [{ text: prompt(data.context) }] }]
-          );
-          data.cached = text.trim();
-          insightEl.innerHTML = formatMarkdown(data.cached);
-        } catch {
-          insightEl.textContent = '✨ Hover again for AI insight';
-          fetched = false;
-        }
-      }, 1800);
-    });
-
-    slide.addEventListener('mouseleave', () => {
-      clearTimeout(hoverTimer);
-      if (!data.cached) {
-        insightEl.classList.remove('visible');
-      }
-    });
-  });
-}
 
 
 /* ═══════════════════════════════════════════════════
@@ -829,14 +755,24 @@ Output a complete CV text with sections: Summary, Skills, Projects, Education. P
 document.addEventListener('DOMContentLoaded', () => {
   initTypingBio();
   initPitchAnalyzer();
-  initProjectInsights();
   initCVGenerator();
 
   const bubble = document.getElementById('ai-chat-bubble');
   const label  = document.getElementById('ai-chat-toggle-label');
   if (bubble && label) {
-    bubble.classList.add('ready');
-    label.classList.add('ready');
-    initAIChat();
+    if (!window.GeminiAI.allKeysExhausted()) {
+      bubble.classList.add('ready');
+      label.classList.add('ready');
+      initAIChat();
+    }
   }
+
+  window.addEventListener('gemini-quota-exhausted', () => {
+    const bubble = document.getElementById('ai-chat-bubble');
+    const label  = document.getElementById('ai-chat-toggle-label');
+    const panel  = document.getElementById('ai-chat-panel');
+    if (bubble) bubble.classList.remove('ready');
+    if (label) label.classList.remove('ready');
+    if (panel) panel.classList.remove('open');
+  });
 });

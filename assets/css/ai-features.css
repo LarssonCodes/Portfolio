@@ -359,31 +359,6 @@
   flex-shrink: 0;
 }
 
-.ai-chat-plus {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: transparent;
-  color: #555;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s, color 0.15s;
-  flex-shrink: 0;
-}
-
-.ai-chat-plus:hover {
-  background: rgba(0, 0, 0, 0.05);
-  color: #000;
-}
-
-.ai-chat-plus svg {
-  width: 18px;
-  height: 18px;
-}
-
 #ai-chat-input {
   flex: 1;
   background: rgba(0, 0, 0, 0.03);
@@ -589,44 +564,6 @@
   animation: blink 0.75s infinite;
   color: #4f8cff;
   margin-left: 1px;
-}
-
-/* ═══════════════════════════════════════════════════
-   FEATURE 4 — PROJECT AI INSIGHTS
-   ═══════════════════════════════════════════════════ */
-.ai-project-insight {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(0deg, rgba(5,5,10,0.97) 70%, transparent 100%);
-  padding: 2rem 1.25rem 1rem 1.25rem;
-  font-family: var(--font-ui, 'Outfit', sans-serif);
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.55;
-  border-radius: 0 0 12px 12px;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  pointer-events: none;
-  z-index: 10;
-}
-
-.ai-project-insight::before {
-  content: '✦ AI Insight';
-  display: block;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #4f8cff;
-  margin-bottom: 0.3rem;
-}
-
-.ai-project-insight.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .ai-msg-bubble.streaming::after {
