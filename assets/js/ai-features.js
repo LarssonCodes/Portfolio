@@ -807,50 +807,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initProjectInsights();
   initCVGenerator();
 
-  /* ── Quota check: probe Gemini before showing the chat bubble ── */
-  async function checkQuotaOnLoad() {
-    const bubble = document.getElementById('ai-chat-bubble');
-    const label  = document.getElementById('ai-chat-toggle-label');
-
-    try {
-      // Smallest possible request — just a ping
-      await window.GeminiAI.geminiGenerate(
-        'gemini-2.0-flash-lite',
-        [{ role: 'user', parts: [{ text: 'hi' }] }]
-      );
-      // At least one key works — show the bubble
-      bubble?.classList.add('ready');
-      label?.classList.add('ready');
-      // Now it's safe to init the chat
-      initAIChat();
-    } catch (err) {
-      if (err.message === 'ALL_QUOTA_EXHAUSTED') {
-        // All keys dead — bubble stays hidden, nothing to show
-        return;
-      }
-      // Any other error (network, etc.) — quota is fine, show bubble anyway
-      bubble?.classList.add('ready');
-      label?.classList.add('ready');
-      initAIChat();
-    }
+  const bubble = document.getElementById('ai-chat-bubble');
+  const label  = document.getElementById('ai-chat-toggle-label');
+  if (bubble && label) {
+    bubble.classList.add('ready');
+    label.classList.add('ready');
+    initAIChat();
   }
-
-  checkQuotaOnLoad();
-
-  /* ── Hide chat bubble when ALL keys exhaust mid-session ── */
-  window.addEventListener('gemini-quota-exhausted', () => {
-    const bubble = document.getElementById('ai-chat-bubble');
-    const label  = document.getElementById('ai-chat-toggle-label');
-    const panel  = document.getElementById('ai-chat-panel');
-
-    if (panel) panel.classList.remove('open');
-
-    [bubble, label].forEach(el => {
-      if (!el) return;
-      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      el.style.opacity = '0';
-      el.style.transform = 'scale(0.7)';
-      setTimeout(() => el.remove(), 650);
-    });
-  });
 });
