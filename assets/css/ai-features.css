@@ -78,8 +78,8 @@
 }
 
 .ai-chat-bubble-img {
-  width: 70%;
-  height: 70%;
+  width: 85%;
+  height: 85%;
   object-fit: contain;
   display: block;
 }
@@ -191,8 +191,8 @@
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 .ai-chat-avatar-ring img {
-  width: 70%;
-  height: 70%;
+  width: 85%;
+  height: 85%;
   object-fit: contain;
 }
 
