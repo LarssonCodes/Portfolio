@@ -28,6 +28,7 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css?v=60">
+  <link rel="stylesheet" href="assets/css/ai-features.css?v=1">
 </head>
 
 <body>
@@ -183,11 +184,8 @@
 
             <!-- Right Text -->
             <div class="hero-text-right reveal rd3">
-              <p class="hero-desc"
-                style="text-transform: none; font-size: 1.1rem; line-height: 1.6; font-weight: 500; font-family: var(--font-ui); text-align: right; max-width: 300px; margin-left: auto;">
-                Currently pursuing an MSc in Data Science.<br><br>This is where I showcase my projects, experiments, and
-                everything I'm building along the way.
-              </p>
+              <p class="hero-desc" id="hero-typing-bio"
+                style="text-transform: none; font-size: 1.1rem; line-height: 1.6; font-weight: 500; font-family: var(--font-ui); text-align: right; max-width: 300px; margin-left: auto;"></p>
             </div>
           </div>
       </section>
@@ -228,6 +226,7 @@
                   <video autoplay muted loop playsinline class="main-video">
                     <source src="assets/images/ila.mp4" type="video/mp4">
                   </video>
+                  <div class="ai-project-insight"></div>
                 </div>
               </div>
               <div class="project-col-right">
@@ -251,6 +250,7 @@
                   <video autoplay muted loop playsinline class="main-video">
                     <source src="assets/images/nova.mp4" type="video/mp4">
                   </video>
+                  <div class="ai-project-insight"></div>
                 </div>
               </div>
               <div class="project-col-right">
@@ -272,6 +272,7 @@
               <div class="project-col-center">
                 <div class="project-visual-box">
                   <img src="assets/images/spam_remover.jpg" class="project-image-fallback" alt="Spam Remover">
+                  <div class="ai-project-insight"></div>
                 </div>
               </div>
               <div class="project-col-right">
@@ -295,6 +296,7 @@
                   <video autoplay muted loop playsinline class="main-video">
                     <source src="assets/images/inbawk.mp4" type="video/mp4">
                   </video>
+                  <div class="ai-project-insight"></div>
                 </div>
               </div>
               <div class="project-col-right">
@@ -334,6 +336,8 @@
                 style="width: 100%; justify-content: center; margin-top: 0.5rem;">Send Pitch ↗</button>
               <div id="pitch-status"
                 style="margin-top:1rem; display:none; font-weight:600; color:var(--blue); font-size:0.9rem;"></div>
+              <!-- AI Pitch Analysis Result -->
+              <div id="ai-pitch-result"></div>
             </form>
           </div>
         </div>
@@ -411,6 +415,12 @@
             <a href="https://github.com/LarssonCodes" target="_blank" class="contact-link">GitHub</a>
           </div>
 
+          <!-- AI CV Generator Button -->
+          <button id="ai-cv-btn" class="reveal rd4">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 12h6M9 16h4M7 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><path d="M9 4h6v4H9V4Z" stroke="currentColor" stroke-width="1.75"/></svg>
+            Generate Tailored CV with AI ↗
+          </button>
+
           <div class="footer-bottom reveal rd4">
             <p>© 2026 Larsson. All rights reserved.</p>
             <div class="social-links">
@@ -425,8 +435,57 @@
     </main>
   </div><!-- /#main-content -->
 
+  <!-- AI Chat Bubble -->
+  <button id="ai-chat-bubble" aria-label="Chat with AI about Larsson">
+    <svg role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.073zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.0993 3.8558L12.5973 8.3829a.0757.0757 0 0 1 .0332-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66v5.5826a.7948.7948 0 0 1-.3927.6813l-4.7783 2.7582-5.5299-3.4655zM13.2599 1.5435a4.485 4.485 0 0 1 2.8764 1.0408l-.1419.0804-4.7783 2.7582a.7948.7948 0 0 0-.3927.6813v6.7369l-2.02-1.1686a.071.071 0 0 1-.038-.052V6.0374a4.504 4.504 0 0 1 4.4945-4.494zm-6.1266 5.5826a.0804.0804 0 0 1 .0332-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.1408 1.6464V11.6a.7664.7664 0 0 1-.3879.6765l-5.8144 3.3543-2.0201-1.1685zm8.907-3.6268L12 5.801l-4.0403 2.3323v4.6646L12 15.1302l4.0403-2.3323z"/></svg>
+  </button>
+  <div id="ai-chat-toggle-label">Ask me anything ✦</div>
+
+  <!-- AI Chat Panel -->
+  <div id="ai-chat-panel" role="dialog" aria-label="AI Chat">
+    <div class="ai-chat-header">
+      <div class="ai-chat-avatar-ring">
+        <svg role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.073zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.0993 3.8558L12.5973 8.3829a.0757.0757 0 0 1 .0332-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66v5.5826a.7948.7948 0 0 1-.3927.6813l-4.7783 2.7582-5.5299-3.4655zM13.2599 1.5435a4.485 4.485 0 0 1 2.8764 1.0408l-.1419.0804-4.7783 2.7582a.7948.7948 0 0 0-.3927.6813v6.7369l-2.02-1.1686a.071.071 0 0 1-.038-.052V6.0374a4.504 4.504 0 0 1 4.4945-4.494zm-6.1266 5.5826a.0804.0804 0 0 1 .0332-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.1408 1.6464V11.6a.7664.7664 0 0 1-.3879.6765l-5.8144 3.3543-2.0201-1.1685zm8.907-3.6268L12 5.801l-4.0403 2.3323v4.6646L12 15.1302l4.0403-2.3323z"/></svg>
+      </div>
+      <button id="ai-chat-close" aria-label="Close chat">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div id="ai-chat-messages"></div>
+    <div class="ai-chat-input-row">
+      <button class="ai-chat-plus" aria-label="Attach">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <input id="ai-chat-input" type="text" placeholder="Ask anything" autocomplete="off">
+      <button id="ai-chat-send" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- AI CV Generator Modal -->
+  <div id="ai-cv-modal" role="dialog" aria-label="AI CV Generator">
+    <div class="ai-cv-modal-box">
+      <div class="ai-cv-modal-header">
+        <h3><span>✦</span> AI Tailored CV Generator</h3>
+        <button id="ai-cv-close" aria-label="Close">✕</button>
+      </div>
+      <div class="ai-cv-modal-body">
+        <p>Paste a job description or role below. Gemini will write a tailored 1-page CV summary for Larsson that matches it perfectly.</p>
+        <form id="ai-cv-form">
+          <textarea id="cv-job-desc" placeholder="e.g. 'Senior React Native Developer with experience in Firebase and real-time apps…'"></textarea>
+          <button type="submit" class="cv-generate-btn">Generate CV ↗</button>
+        </form>
+        <pre id="ai-cv-output"></pre>
+        <button id="ai-cv-copy">Copy to Clipboard</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Lenis Smooth Scroll Library -->
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="assets/js/ai-config.js"></script>
+  <script src="assets/js/ai-features.js"></script>
   <script src="assets/js/app.js?v=62"></script>
   <script type="module" src="assets/js/main.js?v=62"></script>
 </body>
