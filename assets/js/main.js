@@ -640,6 +640,34 @@ if (pitchForm) {
     });
 }
 
+// Expose functions for AI features to save to Firebase
+window.submitPitchToFirebase = async function(data) {
+    try {
+        await addDoc(collection(db, "proposals"), {
+            clientName: data.name,
+            clientEmail: data.email,
+            requirements: data.idea,
+            aiScore: data.aiScore || null,
+            timestamp: serverTimestamp()
+        });
+    } catch (fbError) {
+        console.warn("Firebase save pitch failed:", fbError);
+    }
+};
+
+window.saveContactMessageToFirebase = async function(data) {
+    try {
+        await addDoc(collection(db, "proposals"), {
+            clientName: data.name,
+            clientEmail: data.email,
+            requirements: `[AI Contact] ${data.message}`,
+            timestamp: serverTimestamp()
+        });
+    } catch (fbError) {
+        console.warn("Firebase save contact failed:", fbError);
+    }
+};
+
 // 3. Interactive Background Orbs Canvas
 function initBackgroundOrbs() {
     const canvas = document.getElementById('orb-canvas');

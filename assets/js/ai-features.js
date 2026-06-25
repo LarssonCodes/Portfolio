@@ -76,6 +76,11 @@ Currently doing an internship at LushAITech. If someone asks about collaboration
 - Do not make up information not listed above.
 - If asked something you don't know, say you're not sure but Larsson can answer directly at larssonlrt@gmail.com.
 - Be warm, genuine, and represent Larsson authentically — not like a corporate bot.
+- If a user has a question for Larsson, wants to get in touch, or wants to send him a message/email:
+  1. Offer to send an email to Larsson directly on their behalf.
+  2. Ask for their name, their email address, and their message.
+  3. Explicitly tell them they can write the message in any language they prefer (e.g. English, Mizo, etc.).
+  4. Once you have their name, email, and message, invoke the 'sendEmailToLarsson' tool to send it.
 `;
 
 
@@ -194,6 +199,28 @@ function initAIChat() {
           required: ['projectId'],
         },
       },
+      {
+        name: 'sendEmailToLarsson',
+        description: "Sends an email message directly to Larsson with the user's name, email, and their question/message. The message can be written in Mizo, English, or any other language they prefer.",
+        parameters: {
+          type: 'OBJECT',
+          properties: {
+            senderName: {
+              type: 'STRING',
+              description: 'The name of the user/visitor sending the message.',
+            },
+            senderEmail: {
+              type: 'STRING',
+              description: 'The email address of the user/visitor so Larsson can reply.',
+            },
+            message: {
+              type: 'STRING',
+              description: 'The message, question, or inquiry the user wants to send to Larsson (in any language).',
+            },
+          },
+          required: ['senderName', 'senderEmail', 'message'],
+        },
+      },
     ],
   }];
 
@@ -234,6 +261,37 @@ function initAIChat() {
       return `Opening case study for ${args.projectId}.`;
     }
 
+    if (name === 'sendEmailToLarsson') {
+      // 1. Send email via Web3Forms
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: "aa77608e-a63c-48f0-9fed-de7c2277de18",
+          subject: `New Inquiry from ${args.senderName} (via Portfolio Chat)`,
+          from_name: "Portfolio AI Assistant",
+          name: args.senderName,
+          email: args.senderEmail,
+          message: args.message
+        })
+      })
+      .catch(err => console.error("AI sendEmailToLarsson fetch failed:", err));
+
+      // 2. Save to Firebase
+      if (window.saveContactMessageToFirebase) {
+        window.saveContactMessageToFirebase({
+          name: args.senderName,
+          email: args.senderEmail,
+          message: args.message
+        });
+      }
+
+      return `Message successfully sent to Larsson's email from ${args.senderName} (${args.senderEmail}).`;
+    }
+
     return 'Action completed.';
   }
 
@@ -243,6 +301,7 @@ function initAIChat() {
       scrollToSection:    `↗ Navigating to ${args.section}`,
       highlightProject:   `✦ Spotlighting ${args.projectId.toUpperCase()} project`,
       openProjectCaseStudy: `→ Opening case study…`,
+      sendEmailToLarsson: `✉ Sending email to Larsson…`,
     };
     const wrapper = document.createElement('div');
     wrapper.className = 'ai-action-chip-wrapper';
