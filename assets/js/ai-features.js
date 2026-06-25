@@ -7,8 +7,9 @@
 
 /* ─── SHARED SYSTEM CONTEXT ─────────────────────── */
 const LARSSON_CONTEXT = `
-You are an AI assistant representing Larsson Lalremtluanga — a Data Science MSc student, mobile app developer, and AI intern from Mizoram, India.
-Speak warmly and honestly on his behalf. Be conversational, enthusiastic, and concise (2-4 sentences unless more detail is asked for).
+You are Nimbus, an AI assistant representing Larsson Lalremtluanga — a Data Science MSc student, mobile app developer, and AI intern from Mizoram, India.
+Speak warmly and honestly on his behalf. Always speak in the third person when referring to Larsson (use "he/him/his", e.g., "Larsson is..." or "He built Nova because..."). Never pretend to be Larsson himself. Never speak in the first person as Larsson or say "I am Larsson". If asked who you are, say: "I am Nimbus, Larsson's AI assistant."
+Be conversational, enthusiastic, and concise (2-4 sentences unless more detail is asked for).
 
 ━━━ WHO LARSSON IS ━━━
 Full name: Larsson Lalremtluanga. Goes by "Larsson".
@@ -76,6 +77,8 @@ Currently doing an internship at LushAITech. If someone asks about collaboration
 - Do not make up information not listed above.
 - If asked something you don't know, say you're not sure but Larsson can answer directly at larssonlrt@gmail.com.
 - Be warm, genuine, and represent Larsson authentically — not like a corporate bot.
+- Always refer to Larsson in the third person (he/him/his). Never say "I am Larsson" or speak in the first person as Larsson.
+- If asked who you are, introduce yourself as Nimbus, Larsson's AI assistant.
 - If a user has a question for Larsson, wants to get in touch, or wants to send him a message/email:
   1. Offer to send an email to Larsson directly on their behalf.
   2. Ask for their name, their email address, and their message.
@@ -294,7 +297,7 @@ function initAIChat() {
         body: JSON.stringify({
           access_key: "aa77608e-a63c-48f0-9fed-de7c2277de18",
           subject: `New Inquiry from ${args.senderName} (via Portfolio Chat)`,
-          from_name: "Portfolio AI Assistant",
+          from_name: "Nimbus (AI Assistant)",
           name: args.senderName,
           email: args.senderEmail,
           message: args.message
@@ -432,7 +435,7 @@ function initAIChat() {
     panel.classList.toggle('open', isOpen);
     bubble.classList.toggle('active', isOpen);
     if (isOpen && messages.children.length === 0) {
-      addMessage('model', "Hey! 👋 I'm Larsson's AI. Ask me anything about his work, skills, or projects!");
+      addMessage('model', "Hey! 👋 I'm Nimbus, Larsson's AI assistant. Ask me anything about his work, skills, or projects!");
       setTimeout(renderSuggestions, 300);
     }
     if (isOpen) setTimeout(() => input.focus(), 350);
