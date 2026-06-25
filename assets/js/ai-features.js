@@ -421,6 +421,7 @@ function initAIChat() {
       }
 
     } catch (err) {
+      console.error("AI chat interaction error:", err);
       const errEl = addMessage('model', '');
       errEl.textContent = err.message === 'ALL_QUOTA_EXHAUSTED'
         ? 'All AI keys are out of quota for today. Come back tomorrow! 🌙'
