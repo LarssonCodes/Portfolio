@@ -62,14 +62,14 @@ const projectsData = {
         apk: 'apk/nova.apk'
     },
     'corpus-generator': {
-        title: 'AUTOMATED CORPUS GENERATOR',
-        windowTitle: 'CORPUS_PIPELINE.PY',
-        tagline: 'Autonomous pipeline automating parallel Mizo-English dataset creation via scraping, n8n, and Android emulators.',
+        title: 'AUTOMATED ENGLISH–MIZO PARALLEL CORPUS GENERATION SYSTEM',
+        windowTitle: 'ENGLISH_MIZO_CORPUS_SYSTEM.PY',
+        tagline: 'Autonomous pipeline automating parallel English–Mizo dataset creation via scraping, n8n, and Android emulators.',
         platform: 'Server / Android Emulator',
         type: 'Data Engineering & Automation',
         stack: 'Python + n8n + ADB',
         image: 'assets/images/Automated Corpus Generator.png',
-        description: 'A fully autonomous language data engineering pipeline that harvests English sentences, translates them through an Android dictionary application via ADB emulator automation, validates results, and stores aligned Mizo-English sentence pairs for AI training.',
+        description: 'A fully autonomous language data engineering pipeline that harvests English sentences, translates them through an Android dictionary application via ADB emulator automation, validates results, and stores aligned English–Mizo sentence pairs for AI training.',
         tags: ['Python', 'n8n', 'ADB', 'BlueStacks', 'Streamlit', 'Web Scraping', 'Automation', 'SQLite'],
         features: [
             'Automated sentence collection from Wikipedia, Project Gutenberg, and RSS feeds',
