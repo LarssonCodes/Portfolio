@@ -61,29 +61,28 @@ const projectsData = {
         github: 'https://github.com/LarssonCodes',
         apk: 'apk/nova.apk'
     },
-    'spam-remover': {
-        title: 'GMAIL SPAM REMOVER',
-        windowTitle: 'SPAM_FILTER.PY',
-        tagline: 'ML-powered Gmail cleaner that catches phishing and spam that standard filters miss — built with Naive Bayes.',
-        platform: 'Web / Streamlit',
-        type: 'ML Tool',
-        stack: 'Python + Scikit-Learn',
-        image: 'assets/images/spam_remover.jpg',
-        description: 'An inbox hygiene tool applying Naive Bayes ML filters to Gmail accounts, identifying sophisticated phishing and marketing spam that Google\'s built-in filters often miss.',
-        tags: ['Python', 'Scikit-Learn', 'Gmail API', 'OAuth2', 'Naive Bayes', 'Streamlit'],
+    'corpus-generator': {
+        title: 'AUTOMATED CORPUS GENERATOR',
+        windowTitle: 'CORPUS_PIPELINE.PY',
+        tagline: 'Autonomous pipeline automating parallel Mizo-English dataset creation via scraping, n8n, and Android emulators.',
+        platform: 'Server / Android Emulator',
+        type: 'Data Engineering & Automation',
+        stack: 'Python + n8n + ADB',
+        image: 'assets/images/Automated Corpus Generator.png',
+        description: 'A fully autonomous language data engineering pipeline that harvests English sentences, translates them through an Android dictionary application via ADB emulator automation, validates results, and stores aligned Mizo-English sentence pairs for AI training.',
+        tags: ['Python', 'n8n', 'ADB', 'BlueStacks', 'Streamlit', 'Web Scraping', 'Automation', 'SQLite'],
         features: [
-            'Multinomial Naive Bayes classification engine',
-            'Secure Google OAuth 2.0 authentication flow',
-            'Real-time scanning of unread messages via Gmail API',
-            'Automated batch organisation into Trash / Spam folders',
-            'Model serialisation for rapid cold-start classification',
-            'Interactive Streamlit dashboard with live scan results'
+            'Automated sentence collection from Wikipedia, Project Gutenberg, and RSS feeds',
+            'Android emulator translation automation using ADB and BlueStacks',
+            'Robust mutex-locking system to prevent emulator command collision',
+            'Self-healing pipeline with automatic source fallbacks for network issues',
+            'Fault-tolerant cleanup logic preventing lock deadlocks on execution failures',
+            'Interactive Streamlit monitoring dashboard with live database metrics'
         ],
-        technical: 'Uses a Scikit-Learn pipeline for text vectorisation (CountVectorizer) and classification. Processes data locally to ensure privacy. Integrates with the Gmail API via google-auth-oauthlib. Deployed as an interactive Streamlit web app.',
+        technical: 'Orchestrated completely via n8n with automated scheduling. The sentence-harvesting python script scrapes data, runs text verification, and initiates translations inside a simulated Android dictionary app via ADB shell instructions. Aligned sentence pairs are saved to a parallel corpus database, monitored in real-time by a custom Streamlit web interface.',
         screenshots: [],
         github: 'https://github.com/LarssonCodes',
-        apk: '#',
-        demo: 'https://gmailspamremover.streamlit.app'
+        apk: '#'
     },
     'inbawk': {
         title: 'INBAWK CARDS',

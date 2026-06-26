@@ -1,0 +1,131 @@
+Automated English–Mizo Parallel Corpus Generation System
+
+Overview
+
+Low-resource languages like Mizo lack large parallel datasets required
+for machine translation and other AI language models. This project
+automates the entire dataset creation process by collecting English
+sentences, translating them through an Android dictionary application,
+validating the results, and storing aligned sentence pairs without human
+intervention.
+
+------------------------------------------------------------------------
+
+Project Goal
+
+Build a fully autonomous pipeline capable of continuously generating
+high-quality English–Mizo parallel corpora for AI training.
+
+------------------------------------------------------------------------
+
+Features
+
+-   Automated sentence collection from multiple public sources
+-   Automatic sentence validation
+-   Android emulator automation using ADB
+-   Automatic extraction of translated text
+-   Continuous pipeline execution
+-   Self-healing source fallback
+-   Real-time monitoring dashboard
+-   Automatic lock management
+-   Runs automatically after system startup
+
+------------------------------------------------------------------------
+
+System Architecture
+
+Public Sources ├── Wikipedia ├── Project Gutenberg └── RSS Feeds │ ▼
+Python Sentence Scraper │ ▼ Sentence Validation │ ▼ n8n Workflow │ ▼ ADB
+Controller (Android Emulator) │ ▼ Dictionary Translation │ ▼ Extract
+Translation │ ▼ Parallel Corpus Database │ ▼ Streamlit Dashboard
+
+------------------------------------------------------------------------
+
+Technical Implementation
+
+Workflow Orchestration
+
+-   Built the entire workflow using n8n
+-   Automated scheduling and execution
+-   Handles every stage without manual input
+
+Data Collection
+
+Developed a Python scraper capable of extracting English sentences
+from: - Wikipedia - Project Gutenberg - RSS feeds
+
+The scraper automatically switches to alternative sources if one becomes
+unavailable.
+
+Translation Automation
+
+Created an ADB controller that: - Opens the Android dictionary - Types
+each sentence - Waits for translation - Extracts translated text -
+Returns the translation to the pipeline
+
+All actions are performed automatically inside BlueStacks.
+
+Data Storage
+
+Stores validated English–Mizo sentence pairs for later use in machine
+translation datasets and AI language model development.
+
+------------------------------------------------------------------------
+
+Engineering Decisions
+
+Concurrency Protection
+
+Implemented a mutex lock system to prevent multiple workflow executions
+from controlling the Android emulator simultaneously.
+
+Features: - Lock creation - Automatic release - Crash recovery -
+20-minute lock expiration
+
+Self-Healing Pipeline
+
+If a data source fails due to network issues or SSL errors, the scraper
+automatically switches to another source without stopping the pipeline.
+
+Fault-Tolerant Workflow
+
+Modified the n8n workflow so that even when no valid sentences are
+found, cleanup tasks still execute, ensuring locks are always released
+and future runs continue normally.
+
+------------------------------------------------------------------------
+
+Monitoring Dashboard
+
+Built a Streamlit dashboard providing: - Pipeline status - Total
+generated sentence pairs - Live metrics - Search functionality -
+Pagination - Dark theme interface
+
+------------------------------------------------------------------------
+
+Results
+
+-   Fully autonomous pipeline
+-   Generates approximately 5,700–7,200 sentence pairs per day
+-   Runs continuously in the background
+-   Requires no manual intervention after startup
+
+------------------------------------------------------------------------
+
+Tech Stack
+
+-   Python
+-   n8n
+-   ADB
+-   BlueStacks
+-   Streamlit
+-   SQLite / PostgreSQL
+-   Web Scraping
+-   Automation
+
+------------------------------------------------------------------------
+
+Gallery (Portfolio)
+
+Include screenshots of: 1. Dashboard 2. n8n workflow 3. Android emulator
+translating 4. Database 5. Pipeline architecture 6. Statistics page

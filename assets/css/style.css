@@ -636,7 +636,7 @@ nav { display:flex; gap:2.5rem; }
 /* Apply SVG filters to each slide's visual box only */
 #project-ila .project-visual-box { filter: url(#slice-glitch-0); }
 #project-nova .project-visual-box { filter: url(#slice-glitch-1); }
-#project-spam .project-visual-box { filter: url(#slice-glitch-2); }
+#project-corpus .project-visual-box { filter: url(#slice-glitch-2); }
 #project-inbawk .project-visual-box { filter: url(#slice-glitch-3); }
 #project-pitch .project-visual-box { filter: url(#slice-glitch-4); }
 
