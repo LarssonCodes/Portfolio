@@ -644,6 +644,17 @@ nav { display:flex; gap:2.5rem; }
   border: 2.5px solid #111111;
 }
 
+#project-ila .project-visual-box .main-video,
+#project-nova .project-visual-box .main-video {
+  width: auto;
+  height: 90%;
+  aspect-ratio: 9 / 16;
+  border-radius: 16px;
+  border: 3.5px solid #111111;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+
 
 /* Crisp pixelated rendering for displacement map feImage elements */
 feImage {

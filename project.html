@@ -68,6 +68,20 @@
       margin-bottom: 3rem;
       background: #000;
     }
+    .project-hero-video.portrait-preview,
+    .project-hero-img.portrait-preview {
+      width: auto;
+      max-width: clamp(250px, 75vw, 300px);
+      height: clamp(400px, 42vw, 540px);
+      margin: 0 auto 3rem;
+      display: block;
+      object-fit: cover;
+      border-radius: 32px;
+      border: 8px solid #111111; /* Mobile phone bezel */
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      background: #000;
+    }
+
 
     /* Title Block */
     .project-title-block { margin-bottom: 2.5rem; }
@@ -596,14 +610,15 @@
       const projectId = urlParams.get('id');
       const container = document.getElementById('hero-media-container');
 
+      const isPortrait = projectId === 'ila' || projectId === 'anatomypro';
       if (container && videoMap[projectId]) {
         container.innerHTML = `
-          <video autoplay muted loop playsinline class="project-hero-video">
+          <video autoplay muted loop playsinline class="project-hero-video ${isPortrait ? 'portrait-preview' : ''}">
             <source src="${videoMap[projectId]}" type="video/mp4">
           </video>
         `;
       } else if (container) {
-        container.innerHTML = `<img id="project-hero-img" src="" alt="Project Preview" class="project-hero-img">`;
+        container.innerHTML = `<img id="project-hero-img" src="" alt="Project Preview" class="project-hero-img ${isPortrait ? 'portrait-preview' : ''}">`;
       }
 
       if (typeof initProjectDetail === 'function') initProjectDetail();
