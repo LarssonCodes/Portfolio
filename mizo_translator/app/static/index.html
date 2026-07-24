@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mizo ↔ English NMT Engine</title>
+    <meta name="description" content="High-performance neural machine translation engine for Mizo and English.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=17">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo-area">
+                <i data-lucide="sparkles" class="logo-icon"></i>
+                <h1>Mizo<span>Translator</span></h1>
+            </div>
+            <p class="subtitle">Production Translation Engine (LoRA V2 Rank 128)</p>
+        </header>
+
+        <main class="translator-card">
+            <!-- Language Bar Selector -->
+            <div class="language-selector-bar">
+                <div class="lang-label active" id="source-lang-label">Mizo</div>
+                <button class="swap-btn" id="swap-languages" title="Swap languages">
+                    <i data-lucide="arrow-left-right" class="swap-icon"></i>
+                </button>
+                <div class="lang-label" id="target-lang-label">English</div>
+            </div>
+
+            <!-- Main Grid Workspace -->
+            <div class="main-workspace">
+                <!-- Source Input Panel -->
+                <div class="source-container">
+                    <textarea id="source-text" placeholder="Type Mizo text here..." autofocus></textarea>
+                    <div class="panel-footer">
+                        <span class="char-count" id="char-count">0 / 1000</span>
+                        <div class="action-buttons">
+                            <button class="icon-btn" id="clear-btn" title="Clear text">
+                                <i data-lucide="trash-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Local Model Output Panel -->
+                <div class="output-single" id="output-single">
+                    <div class="panel target-panel" style="position: relative;">
+                        <!-- Node Connection Loader Overlay -->
+                        <div class="translation-loader" id="loader-single">
+                            <div class="lottie-loader-wrapper">
+                                <dotlottie-player 
+                                    src="https://assets-v2.lottiefiles.com/a/8d9a759a-1176-11ee-88d0-0b702f0cc997/cOMbCvVfof.lottie" 
+                                    background="transparent" 
+                                    speed="1.2" 
+                                    style="width: 85px; height: 85px;" 
+                                    loop 
+                                    autoplay>
+                                </dotlottie-player>
+                                <div class="lottie-loader-text">RUNNING LORA INFERENCE...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="output-header">
+                            <i data-lucide="cpu" class="premium-sparkle-icon"></i>
+                            <span>Translation (Fine-tuned Local Model)</span>
+                        </div>
+                        
+                        <textarea id="target-text" placeholder="Translation will appear here..." readonly></textarea>
+                        
+                        <div class="panel-footer">
+                            <div class="action-buttons right-align">
+                                <button class="icon-btn" id="save-db-btn" title="Save to Translation Memory Database">
+                                    <i data-lucide="database"></i>
+                                </button>
+                                <button class="icon-btn" id="correct-btn" title="Edit/Correct translation">
+                                    <i data-lucide="pencil"></i>
+                                </button>
+                                <button class="icon-btn" id="copy-btn-single" title="Copy to clipboard">
+                                    <i data-lucide="copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Translate Action Trigger Button -->
+            <div class="trigger-container">
+                <button class="translate-btn" id="translate-btn">
+                    <span id="translate-btn-text">Translate Now</span>
+                    <i data-lucide="sparkles"></i>
+                </button>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <div class="model-status-card">
+                <i data-lucide="cpu" class="status-icon"></i>
+                <div class="status-details">
+                    <span class="status-title">Engine Status</span>
+                    <span class="status-desc" id="engine-status">Checking backend...</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js?v=17"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

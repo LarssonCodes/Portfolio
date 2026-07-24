@@ -1,0 +1,568 @@
+/* --- DEEPL-STYLE MODERN MINIMALIST DESIGN --- */
+/* Professional, clean, high-precision layout with soft tones and subtle borders */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-desktop: #f1f5f9;           /* Neutral slate-light desktop background */
+    --card-bg: #ffffff;              /* Pure white card container */
+    --panel-left-bg: #ffffff;        /* White background for input text */
+    --panel-right-bg: #f8fafc;       /* Muted off-white for output text (professional contrast) */
+    
+    --border-color: #e2e8f0;         /* Soft grey border outline */
+    --border-focus: #94a3b8;         /* Focus state border grey */
+    
+    --text-primary: #0f172a;         /* Deep slate for primary typography */
+    --text-secondary: #475569;       /* Muted slate for secondary labels */
+    --text-muted: #94a3b8;           /* Muted grey-blue for placeholders */
+    
+    --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --radius-sm: 6px;
+    
+    --transition: 0.15s ease-in-out;
+}
+
+body {
+    background-color: var(--bg-desktop);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    height: 100vh;
+    overflow: hidden;                /* Prevent viewport scrolling */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.background-glow {
+    display: none !important;
+}
+
+/* Layout Container */
+.app-container {
+    width: 100%;
+    max-width: 960px;
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Header (Minimalist & Professional) */
+.app-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.logo-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--text-primary);
+    stroke-width: 2px;
+}
+
+.app-header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.app-header h1 span {
+    font-weight: 300;
+    color: var(--text-secondary);
+}
+
+.subtitle {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: transparent;
+    padding: 0;
+    margin-top: 2px;
+}
+
+/* Main Translator Card */
+.translator-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05); /* Soft premium shadow */
+}
+
+/* Completely remove the Retro OS Window title bar for a modern web look */
+.window-title-bar {
+    display: none !important;
+}
+
+/* Language Selection Bar (Minimalist & Sleek) */
+.language-selector-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 2px;
+    background: transparent;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 0;
+}
+
+.lang-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.lang-label.active {
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--text-primary);
+    border-radius: 0;
+    background: transparent;
+}
+
+.swap-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.swap-btn:hover {
+    background: var(--bg-desktop);
+    color: var(--text-primary);
+    border-color: var(--border-focus);
+    transform: rotate(180deg);
+}
+
+.swap-icon {
+    width: 12px;
+    height: 12px;
+    stroke-width: 2px;
+}
+
+/* Workspace Grid (Side-by-side compartments) */
+.main-workspace {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    align-items: stretch;
+}
+
+/* Document Panels (Sleek professional card splits) */
+.source-container, 
+.output-single .panel {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+    position: relative;
+    transition: border-color var(--transition);
+}
+
+.source-container {
+    background: var(--panel-left-bg);
+}
+
+.output-single .panel {
+    background: var(--panel-right-bg);
+}
+
+.source-container:focus-within {
+    border-color: var(--border-focus);
+}
+
+/* Textareas */
+textarea {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    resize: none;
+    width: 100%;
+    height: 100px;
+    min-height: 90px;
+}
+
+textarea::placeholder {
+    color: var(--text-muted);
+}
+
+/* Panel Footers */
+.panel-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 8px;
+}
+
+.char-count {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.icon-btn:hover {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--text-primary);
+}
+
+.icon-btn svg {
+    width: 13px;
+    height: 13px;
+    stroke-width: 2px;
+}
+
+/* Primary Translate Button (Clean Deep Slate Modern Pill) */
+.trigger-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+.translate-btn {
+    background: var(--text-primary); /* Slate-dark button */
+    border: none;
+    color: #ffffff;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 10px 28px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.translate-btn:hover {
+    background: var(--text-secondary);
+    transform: translateY(-1px);
+}
+
+.translate-btn:active {
+    transform: translateY(0);
+}
+
+.translate-btn svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 2px;
+}
+
+/* Hide Gemini Polish drawer completely */
+.hybrid-info-container {
+    display: none !important;
+}
+
+.output-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.output-header svg {
+    color: var(--text-secondary);
+    stroke-width: 2px;
+}
+
+.premium-sparkle-icon {
+    width: 11px;
+    height: 11px;
+}
+
+/* Lottie Loader Overlay (Translucent White, clean layout) */
+.translation-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: var(--radius-md);
+}
+
+.lottie-loader-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Muted grayscale color filter for clean design integration */
+.translation-loader dotlottie-player {
+    filter: grayscale(100%) opacity(0.6);
+    mix-blend-mode: multiply;
+}
+
+.lottie-loader-text {
+    font-family: var(--font-sans);
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* System Status Capsule (Compact capsule at footer) */
+.app-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: -4px;
+}
+
+.model-status-card {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    padding: 4px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 400px;
+}
+
+.status-icon {
+    width: 13px;
+    height: 13px;
+    color: var(--text-secondary);
+    stroke-width: 2px;
+}
+
+.status-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.status-title {
+    font-size: 0.58rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.status-desc {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+}
+
+/* Clean status indicators */
+.model-status-card.loaded .status-icon { color: #059669; }
+.model-status-card.loaded .status-desc { color: #059669; }
+.model-status-card.fallback .status-icon { color: #d97706; }
+.model-status-card.fallback .status-desc { color: #d97706; }
+
+/* Active Highlights */
+textarea.editing-active {
+    border: 1px dashed var(--base-color) !important;
+    background: rgba(217, 119, 6, 0.01) !important;
+    border-radius: var(--radius-sm);
+}
+
+/* Mobile Screens */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        height: auto;
+        overflow: auto;
+    }
+    .app-container {
+        max-height: none;
+    }
+    .main-workspace {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .app-header h1 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Standalone CSS for API config gear and settings */
+.settings-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: -10px;
+}
+.settings-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+.settings-toggle-btn:hover {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--text-primary);
+}
+.settings-toggle-btn svg {
+    width: 14px;
+    height: 14px;
+}
+.modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+.modal-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    max-width: 480px;
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    border: 1px solid var(--border-color);
+}
+.modal-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+.modal-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+}
+.modal-card input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    outline: none;
+}
+.modal-card input:focus {
+    border-color: var(--text-primary);
+}
+.save-key-btn {
+    background: var(--text-primary);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    width: 100%;
+    transition: var(--transition);
+}
+.save-key-btn:hover {
+    background: var(--text-secondary);
+}
+.modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+.lottie-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--text-primary);
+    border-radius: 50%;
+    animation: lottie-spin 0.8s linear infinite;
+    margin-bottom: 10px;
+}
+@keyframes lottie-spin {
+    to { transform: rotate(360deg); }
+}

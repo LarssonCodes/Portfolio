@@ -11,6 +11,28 @@ const VISIT_COUNT_KEY = 'portfolio_visit_count';
 const SESSION_TRACKED_KEY = 'portfolio_session_tracked';
 
 const projectsData = {
+    'mizo-translator': {
+        title: 'MIZO–ENGLISH NMT TRANSLATOR',
+        windowTitle: 'MIZO_TRANSLATOR.EXE',
+        tagline: 'High-performance Mizo-English neural machine translation engine using fine-tuned NLLB-200 and Gemini verification.',
+        platform: 'Web / Python Backend',
+        type: 'Machine Translation',
+        stack: 'FastAPI + PyTorch + Gemini API',
+        image: 'assets/images/projects/translator_preview.png',
+        description: 'A professional Mizo-English translation system. The core model is a fine-tuned NLLB-200 (distilled-600M) optimized via LoRA (Rank 128) over a custom Mizo dataset, coupled with a Gemini-flash quality-verification gate to screen out loop degeneration and mistranslations.',
+        tags: ['FastAPI', 'PyTorch', 'PEFT', 'CTranslate2', 'Tailwind CSS', 'Gemini API', 'RAG'],
+        features: [
+            'Fine-tuned NLLB-200 local neural model for accurate dialect translation',
+            'Gemini AI quality verification gate to check and block bad translations',
+            'Translation Memory (RAG) database retrieval for verified human matches',
+            'Clean, modern, minimalist DeepL-inspired web interface',
+            'Optimized local memory footprint wrapping base weights directly'
+        ],
+        technical: 'The backend uses FastAPI and PyTorch to run inference on our LoRA-wrapped NLLB model. To safeguard against loops and hallucinations, translations are verified on the fly by a zero-temperature Gemini API quality checker. The static UI is fully responsive and supports a dual local-server or client-side Gemini fallback mode.',
+        screenshots: [],
+        github: 'https://github.com/LarssonCodes/Portfolio/tree/main/mizo_translator',
+        demo: 'translator/index.html'
+    },
     'ila': {
         title: 'ILA COMMUNITY',
         windowTitle: 'ILA_SOURCE.APK',

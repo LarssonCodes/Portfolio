@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mizo ↔ English NMT Engine (Live Demo)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Settings Drawer Toggle -->
+        <div class="settings-bar">
+            <button class="settings-toggle-btn" id="settings-toggle" title="Settings / API Config">
+                <i data-lucide="settings"></i>
+                <span>Configure Live API Fallback</span>
+            </button>
+        </div>
+
+        <header class="app-header">
+            <div class="logo-area">
+                <i data-lucide="sparkles" class="logo-icon"></i>
+                <h1>Mizo<span>Translator</span></h1>
+            </div>
+            <p class="subtitle">Live Demo Workspace (In-Browser Gemini / Local Server)</p>
+        </header>
+
+        <main class="translator-card">
+            <!-- Language Bar Selector -->
+            <div class="language-selector-bar">
+                <div class="lang-label active" id="source-lang-label">Mizo</div>
+                <button class="swap-btn" id="swap-languages" title="Swap languages">
+                    <i data-lucide="arrow-left-right" class="swap-icon"></i>
+                </button>
+                <div class="lang-label" id="target-lang-label">English</div>
+            </div>
+
+            <!-- Main Grid Workspace -->
+            <div class="main-workspace">
+                <!-- Source Input Panel -->
+                <div class="source-container">
+                    <textarea id="source-text" placeholder="Type Mizo text here..." autofocus></textarea>
+                    <div class="panel-footer">
+                        <span class="char-count" id="char-count">0 / 1000</span>
+                        <div class="action-buttons">
+                            <button class="icon-btn" id="clear-btn" title="Clear text">
+                                <i data-lucide="trash-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="output-single" id="output-single">
+                    <div class="panel target-panel" style="position: relative;">
+                        <!-- Node Connection Loader Overlay -->
+                        <div class="translation-loader" id="loader-single">
+                            <div class="lottie-loader-wrapper">
+                                <div class="lottie-spinner"></div>
+                                <div class="lottie-loader-text" id="loader-text">RUNNING TRANSLATION...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="output-header">
+                            <i data-lucide="cpu" class="premium-sparkle-icon"></i>
+                            <span id="output-title">Translation Output</span>
+                        </div>
+                        
+                        <textarea id="target-text" placeholder="Translation will appear here..." readonly></textarea>
+                        
+                        <div class="panel-footer">
+                            <div class="action-buttons right-align">
+                                <button class="icon-btn" id="copy-btn-single" title="Copy to clipboard">
+                                    <i data-lucide="copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Translate Action Trigger Button -->
+            <div class="trigger-container">
+                <button class="translate-btn" id="translate-btn">
+                    <span id="translate-btn-text">Translate Now</span>
+                    <i data-lucide="sparkles"></i>
+                </button>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <div class="model-status-card" id="status-card">
+                <i data-lucide="cpu" class="status-icon"></i>
+                <div class="status-details">
+                    <span class="status-title">Engine Mode</span>
+                    <span class="status-desc" id="engine-status">Detecting environment...</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- API CONFIG MODAL -->
+    <div class="modal-overlay" id="api-modal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="api-modal-close">&times;</button>
+            <h3>Configure Browser API Fallback</h3>
+            <p>If you aren't running the backend server locally, you can enter a Gemini API Key to translate text directly inside your browser. The key is saved safely in your browser storage and is never sent to any external server except Google's official Gemini endpoint.</p>
+            <input type="password" id="gemini-key-input" placeholder="Paste your Gemini API Key here...">
+            <button id="save-key-btn" class="save-key-btn">Save API Key</button>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
