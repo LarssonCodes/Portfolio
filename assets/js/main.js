@@ -31,7 +31,32 @@ const projectsData = {
         technical: 'The backend uses FastAPI and PyTorch to run inference on our LoRA-wrapped NLLB model. To safeguard against loops and hallucinations, translations are verified on the fly by a zero-temperature Gemini API quality checker. The static UI is fully responsive and supports a dual local-server or client-side Gemini fallback mode.',
         screenshots: [],
         github: 'https://github.com/LarssonCodes/Portfolio/tree/main/mizo_translator',
+        huggingface: 'https://huggingface.co/Larsson31/mizo-english-nllb-lora',
         demo: 'translator/index.html'
+    },
+    'mizo-tokenizer': {
+        title: 'MIZO M-BPE TOKENIZER',
+        windowTitle: 'MIZO_TOKENIZER.PY',
+        tagline: 'Morphology-aware 32,000-vocabulary BPE subword tokenizer for Mizo (lus_Latn) with 0% root mutilation.',
+        platform: 'Python / Hugging Face Hub / Transformers',
+        type: 'NLP Tokenizer & Language Model',
+        stack: 'SentencePiece + Transformers + Python',
+        image: 'assets/images/projects/tokenizer_preview.svg',
+        description: 'A production-grade, morphology-aware subword tokenizer for the Mizo language (lus_Latn). Combines a linguistically curated morphological pre-segmenter with SentencePiece Byte-Pair Encoding (BPE), reducing token fertility from 2.14 down to 1.38 tokens/word while achieving 0% root morpheme mutilation.',
+        tags: ['Hugging Face', 'SentencePiece', 'BPE', 'NLP', 'Low-Resource', 'Python', 'Morphology', 'Transformers'],
+        features: [
+            '0% Root Mutilation: Guaranteed preservation of native root morphemes across agglutinative verbal stems',
+            '35.5% Token Efficiency Gain: Fertility reduced from 2.14 down to 1.38 tokens/word (vs Meta NLLB-200)',
+            'Higher Compression: 4.31 bytes/token (compared to 2.78 bytes/token for Meta NLLB-200)',
+            'English Loanword Shield: Protects borrowed words (bulletin, computer, cheetah) from false suffix peeling',
+            'Code-Switching Support: Handles hybrid forms seamlessly (e.g. school-ah, WhatsApp-in)',
+            'Dual Tone Normalization: Strict tone diacritic preservation (ˆ, ˇ, ´, `, ¯) or canonical dense transfer'
+        ],
+        technical: 'Engineered specifically for low-resource agglutinative languages. The pre-tokenizer segments prefixes, root verbs, and clitic markers before passing tokens into a custom 32,000-vocabulary SentencePiece BPE model. Available directly via Hugging Face Transformers Hub (AutoTokenizer.from_pretrained("Larsson31/mizo-tokenizer-32k", trust_remote_code=True)).',
+        screenshots: [],
+        github: 'https://github.com/LarssonCodes',
+        huggingface: 'https://huggingface.co/Larsson31/mizo-tokenizer-32k',
+        demo: 'https://huggingface.co/Larsson31/mizo-tokenizer-32k'
     },
     'ila': {
         title: 'ILA COMMUNITY',
@@ -242,6 +267,16 @@ window.initProjectDetail = async function () {
 
     const githubLink = document.getElementById('btn-github');
     if (githubLink) githubLink.href = project.github;
+
+    const hfLink = document.getElementById('btn-huggingface');
+    if (hfLink) {
+        if (project.huggingface) {
+            hfLink.href = project.huggingface;
+            hfLink.style.display = 'inline-flex';
+        } else {
+            hfLink.style.display = 'none';
+        }
+    }
 
     // Handle primary action button
     const trigger = document.getElementById('btn-download-trigger');

@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1376 768" width="1376" height="768">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="100%" stop-color="#050811"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFD21E"/>
+      <stop offset="100%" stop-color="#FFA800"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141c2e"/>
+      <stop offset="100%" stop-color="#0e1524"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1376" height="768" fill="url(#bgGrad)"/>
+
+  <!-- Blueprint Subtle Grid -->
+  <g opacity="0.07" stroke="#38bdf8" stroke-width="1">
+    <line x1="0" y1="96" x2="1376" y2="96"/>
+    <line x1="0" y1="192" x2="1376" y2="192"/>
+    <line x1="0" y1="288" x2="1376" y2="288"/>
+    <line x1="0" y1="384" x2="1376" y2="384"/>
+    <line x1="0" y1="480" x2="1376" y2="480"/>
+    <line x1="0" y1="576" x2="1376" y2="576"/>
+    <line x1="0" y1="672" x2="1376" y2="672"/>
+    <line x1="96" y1="0" x2="96" y2="768"/>
+    <line x1="192" y1="0" x2="192" y2="768"/>
+    <line x1="288" y1="0" x2="288" y2="768"/>
+    <line x1="384" y1="0" x2="384" y2="768"/>
+    <line x1="480" y1="0" x2="480" y2="768"/>
+    <line x1="576" y1="0" x2="576" y2="768"/>
+    <line x1="672" y1="0" x2="672" y2="768"/>
+    <line x1="768" y1="0" x2="768" y2="768"/>
+    <line x1="864" y1="0" x2="864" y2="768"/>
+    <line x1="960" y1="0" x2="960" y2="768"/>
+    <line x1="1056" y1="0" x2="1056" y2="768"/>
+    <line x1="1152" y1="0" x2="1152" y2="768"/>
+    <line x1="1248" y1="0" x2="1248" y2="768"/>
+  </g>
+
+  <!-- Ambient Glow Circles -->
+  <circle cx="280" cy="220" r="180" fill="#38bdf8" opacity="0.08" filter="blur(60px)"/>
+  <circle cx="1100" cy="500" r="220" fill="#f59e0b" opacity="0.06" filter="blur(70px)"/>
+
+  <!-- Main Window Container -->
+  <g transform="translate(68, 48)" filter="url(#cardShadow)">
+    <!-- Window Border & Body -->
+    <rect width="1240" height="672" rx="16" fill="url(#cardGrad)" stroke="#1e293b" stroke-width="1.5"/>
+
+    <!-- Window Titlebar -->
+    <rect width="1240" height="52" rx="16" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+    <rect y="36" width="1240" height="16" fill="#0f172a"/>
+
+    <!-- Mac Traffic Lights -->
+    <circle cx="28" cy="26" r="6" fill="#ef4444"/>
+    <circle cx="48" cy="26" r="6" fill="#f59e0b"/>
+    <circle cx="68" cy="26" r="6" fill="#10b981"/>
+
+    <!-- Window Title -->
+    <text x="620" y="31" fill="#94a3b8" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="13" font-weight="500" text-anchor="middle">
+      huggingface.co/Larsson31/mizo-tokenizer-32k — Morphology-Guided BPE
+    </text>
+
+    <!-- Top Badge Row -->
+    <g transform="translate(40, 76)">
+      <!-- HF Badge -->
+      <rect width="180" height="34" rx="8" fill="#ffcc00" fill-opacity="0.12" stroke="#ffcc00" stroke-opacity="0.4" stroke-width="1"/>
+      <text x="16" y="22" fill="#ffd21e" font-family="'Outfit', sans-serif" font-size="14" font-weight="700">🤗 Hugging Face Hub</text>
+
+      <!-- Model Tag Badge -->
+      <rect x="194" width="220" height="34" rx="8" fill="#38bdf8" fill-opacity="0.1" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1"/>
+      <text x="210" y="22" fill="#38bdf8" font-family="'Outfit', sans-serif" font-size="13" font-weight="600">lus_Latn · 32,000 Vocab</text>
+
+      <!-- License Badge -->
+      <rect x="428" width="130" height="34" rx="8" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-opacity="0.3" stroke-width="1"/>
+      <text x="444" y="22" fill="#34d399" font-family="'Outfit', sans-serif" font-size="13" font-weight="600">License: MIT</text>
+
+      <!-- Model Title -->
+      <text x="1160" y="23" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="500" text-anchor="end">
+        SentencePiece + PyTorch
+      </text>
+    </g>
+
+    <!-- Horizontal Divider -->
+    <line x1="40" y1="128" x2="1200" y2="128" stroke="#1e293b" stroke-width="1"/>
+
+    <!-- Left Column: Code Terminal Block -->
+    <g transform="translate(40, 148)">
+      <rect width="570" height="480" rx="12" fill="#080c16" stroke="#1e293b" stroke-width="1"/>
+      
+      <!-- Terminal Header -->
+      <rect width="570" height="36" rx="12" fill="#0d1322"/>
+      <rect y="24" width="570" height="12" fill="#0d1322"/>
+      <text x="20" y="23" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600">PYTHON QUICKSTART</text>
+
+      <!-- Code Text -->
+      <g font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="13.5" xml:space="preserve">
+        <!-- Line 1 -->
+        <text x="24" y="70" fill="#f43f5e">from</text>
+        <text x="68" y="70" fill="#f8fafc"> transformers </text>
+        <text x="190" y="70" fill="#f43f5e">import</text>
+        <text x="250" y="70" fill="#38bdf8"> AutoTokenizer</text>
+
+        <!-- Line 3 -->
+        <text x="24" y="112" fill="#64748b"># Load directly from Hugging Face Hub</text>
+
+        <!-- Line 4 -->
+        <text x="24" y="140" fill="#f8fafc">tokenizer = AutoTokenizer.from_pretrained(</text>
+        <text x="48" y="168" fill="#a7f3d0">"Larsson31/mizo-tokenizer-32k"</text><text fill="#f8fafc">,</text>
+        <text x="48" y="196" fill="#f8fafc">trust_remote_code=</text><text fill="#fbbf24">True</text>
+        <text x="24" y="224" fill="#f8fafc">)</text>
+
+        <!-- Line 8 -->
+        <text x="24" y="266" fill="#64748b"># Test morphology-guided subword segmentation</text>
+        <text x="24" y="294" fill="#f8fafc">sample = </text><text fill="#a7f3d0">"Zirtirtu darthlalang school-ah"</text>
+        <text x="24" y="324" fill="#f8fafc">tokens = tokenizer.tokenize(sample)</text>
+
+        <!-- Output Box -->
+        <g transform="translate(18, 350)">
+          <rect width="534" height="106" rx="8" fill="#0e172a" stroke="#334155" stroke-width="1"/>
+          <text x="16" y="26" fill="#94a3b8" font-size="11" font-weight="600">OUTPUT TOKEN STREAM:</text>
+          
+          <!-- Token Morphemes Visual -->
+          <g transform="translate(16, 42)" font-size="12" font-weight="600">
+            <!-- zir -->
+            <rect x="0" y="0" width="58" height="26" rx="4" fill="#38bdf8" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1"/>
+            <text x="29" y="17" fill="#38bdf8" text-anchor="middle">'_Zir'</text>
+            
+            <!-- tir -->
+            <rect x="66" y="0" width="48" height="26" rx="4" fill="#38bdf8" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1"/>
+            <text x="90" y="17" fill="#38bdf8" text-anchor="middle">'tir'</text>
+
+            <!-- tu -->
+            <rect x="122" y="0" width="44" height="26" rx="4" fill="#38bdf8" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1"/>
+            <text x="144" y="17" fill="#38bdf8" text-anchor="middle">'tu'</text>
+
+            <!-- dar -->
+            <rect x="174" y="0" width="54" height="26" rx="4" fill="#a855f7" fill-opacity="0.15" stroke="#a855f7" stroke-width="1"/>
+            <text x="201" y="17" fill="#c084fc" text-anchor="middle">'_dar'</text>
+
+            <!-- thla -->
+            <rect x="236" y="0" width="54" height="26" rx="4" fill="#a855f7" fill-opacity="0.15" stroke="#a855f7" stroke-width="1"/>
+            <text x="263" y="17" fill="#c084fc" text-anchor="middle">'thla'</text>
+
+            <!-- lang -->
+            <rect x="298" y="0" width="58" height="26" rx="4" fill="#a855f7" fill-opacity="0.15" stroke="#a855f7" stroke-width="1"/>
+            <text x="327" y="17" fill="#c084fc" text-anchor="middle">'lang'</text>
+
+            <!-- school -->
+            <rect x="364" y="0" width="76" height="26" rx="4" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1"/>
+            <text x="402" y="17" fill="#34d399" text-anchor="middle">'_school'</text>
+
+            <!-- -ah -->
+            <rect x="448" y="0" width="50" height="26" rx="4" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+            <text x="473" y="17" fill="#fbbf24" text-anchor="middle">'-ah'</text>
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- Right Column: Scientific Performance Metrics -->
+    <g transform="translate(630, 148)">
+      
+      <!-- Metric Card 1: 0% Root Mutilation -->
+      <g transform="translate(0, 0)">
+        <rect width="570" height="104" rx="10" fill="#0b1324" stroke="#1e293b" stroke-width="1"/>
+        <circle cx="48" cy="52" r="24" fill="#10b981" fill-opacity="0.15"/>
+        <text x="48" y="58" fill="#10b981" font-family="'Outfit', sans-serif" font-size="22" font-weight="800" text-anchor="middle">✓</text>
+        <text x="92" y="44" fill="#10b981" font-family="'Outfit', sans-serif" font-size="24" font-weight="800">0% Root Morpheme Mutilation</text>
+        <text x="92" y="70" fill="#94a3b8" font-family="'Outfit', sans-serif" font-size="14">Guarantees native root preservation across agglutinative verbal stems.</text>
+      </g>
+
+      <!-- Metric Card 2: 1.38 tokens/word Fertility -->
+      <g transform="translate(0, 122)">
+        <rect width="570" height="104" rx="10" fill="#0b1324" stroke="#1e293b" stroke-width="1"/>
+        <circle cx="48" cy="52" r="24" fill="#38bdf8" fill-opacity="0.15"/>
+        <text x="48" y="58" fill="#38bdf8" font-family="'Outfit', sans-serif" font-size="20" font-weight="800" text-anchor="middle">⚡</text>
+        <text x="92" y="44" fill="#38bdf8" font-family="'Outfit', sans-serif" font-size="24" font-weight="800">1.38 Tokens / Word Fertility</text>
+        <text x="92" y="70" fill="#94a3b8" font-family="'Outfit', sans-serif" font-size="14">35.5% efficiency gain over Meta NLLB-200 (2.14 tokens/word baseline).</text>
+      </g>
+
+      <!-- Metric Card 3: Compression Ratio -->
+      <g transform="translate(0, 244)">
+        <rect width="570" height="104" rx="10" fill="#0b1324" stroke="#1e293b" stroke-width="1"/>
+        <circle cx="48" cy="52" r="24" fill="#f59e0b" fill-opacity="0.15"/>
+        <text x="48" y="58" fill="#f59e0b" font-family="'Outfit', sans-serif" font-size="20" font-weight="800" text-anchor="middle">📦</text>
+        <text x="92" y="44" fill="#f59e0b" font-family="'Outfit', sans-serif" font-size="24" font-weight="800">4.31 Bytes / Token Compression</text>
+        <text x="92" y="70" fill="#94a3b8" font-family="'Outfit', sans-serif" font-size="14">High-density encoding preserving tone diacritics and consonant Ṭ / ṭ.</text>
+      </g>
+
+      <!-- Card 4: English Loanword Shield & Code-Switching -->
+      <g transform="translate(0, 366)">
+        <rect width="570" height="114" rx="10" fill="#0b1324" stroke="#1e293b" stroke-width="1"/>
+        <circle cx="48" cy="57" r="24" fill="#c084fc" fill-opacity="0.15"/>
+        <text x="48" y="63" fill="#c084fc" font-family="'Outfit', sans-serif" font-size="18" font-weight="800" text-anchor="middle">🛡️</text>
+        <text x="92" y="46" fill="#c084fc" font-family="'Outfit', sans-serif" font-size="22" font-weight="800">Loanword Shield &amp; Code-Switching</text>
+        <text x="92" y="72" fill="#94a3b8" font-family="'Outfit', sans-serif" font-size="13.5">Protects borrowed nouns while handling hybrid forms (e.g. school-ah, WhatsApp-in).</text>
+      </g>
+    </g>
+
+  </g>
+</svg>

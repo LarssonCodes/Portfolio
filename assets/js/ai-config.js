@@ -181,17 +181,18 @@ async function geminiWithTools(model, messages, systemPrompt = '', tools = []) {
 }
 
 /**
- * Generates text embeddings using text-embedding-004
+ * Generates text embeddings using gemini-embedding-001 (768 dimensions)
  * @param {string} text - text content to embed
  * @returns {Promise<Array<number>>} 768-dimensional float array
  */
 async function geminiEmbed(text) {
   if (allKeysExhausted()) throw new Error('ALL_QUOTA_EXHAUSTED');
   const key = getNextKey();
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${key}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${key}`;
   const body = {
-    model: "models/text-embedding-004",
-    content: { parts: [{ text }] }
+    model: "models/gemini-embedding-001",
+    content: { parts: [{ text }] },
+    outputDimensionality: 768
   };
   const res = await fetch(url, {
     method: 'POST',

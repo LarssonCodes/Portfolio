@@ -95,6 +95,17 @@
         <feDisplacementMap in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="B"
           id="glitch-displacement-4" />
       </filter>
+      <filter id="slice-glitch-5" x="-20%" y="-20%" width="140%" height="140%">
+        <feFlood flood-color="rgb(128,128,128)" x="-20%" y="-20%" width="140%" height="140%" result="neutral" />
+        <feImage id="glitch-image-5"
+          xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSdub25lJz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEyLjUnIGZpbGw9J3JnYigxMjgsMTI4LDEyOCknLz4KICA8cmVjdCB4PScwJyB5PScxMi41JyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEyLjUnIGZpbGw9J3JnYigyNTUsMTI4LDEyOCknLz4KICA8cmVjdCB4PScwJyB5PScyNScgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMi41JyBmaWxsPSdyZ2IoMCwxMjgsMTI4KScvPgogIDxyZWN0IHg9JzAnIHk9JzM3LjUnIHdpZHRoPScxMDAnIGhlaWdodD0nMTIuNScgZmlsbD0ncmdiKDIxMCwxMjgsMTI4KScvPgogIDxyZWN0IHg9JzAnIHk9JzUwJyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEyLjUnIGZpbGw9J3JnYig0MCwxMjgsMTI4KScvPgogIDxyZWN0IHg9JzAnIHk9JzYyLjUnIHdpZHRoPScxMDAnIGhlaWdodD0nMTIuNScgZmlsbD0ncmdiKDI0MCwxMjgsMTI4KScvPgogIDxyZWN0IHg9JzAnIHk9Jzc1JyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEyLjUnIGZpbGw9J3JnYigyMCwxMjgsMTI4KScvPgogIDxyZWN0IHg9JzAnIHk9Jzg3LjUnIHdpZHRoPScxMDAnIGhlaWdodD0nMTIuNScgZmlsbD0ncmdiKDEyOCwxMjgsMTI4KScvPgo8L3N2Zz4="
+          href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSdub25lJz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEyLjUnIGZpbGw9J3JnYigxMjgsMTI4LDEyOCknLz4KICA8cmVjdCB4PScwJyB5PScxMi41JyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEyLjUnIGZpbGw9J3JnYigyNTUsMTI4LDEyOCknLz4KICA8cmVjdCB4PScwJyB5PScyNScgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMi41JyBmaWxsPSdyZ2IoMCwxMjgsMTI4KScvPgogIDxyZWN0IHg9JzAnIHk9JzM3LjUnIHdpZHRoPScxMDAnIGhlaWdodD0nMTIuNScgZmlsbD0ncmdiKDIxMCwxMjgsMTI4KScvPgogIDxyZWN0IHg9JzAnIHk9JzUwJyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEyLjUnIGZpbGw9J3JnYig0MCwxMjgsMTI4KScvPgogIDxyZWN0IHg9JzAnIHk9JzYyLjUnIHdpZHRoPScxMDAnIGhlaWdodD0nMTIuNScgZmlsbD0ncmdiKDI0MCwxMjgsMTI4KScvPgogIDxyZWN0IHg9JzAnIHk9Jzc1JyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEyLjUnIGZpbGw9J3JnYigyMCwxMjgsMTI4KScvPgogIDxyZWN0IHg9JzAnIHk9Jzg3LjUnIHdpZHRoPScxMDAnIGhlaWdodD0nMTIuNScgZmlsbD0ncmdiKDEyOCwxMjgsMTI4KScvPgo8L3N2Zz4="
+          x="0%" y="40%" width="100%" height="20%" preserveAspectRatio="none" image-rendering="pixelated"
+          result="glitch" />
+        <feComposite operator="over" in="glitch" in2="neutral" result="map" />
+        <feDisplacementMap in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="B"
+          id="glitch-displacement-5" />
+      </filter>
     </defs>
   </svg>
   <!-- GRAIN + ORBS BACKGROUND -->
@@ -212,6 +223,7 @@
             <div class="slide-nav-item" data-slide="3"><span class="slide-nav-num">04</span><span
                 class="slide-nav-dot"></span></div>
             <div class="slide-nav-item" data-slide="4"><span class="slide-nav-num">05</span><span class="slide-nav-dot"></span></div>
+            <div class="slide-nav-item" data-slide="5"><span class="slide-nav-num">06</span><span class="slide-nav-dot"></span></div>
           </div>
 
           <!-- Slide 1: ILA Community -->
@@ -308,7 +320,7 @@
               <div class="project-col-left">
                 <h2 class="project-number">05</h2>
                 <h3 class="project-title">Mizo<br>Translator</h3>
-                <div class="project-tech">FastAPI · PyTorch · Gemini</div>
+                <div class="project-tech">FastAPI · PyTorch · Gemini · LoRA</div>
               </div>
               <div class="project-col-center">
                 <div class="project-visual-box" style="background: #f8fafc; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: 1px solid var(--border);">
@@ -316,8 +328,34 @@
                 </div>
               </div>
               <div class="project-col-right">
-                <p class="project-desc">A professional Mizo-English neural machine translation workspace featuring local fine-tuned NLLB-200 and Gemini API validation.</p>
-                <a href="project.html?id=mizo-translator" class="project-link">View Case Study ↗</a>
+                <p class="project-desc">Bidirectional Mizo-English NMT fine-tuning Meta's NLLB-200 via LoRA (Rank 128) with zero-temperature Gemini API validation gate.</p>
+                <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                  <a href="project.html?id=mizo-translator" class="project-link">View Case Study ↗</a>
+                  <a href="https://huggingface.co/Larsson31/mizo-english-nllb-lora" target="_blank" class="project-link" style="color: #d97706; border-bottom-color: #d97706;">🤗 Hugging Face ↗</a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Slide 6: Mizo Tokenizer -->
+          <section class="project-slide wcard-tokenizer" id="project-tokenizer">
+            <div class="project-slide-content">
+              <div class="project-col-left">
+                <h2 class="project-number">06</h2>
+                <h3 class="project-title">Mizo<br>Tokenizer</h3>
+                <div class="project-tech">SentencePiece · BPE · Morphology</div>
+              </div>
+              <div class="project-col-center">
+                <div class="project-visual-box" style="background: #0a0f1d; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: 1px solid #1e293b; overflow: hidden;">
+                  <img src="assets/images/projects/tokenizer_preview.svg" style="width: 100%; height: 100%; object-fit: contain; border-radius: 12px;" alt="Mizo Tokenizer">
+                </div>
+              </div>
+              <div class="project-col-right">
+                <p class="project-desc">A production-grade, morphology-aware 32,000-vocabulary BPE subword tokenizer for Mizo (lus_Latn) with 0% root mutilation and 35.5% token efficiency gain.</p>
+                <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                  <a href="project.html?id=mizo-tokenizer" class="project-link">View Case Study ↗</a>
+                  <a href="https://huggingface.co/Larsson31/mizo-tokenizer-32k" target="_blank" class="project-link" style="color: #d97706; border-bottom-color: #d97706;">🤗 Hugging Face ↗</a>
+                </div>
               </div>
             </div>
           </section>
@@ -429,6 +467,7 @@
             <a href="https://www.linkedin.com/in/larsson-lalremtluanga-b53796379/" target="_blank"
               class="contact-link">LinkedIn</a>
             <a href="https://github.com/LarssonCodes" target="_blank" class="contact-link">GitHub</a>
+            <a href="https://huggingface.co/Larsson31" target="_blank" class="contact-link">Hugging Face</a>
           </div>
 
           <div class="footer-bottom reveal rd4">
@@ -436,6 +475,7 @@
             <div class="social-links">
               <a href="https://github.com/LarssonCodes" target="_blank">GitHub</a>
               <a href="https://www.linkedin.com/in/larsson-lalremtluanga-b53796379/" target="_blank">LinkedIn</a>
+              <a href="https://huggingface.co/Larsson31" target="_blank">Hugging Face</a>
             </div>
 
           </div>

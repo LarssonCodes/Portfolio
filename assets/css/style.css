@@ -428,7 +428,7 @@ nav { display:flex; gap:2.5rem; }
 .work-section-container {
   position: relative;
   width: 100%;
-  height: 400vh; /* 4 slides x 100vh */
+  height: 600vh; /* 6 slides x 100vh */
 }
 
 .work-viewport {
@@ -919,7 +919,7 @@ feImage {
   
   /* Mobile optimized Work section container */
   .work-section-container {
-    height: 400vh !important;
+    height: 600vh !important;
     padding: 0 !important;
     background-color: #fbfbfb !important;
   }

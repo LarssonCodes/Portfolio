@@ -216,13 +216,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('glitch-displacement-0'),
     document.getElementById('glitch-displacement-1'),
     document.getElementById('glitch-displacement-2'),
-    document.getElementById('glitch-displacement-3')
+    document.getElementById('glitch-displacement-3'),
+    document.getElementById('glitch-displacement-4'),
+    document.getElementById('glitch-displacement-5')
   ];
   const glitchImages = [
     document.getElementById('glitch-image-0'),
     document.getElementById('glitch-image-1'),
     document.getElementById('glitch-image-2'),
-    document.getElementById('glitch-image-3')
+    document.getElementById('glitch-image-3'),
+    document.getElementById('glitch-image-4'),
+    document.getElementById('glitch-image-5')
   ];
 
   function updateProjectScrollEffects() {

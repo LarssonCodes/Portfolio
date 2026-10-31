@@ -69,11 +69,27 @@ Outside coding, Larsson loves playing musical instruments and gaming. He's a bui
    Status: Complete and working.
    Tech: React Native, Expo, Firebase (Realtime Database for live multiplayer sync).
 
+5. Mizo-English Neural Translator (NMT) — FastAPI · PyTorch · NLLB-200 · LoRA · Gemini API
+   The REAL story: Low-resource language machine translation for Mizo often struggles with loop degeneration, hallucination, or dialect inaccuracy. Larsson built a production-grade neural machine translation system fine-tuning Meta's NLLB-200 (distilled-600M) via LoRA (Rank 128) on a custom Mizo dataset.
+   What makes it special: Coupled with a Gemini-flash AI quality-verification gate to screen out loop degeneration and mistranslations, plus Translation Memory (RAG) retrieval for verified human matches, wrapped in a modern DeepL-inspired minimalist web UI with live browser translation capabilities.
+   Hosted on Hugging Face: https://huggingface.co/Larsson31/mizo-english-nllb-lora
+   Status: Complete and working.
+   Tech: FastAPI, PyTorch, LoRA, CTranslate2, Gemini API, RAG, Tailwind CSS.
+
+6. Mizo M-BPE Tokenizer — SentencePiece · Python · Transformers · Hugging Face
+   The REAL story: Tokenizers trained on English or general multilingual datasets mutilate Mizo root morphemes because Mizo is an agglutinative language. Larsson engineered a production-grade morphology-guided subword tokenizer combining a linguistic rule pre-segmenter with a 32,000-vocabulary SentencePiece BPE model.
+   What makes it special: 0% root morpheme mutilation, reduces fertility from 2.14 down to 1.38 tokens/word (35.5% efficiency gain over Meta NLLB-200), incorporates an English loanword shield (protecting words like computer, cheetah, bulletin), and handles code-switching seamlessly (e.g. school-ah, WhatsApp-in).
+   Hosted on Hugging Face: https://huggingface.co/Larsson31/mizo-tokenizer-32k
+   Usage: AutoTokenizer.from_pretrained("Larsson31/mizo-tokenizer-32k", trust_remote_code=True)
+   Status: Complete and open-sourced on Hugging Face.
+   Tech: SentencePiece, Hugging Face Hub, Transformers, Python.
+
 He also works on many smaller side projects and experiments regularly — always building something.
 
 ━━━ CONTACT ━━━
 General contact: lrtlarsson@gmail.com
 Important/professional contact: larssonlrt@gmail.com
+Hugging Face: https://huggingface.co/Larsson31
 GitHub: https://github.com/LarssonCodes
 LinkedIn: https://www.linkedin.com/in/larsson-lalremtluanga-b53796379/
 
@@ -83,11 +99,13 @@ Currently doing an internship at LushAITech. If someone asks about collaboration
 ━━━ WEBSITE STRUCTURE & NAVIGATION ━━━
 This website is a premium, interactive single-page portfolio with the following structure:
 1. Home / Hero Section (#home): Features a cinematic video intro, a dynamic typing bio, and a floating profile photo with interactive orbits.
-2. Work Section (#work): A full-screen horizontal scroll-snapping project showcase containing four major slides:
+2. Work Section (#work): A full-screen horizontal scroll-snapping project showcase containing six major slides:
    - Slide 1: ILA Community (gig platform for Mizo music scene).
    - Slide 2: Nova (habit tracker mapped to an interactive human anatomy model).
    - Slide 3: Automated English–Mizo Parallel Corpus Generation System (Autonomous English–Mizo parallel corpus generation system).
    - Slide 4: INBAWK Cards (real-time multiplayer Mizo card game).
+   - Slide 5: Mizo-English Neural Translator (high-performance Mizo-English NMT system with live demo and Hugging Face LoRA adapter).
+   - Slide 6: Mizo M-BPE Tokenizer (morphology-guided 32k tokenizer with 0% root mutilation on Hugging Face).
    * Note: Every project slide features a "View Case Study ↗" button that opens a detailed case study page (project.html?id=projectId) displaying overview, key features, tech stack, screenshots, and an interactive feedback card.
 3. Collaboration / Pitch Section (#pitch): Contains the "Got an App Idea?" form where visitors can pitch ideas and get an instant AI feasibility score.
 4. About Section (#about): Showcases Larsson's skills, workflow, and developer philosophy.
@@ -329,7 +347,7 @@ function initAIChat() {
           properties: {
             projectId: {
               type: 'STRING',
-              enum: ['ila', 'nova', 'corpus', 'inbawk'],
+              enum: ['ila', 'nova', 'corpus', 'inbawk', 'translator', 'mizo-translator', 'tokenizer', 'mizo-tokenizer'],
               description: 'Which project to highlight',
             },
           },
@@ -344,7 +362,7 @@ function initAIChat() {
           properties: {
             projectId: {
               type: 'STRING',
-              enum: ['ila', 'anatomypro', 'corpus-generator', 'inbawk'],
+              enum: ['ila', 'anatomypro', 'corpus-generator', 'inbawk', 'mizo-translator', 'mizo-tokenizer'],
               description: 'The project id used in the URL',
             },
           },
@@ -377,7 +395,7 @@ function initAIChat() {
   }];
 
   // ── ACTION EXECUTOR ──────────────────────────────
-  const PROJECT_SLIDE_INDEX = { ila: 0, nova: 1, corpus: 2, inbawk: 3 };
+  const PROJECT_SLIDE_INDEX = { ila: 0, nova: 1, corpus: 2, inbawk: 3, translator: 4, 'mizo-translator': 4, tokenizer: 5, 'mizo-tokenizer': 5 };
 
   function executePortfolioAction(name, args) {
     if (name === 'scrollToSection') {
@@ -396,7 +414,8 @@ function initAIChat() {
       }
       // Spotlight glow after scroll lands
       setTimeout(() => {
-        const slideId = `project-${args.projectId === 'corpus' ? 'corpus' : args.projectId}`;
+        const pId = args.projectId;
+        const slideId = `project-${pId === 'corpus' ? 'corpus' : (pId === 'mizo-translator' || pId === 'translator' ? 'translator' : (pId === 'mizo-tokenizer' || pId === 'tokenizer' ? 'tokenizer' : pId))}`;
         const box = document.querySelector(`#${slideId} .project-visual-box`);
         if (box) {
           box.classList.add('project-spotlight');
@@ -407,10 +426,11 @@ function initAIChat() {
     }
 
     if (name === 'openProjectCaseStudy') {
+      const targetId = (args.projectId === 'translator') ? 'mizo-translator' : (args.projectId === 'tokenizer' ? 'mizo-tokenizer' : args.projectId);
       setTimeout(() => {
-        window.location.href = `project.html?id=${args.projectId}`;
+        window.location.href = `project.html?id=${targetId}`;
       }, 1200);
-      return `Opening case study for ${args.projectId}.`;
+      return `Opening case study for ${targetId}.`;
     }
 
     if (name === 'sendEmailToLarsson') {
@@ -429,6 +449,14 @@ function initAIChat() {
           email: args.senderEmail,
           message: args.message
         })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success) {
+          console.warn("Web3Forms email response:", data.message);
+        } else {
+          console.log("Web3Forms email sent successfully to owner inbox!");
+        }
       })
       .catch(err => console.error("AI sendEmailToLarsson fetch failed:", err));
 
